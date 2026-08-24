@@ -1,304 +1,809 @@
-// ========================================
-// WARD DATA
-// ========================================
+/* =========================================
+   EKITI STATE WOMEN OF INFLUENCE
+   ADO LOCAL GOVERNMENT
+========================================= */
+
+
+/* =========================================
+   OFFICIAL ADO LG WARDS
+========================================= */
 
 const wards = [
+
     {
-        id: 1,
-        name: "Ward 1",
-
-        exco: [
-            {
-                position: "Chairperson",
-                name: "Not yet added"
-            },
-            {
-                position: "Secretary",
-                name: "Not yet added"
-            },
-            {
-                position: "Treasurer",
-                name: "Not yet added"
-            }
-        ],
-
-        women: []
+        number: 1,
+        name: "ADO 'A' AJILOSUN"
     },
 
     {
-        id: 2,
-        name: "Ward 2",
-
-        exco: [
-            {
-                position: "Chairperson",
-                name: "Not yet added"
-            },
-            {
-                position: "Secretary",
-                name: "Not yet added"
-            },
-            {
-                position: "Treasurer",
-                name: "Not yet added"
-            }
-        ],
-
-        women: []
+        number: 2,
+        name: "ADO 'B' INISA"
     },
 
     {
-        id: 3,
-        name: "Ward 3",
+        number: 3,
+        name: "ADO 'C' IDOLOFIN"
+    },
 
-        exco: [
-            {
-                position: "Chairperson",
-                name: "Not yet added"
-            },
-            {
-                position: "Secretary",
-                name: "Not yet added"
-            },
-            {
-                position: "Treasurer",
-                name: "Not yet added"
-            }
-        ],
+    {
+        number: 4,
+        name: "ADO 'D' IJIGBO"
+    },
 
-        women: []
+    {
+        number: 5,
+        name: "ADO 'E' IJOKA / OREREOWU"
+    },
+
+    {
+        number: 6,
+        name: "ADO 'F' OKEYINMI"
+    },
+
+    {
+        number: 7,
+        name: "ADO 'G' OKE ILA"
+    },
+
+    {
+        number: 8,
+        name: "ADO 'H' EREGURU"
+    },
+
+    {
+        number: 9,
+        name: "ADO 'I' DALLIMORE"
+    },
+
+    {
+        number: 10,
+        name: "ADO 'J' OKESA"
+    },
+
+    {
+        number: 11,
+        name: "ADO 'K' IRONA"
+    },
+
+    {
+        number: 12,
+        name: "ADO 'L' IGBEHIN"
+    },
+
+    {
+        number: 13,
+        name: "ADO 'M' FARM SETTLEMENT"
     }
+
 ];
 
 
-// ========================================
-// DISPLAY WARDS
-// ========================================
+/* =========================================
+   THE 8 STRUCTURED WARD OFFICES
+========================================= */
 
-const wardContainer =
-    document.getElementById("wardContainer");
+const officePositions = [
 
-const wardSelect =
-    document.getElementById("ward");
+    "Ward Coordinator",
 
+    "Deputy Ward Coordinator",
+
+    "Secretary",
+
+    "Mobilization Officer",
+
+    "Women Empowerment Officer",
+
+    "Media/Publicity Officer",
+
+    "Welfare Officer",
+
+    "Polling Unit Officer"
+
+];
+
+
+/* =========================================
+   WARD EXCO DATA
+========================================= */
+
+const excos = {};
+
+
+wards.forEach(ward => {
+
+    excos[ward.name] = {};
+
+    officePositions.forEach(position => {
+
+        excos[ward.name][position] = {
+
+            name: "Not yet added"
+
+        };
+
+    });
+
+});
+
+
+/* =========================================
+   REGISTERED WOMEN
+========================================= */
+
+let women = [
+
+    /*
+    Real registrations will be added here
+    after the database is connected.
+
+    Example:
+
+    {
+        name: "Jane Doe",
+        phone: "08012345678",
+        bank: "Example Bank",
+        account: "1234567890",
+        ward: "ADO 'A' AJILOSUN"
+    }
+
+    */
+
+];
+
+
+/* =========================================
+   DISPLAY WARDS
+========================================= */
 
 function displayWards() {
 
-    wardContainer.innerHTML = "";
+    const container =
+        document.getElementById("wardsContainer");
 
-    wardSelect.innerHTML =
-        `<option value="">Select a ward</option>`;
+    container.innerHTML = "";
+
 
     wards.forEach(ward => {
 
-        // Create ward card
+        const count = women.filter(
+            woman => woman.ward === ward.name
+        ).length;
+
 
         const card =
             document.createElement("div");
 
         card.className = "ward-card";
 
+        card.onclick = () =>
+            openWard(ward.name);
+
+
         card.innerHTML = `
-            <h3>${ward.name}</h3>
-            <p>View women and EXCOs</p>
+
+            <div class="ward-number">
+                ${ward.number}
+            </div>
+
+            <h3>
+                Ward ${ward.number}
+            </h3>
+
+            <p>
+                ${ward.name}
+            </p>
+
+            <p>
+                ${count}
+                registered woman${count === 1 ? "" : "en"}
+            </p>
+
         `;
 
-        card.onclick = () => {
-            showWard(ward.id);
-        };
 
-        wardContainer.appendChild(card);
+        container.appendChild(card);
+
+    });
+
+}
 
 
-        // Add ward to registration dropdown
+/* =========================================
+   POPULATE WARD SELECT
+========================================= */
+
+function populateWardSelect() {
+
+    const select =
+        document.getElementById("ward");
+
+
+    wards.forEach(ward => {
 
         const option =
             document.createElement("option");
 
-        option.value = ward.id;
 
-        option.textContent = ward.name;
+        option.value =
+            ward.name;
 
-        wardSelect.appendChild(option);
+
+        option.textContent =
+            `Ward ${ward.number} — ${ward.name}`;
+
+
+        select.appendChild(option);
 
     });
+
 }
 
 
-// ========================================
-// SHOW A WARD
-// ========================================
+/* =========================================
+   OPEN WARD
+========================================= */
 
-function showWard(id) {
+function openWard(wardName) {
 
-    const ward =
-        wards.find(w => w.id === id);
+    const details =
+        document.getElementById("wardDetails");
 
-    if (!ward) {
-        return;
+
+    details.classList.remove("hidden");
+
+
+    document.getElementById("wards")
+        .style.display = "none";
+
+
+    document.getElementById("selectedWard")
+        .textContent = wardName;
+
+
+    /* WOMEN */
+
+    const wardWomen =
+        women.filter(
+            woman => woman.ward === wardName
+        );
+
+
+    document.getElementById(
+        "wardWomenCount"
+    ).textContent = wardWomen.length;
+
+
+    const womenContainer =
+        document.getElementById("wardWomen");
+
+
+    womenContainer.innerHTML = "";
+
+
+    if (wardWomen.length === 0) {
+
+        womenContainer.innerHTML = `
+
+            <div class="woman-card">
+
+                <div>
+                    <strong>
+                        No women registered yet
+                    </strong>
+
+                    <small>
+                        Registration data will appear
+                        here after submission.
+                    </small>
+                </div>
+
+            </div>
+
+        `;
+
     }
 
 
-    document
-        .getElementById("wards")
-        .classList.add("hidden");
+    wardWomen.forEach(woman => {
+
+        const card =
+            document.createElement("div");
 
 
-    document
-        .getElementById("register")
-        .classList.add("hidden");
+        card.className = "woman-card";
 
 
-    document
-        .getElementById("wardDetails")
-        .classList.remove("hidden");
+        /*
+            IMPORTANT:
+            Phone, bank and account number
+            are deliberately NOT displayed
+            publicly.
+        */
 
+        card.innerHTML = `
 
-    document
-        .getElementById("wardTitle")
-        .textContent = ward.name;
+            <div>
 
+                <strong>
+                    ${escapeHTML(woman.name)}
+                </strong>
 
-    // EXCO
+                <small>
+                    Registered member
+                </small>
 
-    const excoList =
-        document.getElementById("excoList");
-
-    excoList.innerHTML = "";
-
-    ward.exco.forEach(person => {
-
-        excoList.innerHTML += `
-            <div class="person">
-                <strong>${person.position}</strong>
-                <span>${person.name}</span>
             </div>
+
+            <small>
+                Ward ${getWardNumber(wardName)}
+            </small>
+
         `;
+
+
+        womenContainer.appendChild(card);
 
     });
 
 
-    // WOMEN
+    /* EXCOS */
 
-    const womenList =
-        document.getElementById("womenList");
-
-    womenList.innerHTML = "";
+    displayWardExcos(wardName);
 
 
-    if (ward.women.length === 0) {
+    details.scrollIntoView({
+        behavior: "smooth"
+    });
 
-        womenList.innerHTML = `
-            <p>No women registered yet.</p>
+}
+
+
+/* =========================================
+   DISPLAY WARD EXCOS
+========================================= */
+
+function displayWardExcos(wardName) {
+
+    const container =
+        document.getElementById("wardExcos");
+
+
+    container.innerHTML = "";
+
+
+    officePositions.forEach(position => {
+
+        const exco =
+            excos[wardName][position];
+
+
+        const card =
+            document.createElement("div");
+
+
+        card.className = "exco-card";
+
+
+        card.innerHTML = `
+
+            <div class="position">
+                ${position}
+            </div>
+
+            <strong>
+                ${escapeHTML(exco.name)}
+            </strong>
+
         `;
 
-    } else {
 
-        ward.women.forEach((woman, index) => {
+        container.appendChild(card);
 
-            womenList.innerHTML += `
-                <div class="person">
+    });
+
+}
+
+
+/* =========================================
+   CLOSE WARD
+========================================= */
+
+function closeWard() {
+
+    document.getElementById(
+        "wardDetails"
+    ).classList.add("hidden");
+
+
+    document.getElementById(
+        "wards"
+    ).style.display = "block";
+
+
+    document.getElementById(
+        "wards"
+    ).scrollIntoView({
+        behavior: "smooth"
+    });
+
+}
+
+
+/* =========================================
+   REGISTRATION
+========================================= */
+
+document
+    .getElementById("registrationForm")
+    .addEventListener(
+        "submit",
+        function(event) {
+
+            event.preventDefault();
+
+
+            const name =
+                document
+                    .getElementById("name")
+                    .value
+                    .trim();
+
+
+            const phone =
+                document
+                    .getElementById("phone")
+                    .value
+                    .trim();
+
+
+            const bank =
+                document
+                    .getElementById("bank")
+                    .value
+                    .trim();
+
+
+            const account =
+                document
+                    .getElementById("account")
+                    .value
+                    .trim();
+
+
+            const ward =
+                document
+                    .getElementById("ward")
+                    .value;
+
+
+            /* VALIDATION */
+
+            if (
+                !name ||
+                !phone ||
+                !bank ||
+                !account ||
+                !ward
+            ) {
+
+                alert(
+                    "Please complete all required fields."
+                );
+
+                return;
+
+            }
+
+
+            if (!/^\d{10}$/.test(account)) {
+
+                alert(
+                    "Account number must contain exactly 10 digits."
+                );
+
+                return;
+
+            }
+
+
+            /* SAVE */
+
+            women.push({
+
+                name,
+                phone,
+                bank,
+                account,
+                ward
+
+            });
+
+
+            /* UPDATE */
+
+            displayWards();
+
+            updateStatistics();
+
+
+            /* SUCCESS */
+
+            document.getElementById(
+                "registrationMessage"
+            ).innerHTML = `
+
+                <div class="success">
+
+                    ✅
+                    ${escapeHTML(name)}
+                    has been registered successfully
+                    under Ward ${getWardNumber(ward)}.
+
+                </div>
+
+            `;
+
+
+            /* RESET */
+
+            document
+                .getElementById("registrationForm")
+                .reset();
+
+
+            /* SCROLL */
+
+            document.getElementById(
+                "registrationMessage"
+            ).scrollIntoView({
+                behavior: "smooth",
+                block: "center"
+            });
+
+        }
+    );
+
+
+/* =========================================
+   SEARCH WOMEN
+========================================= */
+
+function searchWomen() {
+
+    const query =
+        document
+            .getElementById("searchInput")
+            .value
+            .toLowerCase()
+            .trim();
+
+
+    const results =
+        document.getElementById("searchResults");
+
+
+    if (!query) {
+
+        results.innerHTML = "";
+
+        return;
+
+    }
+
+
+    const matches =
+        women.filter(
+            woman =>
+                woman.name
+                    .toLowerCase()
+                    .includes(query)
+        );
+
+
+    results.innerHTML = "";
+
+
+    if (matches.length === 0) {
+
+        results.innerHTML = `
+
+            <div class="woman-card">
+
+                <strong>
+                    No registered woman found.
+                </strong>
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    matches.forEach(woman => {
+
+        const card =
+            document.createElement("div");
+
+
+        card.className = "woman-card";
+
+
+        card.innerHTML = `
+
+            <div>
+
+                <strong>
+                    ${escapeHTML(woman.name)}
+                </strong>
+
+                <small>
+                    Registered member
+                </small>
+
+            </div>
+
+            <small>
+                ${escapeHTML(woman.ward)}
+            </small>
+
+        `;
+
+
+        results.appendChild(card);
+
+    });
+
+}
+
+
+/* =========================================
+   DISPLAY ALL EXCOS
+========================================= */
+
+function displayAllExcos() {
+
+    const container =
+        document.getElementById("allExcos");
+
+
+    container.innerHTML = "";
+
+
+    wards.forEach(ward => {
+
+        const card =
+            document.createElement("div");
+
+
+        card.className =
+            "exco-overview-card";
+
+
+        let html = `
+
+            <h3>
+                Ward ${ward.number}
+            </h3>
+
+            <p>
+                <strong>
+                    ${ward.name}
+                </strong>
+            </p>
+
+        `;
+
+
+        officePositions.forEach(position => {
+
+            html += `
+
+                <p>
+
                     <strong>
-                        ${index + 1}. ${woman.name}
+                        ${position}:
                     </strong>
 
-                    <span>
-                        ${woman.phone}
-                    </span>
-                </div>
+                    ${escapeHTML(
+                        excos[ward.name][position].name
+                    )}
+
+                </p>
+
             `;
 
         });
 
-    }
+
+        card.innerHTML = html;
+
+
+        container.appendChild(card);
+
+    });
 
 }
 
 
-// ========================================
-// BACK TO WARDS
-// ========================================
+/* =========================================
+   STATISTICS
+========================================= */
 
-function showWards() {
+function updateStatistics() {
 
-    document
-        .getElementById("wardDetails")
-        .classList.add("hidden");
+    document.getElementById(
+        "womenCount"
+    ).textContent = women.length;
 
-    document
-        .getElementById("wards")
-        .classList.remove("hidden");
 
-    document
-        .getElementById("register")
-        .classList.remove("hidden");
+    document.getElementById(
+        "excoCount"
+    ).textContent =
+        wards.length * officePositions.length;
 
 }
 
 
-// ========================================
-// REGISTRATION
-// ========================================
+/* =========================================
+   GET WARD NUMBER
+========================================= */
 
-const form =
-    document.getElementById("registrationForm");
+function getWardNumber(wardName) {
 
-
-form.addEventListener("submit", function(event) {
-
-    event.preventDefault();
-
-
-    const name =
-        document.getElementById("name").value.trim();
-
-
-    const wardId =
-        Number(
-            document.getElementById("ward").value
+    const ward =
+        wards.find(
+            item => item.name === wardName
         );
 
 
-    const phone =
-        document.getElementById("phone").value.trim();
+    return ward
+        ? ward.number
+        : "";
+
+}
 
 
-    if (!name || !wardId || !phone) {
+/* =========================================
+   MOBILE MENU
+========================================= */
 
-        return;
+function toggleMenu() {
 
-    }
+    document
+        .getElementById("mainNav")
+        .classList.toggle("show");
 
-
-    const ward =
-        wards.find(w => w.id === wardId);
-
-
-    ward.women.push({
-        name: name,
-        phone: phone
-    });
+}
 
 
-    document.getElementById("message").textContent =
-        `${name} has been registered successfully.`;
+/* =========================================
+   BASIC HTML ESCAPING
+========================================= */
+
+function escapeHTML(value) {
+
+    return String(value)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+
+}
 
 
-    form.reset();
-
-
-    console.log(
-        "Registered woman:",
-        name,
-        "Ward:",
-        ward.name
-    );
-
-});
-
-
-// ========================================
-// START WEBSITE
-// ========================================
+/* =========================================
+   START
+========================================= */
 
 displayWards();
+
+populateWardSelect();
+
+displayAllExcos();
+
+updateStatistics();
