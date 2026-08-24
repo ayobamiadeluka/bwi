@@ -1,23 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Admin Panel | Ekiti State Women of Influence</title>
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-    <link rel="stylesheet" href="admin/admin.css">
+    <title>
+        Admin Panel | Ekiti State Women of Influence
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="admin/admin.css"
+    >
 </head>
 
 <body>
 
-    <div id="loginScreen" class="login-screen">
+    <!-- =========================
+         LOGIN
+    ========================== -->
+
+    <section
+        id="loginScreen"
+        class="login-screen"
+    >
 
         <div class="login-card">
 
-            <div class="admin-logo">🔐</div>
+            <div class="admin-logo">
+                🔐
+            </div>
 
-            <h1>Admin Panel</h1>
+            <h1>
+                Admin Panel
+            </h1>
 
             <p>
                 Ekiti State Women of Influence<br>
@@ -26,17 +47,25 @@
 
             <form id="loginForm">
 
+                <label>
+                    Username
+                </label>
+
                 <input
                     id="username"
                     type="text"
-                    placeholder="Username"
+                    placeholder="Admin username"
                     required
                 >
+
+                <label>
+                    Password
+                </label>
 
                 <input
                     id="password"
                     type="password"
-                    placeholder="Password"
+                    placeholder="Admin password"
                     required
                 >
 
@@ -46,7 +75,10 @@
 
             </form>
 
-            <div id="loginError" class="error"></div>
+            <div
+                id="loginError"
+                class="error"
+            ></div>
 
             <a href="index.html">
                 ← Back to Website
@@ -54,10 +86,341 @@
 
         </div>
 
-    </div>
+    </section>
+
+
+    <!-- =========================
+         DASHBOARD
+    ========================== -->
+
+    <section
+        id="dashboard"
+        class="dashboard hidden"
+    >
+
+        <!-- SIDEBAR -->
+
+        <aside class="sidebar">
+
+            <div class="side-brand">
+
+                <div class="admin-logo">
+                    👩🏽
+                </div>
+
+                <strong>
+                    WOMEN OF INFLUENCE
+                </strong>
+
+                <small>
+                    ADO LG
+                </small>
+
+            </div>
+
+
+            <button
+                class="side-btn active"
+                onclick="showPanel('overview')"
+            >
+                📊 Dashboard
+            </button>
+
+
+            <button
+                class="side-btn"
+                onclick="showPanel('women')"
+            >
+                👩 Registered Women
+            </button>
+
+
+            <button
+                class="side-btn"
+                onclick="showPanel('excos')"
+            >
+                👥 Ward Excos
+            </button>
+
+
+            <button
+                class="side-btn"
+                onclick="showPanel('wards')"
+            >
+                🏘️ Wards
+            </button>
+
+
+            <button
+                class="logout-btn"
+                onclick="logout()"
+            >
+                🚪 Logout
+            </button>
+
+        </aside>
+
+
+        <!-- MAIN -->
+
+        <main class="main">
+
+            <header class="topbar">
+
+                <div>
+
+                    <span>
+                        ADMINISTRATION
+                    </span>
+
+                    <h1 id="pageTitle">
+                        Dashboard
+                    </h1>
+
+                </div>
+
+
+                <a href="index.html">
+                    View Website ↗
+                </a>
+
+            </header>
+
+
+            <!-- =========================
+                 OVERVIEW
+            ========================== -->
+
+            <div
+                id="overview"
+                class="panel"
+            >
+
+                <div class="cards">
+
+                    <div class="dashboard-card">
+
+                        <span>👩</span>
+
+                        <strong id="statWomen">
+                            0
+                        </strong>
+
+                        <small>
+                            Approved Women
+                        </small>
+
+                    </div>
+
+
+                    <div class="dashboard-card">
+
+                        <span>⏳</span>
+
+                        <strong id="pendingCount">
+                            0
+                        </strong>
+
+                        <small>
+                            Pending
+                        </small>
+
+                    </div>
+
+
+                    <div class="dashboard-card">
+
+                        <span>✅</span>
+
+                        <strong id="approvedCount">
+                            0
+                        </strong>
+
+                        <small>
+                            Approved
+                        </small>
+
+                    </div>
+
+
+                    <div class="dashboard-card">
+
+                        <span>🏘️</span>
+
+                        <strong>
+                            13
+                        </strong>
+
+                        <small>
+                            Wards
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+                <div class="panel-box">
+
+                    <span>
+                        ADO LOCAL GOVERNMENT
+                    </span>
+
+                    <h2>
+                        Ward Registration
+                    </h2>
+
+                    <div
+                        id="wardStats"
+                        class="ward-stats"
+                    ></div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =========================
+                 WOMEN
+            ========================== -->
+
+            <div
+                id="women"
+                class="panel hidden"
+            >
+
+                <div class="panel-box">
+
+                    <div class="panel-heading">
+
+                        <div>
+
+                            <span>
+                                REGISTRATION
+                            </span>
+
+                            <h2>
+                                Registered Women
+                            </h2>
+
+                        </div>
+
+
+                        <input
+                            id="adminSearch"
+                            type="search"
+                            placeholder="Search woman..."
+                            oninput="renderWomen()"
+                        >
+
+                    </div>
+
+
+                    <div class="filter-row">
+
+                        <select
+                            id="wardFilter"
+                            onchange="renderWomen()"
+                        >
+
+                            <option value="">
+                                All Wards
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div
+                        id="womenTable"
+                        class="table-wrapper"
+                    ></div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =========================
+                 EXCOS
+            ========================== -->
+
+            <div
+                id="excos"
+                class="panel hidden"
+            >
+
+                <div class="panel-box">
+
+                    <div class="panel-heading">
+
+                        <div>
+
+                            <span>
+                                LEADERSHIP
+                            </span>
+
+                            <h2>
+                                Ward Executives
+                            </h2>
+
+                        </div>
+
+
+                        <select
+                            id="excoWard"
+                            onchange="renderExcos()"
+                        ></select>
+
+                    </div>
+
+
+                    <div
+                        id="excoEditor"
+                        class="exco-editor"
+                    ></div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =========================
+                 WARDS
+            ========================== -->
+
+            <div
+                id="wards"
+                class="panel hidden"
+            >
+
+                <div class="panel-box">
+
+                    <span>
+                        ADO LOCAL GOVERNMENT
+                    </span>
+
+                    <h2>
+                        Wards
+                    </h2>
+
+                    <div
+                        id="adminWards"
+                        class="admin-wards"
+                    ></div>
+
+                </div>
+
+            </div>
+
+        </main>
+
+    </section>
 
 
     <script src="admin/admin.js"></script>
 
 </body>
+
 </html>
