@@ -1,407 +1,920 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>BWI Ado LG - Admin</title>
-
-<style>
-* {
-    box-sizing: border-box;
-}
-
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: #f5f3f7;
-    color: #222;
-}
-
-.hidden {
-    display: none !important;
-}
-
-/* LOGIN */
-
-#loginScreen {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: linear-gradient(135deg, #5b0875, #a22caf);
-    padding: 20px;
-}
-
-.login-box {
-    width: 100%;
-    max-width: 400px;
-    background: white;
-    padding: 35px;
-    border-radius: 18px;
-    box-shadow: 0 20px 60px rgba(0,0,0,.25);
-}
-
-.login-box h1 {
-    margin: 0 0 8px;
-    text-align: center;
-}
-
-.login-box p {
-    text-align: center;
-    color: #777;
-}
-
-.login-box input {
-    width: 100%;
-    padding: 14px;
-    margin: 8px 0;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    font-size: 16px;
-}
-
-.login-box button {
-    width: 100%;
-    padding: 14px;
-    margin-top: 10px;
-    border: none;
-    border-radius: 8px;
-    background: #72118f;
-    color: white;
-    font-size: 16px;
-    cursor: pointer;
-}
-
-#error {
-    color: #d00;
-    text-align: center;
-    margin-top: 12px;
-}
-
-
-/* DASHBOARD */
-
-#dashboard {
-    min-height: 100vh;
-}
-
-.header {
-    background: #4e075f;
-    color: white;
-    padding: 20px 30px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.header h1 {
-    margin: 0;
-}
-
-.logout {
-    background: #d32f2f;
-    color: white;
-    border: 0;
-    padding: 10px 18px;
-    border-radius: 7px;
-    cursor: pointer;
-}
-
-.container {
-    max-width: 1400px;
-    margin: auto;
-    padding: 25px;
-}
-
-
-/* STATS */
-
-.stats {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 18px;
-}
-
-.stat {
-    background: white;
-    padding: 25px;
-    border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(0,0,0,.06);
-}
-
-.stat small {
-    color: #777;
-}
-
-.stat strong {
-    display: block;
-    font-size: 32px;
-    margin-top: 10px;
-}
-
-
-/* NAV */
-
-.nav {
-    display: flex;
-    gap: 10px;
-    margin: 25px 0;
-    flex-wrap: wrap;
-}
-
-.nav button {
-    border: 0;
-    padding: 12px 18px;
-    border-radius: 8px;
-    background: white;
-    cursor: pointer;
-}
-
-.nav button.active {
-    background: #72118f;
-    color: white;
-}
-
-
-/* PANEL */
-
-.panel {
-    background: white;
-    padding: 25px;
-    border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(0,0,0,.06);
-}
-
-.panel h2 {
-    margin-top: 0;
-}
-
-
-/* TABLE */
-
-.table-wrap {
-    overflow-x: auto;
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-th,
-td {
-    padding: 14px;
-    border-bottom: 1px solid #eee;
-    text-align: left;
-}
-
-th {
-    background: #fafafa;
-}
-
-.status {
-    padding: 5px 10px;
-    border-radius: 20px;
-    font-size: 12px;
-}
-
-.pending {
-    background: #fff0bd;
-}
-
-.approved {
-    background: #d5f5dc;
-}
-
-.rejected {
-    background: #ffd7d7;
-}
-
-.approve {
-    background: #2e7d32;
-    color: white;
-}
-
-.reject {
-    background: #c62828;
-    color: white;
-}
-
-.delete {
-    background: #555;
-    color: white;
-}
-
-.action {
-    border: 0;
-    padding: 8px 10px;
-    border-radius: 6px;
-    margin: 2px;
-    cursor: pointer;
-}
-
-
-/* WARDS */
-
-.wards {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 15px;
-}
-
-.ward {
-    border: 1px solid #eee;
-    padding: 18px;
-    border-radius: 10px;
-}
-
-.ward strong {
-    display: block;
-}
-
-.ward span {
-    display: block;
-    color: #777;
-    margin: 8px 0;
-}
-
-
-/* EXCO */
-
-select,
-.exco input {
-    padding: 12px;
-    border: 1px solid #ddd;
-    border-radius: 7px;
-}
-
-.exco {
-    display: grid;
-    grid-template-columns: 250px 1fr 80px;
-    gap: 10px;
-    margin: 12px 0;
-    align-items: center;
-}
-
-.save {
-    border: 0;
-    padding: 10px;
-    border-radius: 6px;
-    background: #72118f;
-    color: white;
-}
-
-
-/* MOBILE */
-
-@media(max-width:800px) {
-
-    .stats {
-        grid-template-columns: repeat(2,1fr);
-    }
-
-    .wards {
-        grid-template-columns: 1fr;
-    }
-
-    .exco {
-        grid-template-columns: 1fr;
-    }
-}
-
-@media(max-width:500px) {
-
-    .stats {
-        grid-template-columns: 1fr;
-    }
-
-    .header {
-        padding: 15px;
-    }
-
-    .container {
-        padding: 12px;
-    }
-}
-</style>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        BWI Ado LG | Admin Panel
+    </title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+
+            background: #f5f3f7;
+            color: #222;
+        }
+
+        button,
+        input,
+        select {
+            font-family: inherit;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+
+        /* =================================
+           LOGIN
+        ================================= */
+
+        #loginScreen {
+
+            min-height: 100vh;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            padding: 20px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #51066f,
+                    #9d28b8
+                );
+        }
+
+        .login-box {
+
+            width: 100%;
+
+            max-width: 420px;
+
+            background: white;
+
+            padding: 40px;
+
+            border-radius: 20px;
+
+            box-shadow:
+                0 20px 60px
+                rgba(0, 0, 0, .25);
+        }
+
+        .login-logo {
+
+            text-align: center;
+
+            font-size: 55px;
+
+            margin-bottom: 10px;
+        }
+
+        .login-box h1 {
+
+            text-align: center;
+
+            margin: 5px 0 10px;
+        }
+
+        .login-box p {
+
+            text-align: center;
+
+            color: #777;
+
+            line-height: 1.6;
+        }
+
+        .login-box label {
+
+            display: block;
+
+            margin-top: 20px;
+
+            margin-bottom: 7px;
+
+            font-weight: bold;
+        }
+
+        .login-box input {
+
+            width: 100%;
+
+            padding: 14px;
+
+            border:
+                1px solid #ddd;
+
+            border-radius: 8px;
+
+            font-size: 16px;
+
+            outline: none;
+        }
+
+        .login-box input:focus {
+
+            border-color: #7a1598;
+        }
+
+        .login-button {
+
+            width: 100%;
+
+            padding: 14px;
+
+            margin-top: 25px;
+
+            border: none;
+
+            border-radius: 8px;
+
+            background: #72118f;
+
+            color: white;
+
+            font-size: 16px;
+
+            font-weight: bold;
+        }
+
+        .login-button:hover {
+
+            background: #5b0873;
+        }
+
+        #loginError {
+
+            color: #d32f2f;
+
+            text-align: center;
+
+            margin-top: 15px;
+
+            min-height: 20px;
+        }
+
+
+        /* =================================
+           DASHBOARD
+        ================================= */
+
+        #dashboard {
+
+            min-height: 100vh;
+        }
+
+
+        /* =================================
+           HEADER
+        ================================= */
+
+        .header {
+
+            background: #4e075f;
+
+            color: white;
+
+            padding:
+                18px 30px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            gap: 20px;
+        }
+
+        .header-title {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+        }
+
+        .header-title h1 {
+
+            margin: 0;
+
+            font-size: 22px;
+        }
+
+        .header-title small {
+
+            display: block;
+
+            opacity: .7;
+
+            margin-top: 3px;
+        }
+
+        .logout {
+
+            background: #c62828;
+
+            color: white;
+
+            border: none;
+
+            padding:
+                10px 18px;
+
+            border-radius: 7px;
+        }
+
+        .logout:hover {
+
+            background: #a91f1f;
+        }
+
+
+        /* =================================
+           CONTAINER
+        ================================= */
+
+        .container {
+
+            max-width: 1450px;
+
+            margin: auto;
+
+            padding: 30px;
+        }
+
+
+        /* =================================
+           STATISTICS
+        ================================= */
+
+        .stats {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 18px;
+        }
+
+        .stat {
+
+            background: white;
+
+            padding: 25px;
+
+            border-radius: 14px;
+
+            box-shadow:
+                0 4px 18px
+                rgba(0, 0, 0, .06);
+        }
+
+        .stat-icon {
+
+            font-size: 28px;
+        }
+
+        .stat small {
+
+            display: block;
+
+            color: #777;
+
+            margin-top: 8px;
+        }
+
+        .stat strong {
+
+            display: block;
+
+            font-size: 32px;
+
+            margin-top: 8px;
+
+            color: #5f0b76;
+        }
+
+
+        /* =================================
+           NAVIGATION
+        ================================= */
+
+        .nav {
+
+            display: flex;
+
+            gap: 10px;
+
+            flex-wrap: wrap;
+
+            margin:
+                25px 0 20px;
+        }
+
+        .nav button {
+
+            border: none;
+
+            background: white;
+
+            padding:
+                12px 18px;
+
+            border-radius: 8px;
+
+            color: #333;
+        }
+
+        .nav button:hover {
+
+            background: #eee;
+        }
+
+        .nav button.active {
+
+            background: #72118f;
+
+            color: white;
+        }
+
+
+        /* =================================
+           PANEL
+        ================================= */
+
+        .panel {
+
+            background: white;
+
+            padding: 28px;
+
+            border-radius: 14px;
+
+            box-shadow:
+                0 4px 18px
+                rgba(0, 0, 0, .06);
+        }
+
+        .panel h2 {
+
+            margin-top: 0;
+        }
+
+        .panel-description {
+
+            color: #777;
+
+            margin-top: -5px;
+
+            margin-bottom: 25px;
+        }
+
+
+        /* =================================
+           REGISTRATION TABLE
+        ================================= */
+
+        .table-wrap {
+
+            width: 100%;
+
+            overflow-x: auto;
+        }
+
+        table {
+
+            width: 100%;
+
+            border-collapse: collapse;
+
+            min-width: 750px;
+        }
+
+        th,
+        td {
+
+            padding: 14px;
+
+            border-bottom:
+                1px solid #eee;
+
+            text-align: left;
+        }
+
+        th {
+
+            background: #fafafa;
+
+            color: #555;
+        }
+
+        .status {
+
+            display: inline-block;
+
+            padding:
+                5px 10px;
+
+            border-radius: 20px;
+
+            font-size: 12px;
+
+            text-transform: capitalize;
+        }
+
+        .status.pending {
+
+            background: #fff0bd;
+
+            color: #795900;
+        }
+
+        .status.approved {
+
+            background: #d5f5dc;
+
+            color: #1b6b2a;
+        }
+
+        .status.rejected {
+
+            background: #ffd7d7;
+
+            color: #8b1a1a;
+        }
+
+
+        /* =================================
+           ACTION BUTTONS
+        ================================= */
+
+        .action {
+
+            border: none;
+
+            padding:
+                8px 11px;
+
+            border-radius: 6px;
+
+            margin: 2px;
+
+            font-size: 13px;
+        }
+
+        .approve {
+
+            background: #2e7d32;
+
+            color: white;
+        }
+
+        .reject {
+
+            background: #c62828;
+
+            color: white;
+        }
+
+        .delete {
+
+            background: #555;
+
+            color: white;
+        }
+
+        .edit {
+
+            background: #1565c0;
+
+            color: white;
+        }
+
+        .action:hover {
+
+            opacity: .85;
+        }
+
+
+        /* =================================
+           WARDS
+        ================================= */
+
+        .wards {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 15px;
+        }
+
+        .ward {
+
+            border:
+                1px solid #eee;
+
+            padding: 20px;
+
+            border-radius: 10px;
+
+            background: #fafafa;
+        }
+
+        .ward-number {
+
+            font-size: 13px;
+
+            color: #72118f;
+
+            font-weight: bold;
+        }
+
+        .ward strong {
+
+            display: block;
+
+            margin-top: 6px;
+
+            font-size: 16px;
+        }
+
+        .ward span {
+
+            display: block;
+
+            color: #777;
+
+            margin:
+                8px 0 12px;
+
+            font-size: 13px;
+        }
+
+        .ward b {
+
+            color: #333;
+        }
+
+
+        /* =================================
+           EXCO
+        ================================= */
+
+        .exco-selector {
+
+            margin-bottom: 25px;
+        }
+
+        .exco-selector label {
+
+            display: block;
+
+            font-weight: bold;
+
+            margin-bottom: 8px;
+        }
+
+        .exco-selector select {
+
+            width: 100%;
+
+            max-width: 600px;
+
+            padding: 13px;
+
+            border:
+                1px solid #ddd;
+
+            border-radius: 8px;
+
+            background: white;
+
+            font-size: 15px;
+        }
+
+        .exco-list {
+
+            display: grid;
+
+            gap: 14px;
+        }
+
+        .exco {
+
+            display: grid;
+
+            grid-template-columns:
+                260px
+                1fr
+                auto
+                auto;
+
+            gap: 10px;
+
+            align-items: center;
+
+            padding: 15px;
+
+            border:
+                1px solid #eee;
+
+            border-radius: 10px;
+
+            background: #fafafa;
+        }
+
+        .exco-position {
+
+            font-weight: bold;
+        }
+
+        .exco input {
+
+            width: 100%;
+
+            padding: 11px;
+
+            border:
+                1px solid #ddd;
+
+            border-radius: 7px;
+
+            outline: none;
+        }
+
+        .exco input:focus {
+
+            border-color: #72118f;
+        }
+
+        .save {
+
+            border: none;
+
+            padding:
+                10px 14px;
+
+            border-radius: 7px;
+
+            background: #72118f;
+
+            color: white;
+        }
+
+
+        /* =================================
+           EMPTY
+        ================================= */
+
+        .empty {
+
+            padding: 45px;
+
+            text-align: center;
+
+            color: #777;
+
+            border:
+                1px dashed #ddd;
+
+            border-radius: 10px;
+        }
+
+
+        /* =================================
+           RESPONSIVE
+        ================================= */
+
+        @media (max-width: 1000px) {
+
+            .stats {
+
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+            .wards {
+
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+            .exco {
+
+                grid-template-columns:
+                    1fr 1fr;
+            }
+
+        }
+
+
+        @media (max-width: 650px) {
+
+            .header {
+
+                padding: 15px;
+
+                flex-direction: column;
+
+                align-items: flex-start;
+            }
+
+            .container {
+
+                padding: 15px;
+            }
+
+            .stats {
+
+                grid-template-columns: 1fr;
+            }
+
+            .wards {
+
+                grid-template-columns: 1fr;
+            }
+
+            .exco {
+
+                grid-template-columns: 1fr;
+            }
+
+            .login-box {
+
+                padding: 25px;
+            }
+
+        }
+
+    </style>
+
 </head>
+
 
 <body>
 
 
-<!-- LOGIN -->
+<!-- ==================================================
+     LOGIN SCREEN
+================================================== -->
 
-<div id="loginScreen">
+<section id="loginScreen">
 
     <div class="login-box">
 
-        <h1>🔐 Admin Panel</h1>
+        <div class="login-logo">
+            🔐
+        </div>
+
+        <h1>
+            Admin Panel
+        </h1>
 
         <p>
             Ekiti State Women of Influence<br>
             Ado Local Government
         </p>
 
+
+        <label>
+            Username
+        </label>
+
         <input
             id="username"
-            placeholder="Username"
+            type="text"
+            placeholder="Enter username"
+            autocomplete="username"
         >
+
+
+        <label>
+            Password
+        </label>
 
         <input
             id="password"
             type="password"
-            placeholder="Password"
+            placeholder="Enter password"
+            autocomplete="current-password"
         >
 
-        <button onclick="login()">
+
+        <button
+            class="login-button"
+            onclick="login()"
+        >
             Login
         </button>
 
-        <div id="error"></div>
+
+        <div id="loginError"></div>
 
     </div>
 
-</div>
+</section>
 
 
-<!-- DASHBOARD -->
 
-<div
+<!-- ==================================================
+     DASHBOARD
+================================================== -->
+
+<section
     id="dashboard"
     class="hidden"
 >
 
-    <div class="header">
 
-        <h1>
-            BWI Admin Dashboard
-        </h1>
+    <!-- HEADER -->
+
+    <header class="header">
+
+        <div class="header-title">
+
+            <div style="font-size:35px;">
+                👩🏽
+            </div>
+
+            <div>
+
+                <h1>
+                    BWI Admin Dashboard
+                </h1>
+
+                <small>
+                    Ekiti State Women of Influence — Ado LG
+                </small>
+
+            </div>
+
+        </div>
+
 
         <button
             class="logout"
             onclick="logout()"
         >
-            Logout
+            🚪 Logout
         </button>
 
-    </div>
+    </header>
 
 
-    <div class="container">
+
+    <main class="container">
 
 
-        <!-- STATS -->
+        <!-- ==================================================
+             STATISTICS
+        ================================================== -->
 
-        <div class="stats">
+        <section class="stats">
+
 
             <div class="stat">
 
+                <div class="stat-icon">
+                    ⏳
+                </div>
+
                 <small>
-                    Pending
+                    Pending Registrations
                 </small>
 
-                <strong id="pending">
+                <strong id="pendingCount">
                     0
                 </strong>
 
@@ -410,11 +923,15 @@ select,
 
             <div class="stat">
 
+                <div class="stat-icon">
+                    ✅
+                </div>
+
                 <small>
-                    Approved
+                    Approved Women
                 </small>
 
-                <strong id="approved">
+                <strong id="approvedCount">
                     0
                 </strong>
 
@@ -422,12 +939,16 @@ select,
 
 
             <div class="stat">
+
+                <div class="stat-icon">
+                    ❌
+                </div>
 
                 <small>
                     Rejected
                 </small>
 
-                <strong id="rejected">
+                <strong id="rejectedCount">
                     0
                 </strong>
 
@@ -436,8 +957,12 @@ select,
 
             <div class="stat">
 
+                <div class="stat-icon">
+                    🏘️
+                </div>
+
                 <small>
-                    Wards
+                    Ado LG Wards
                 </small>
 
                 <strong>
@@ -446,38 +971,46 @@ select,
 
             </div>
 
-        </div>
+        </section>
 
 
-        <!-- NAV -->
 
-        <div class="nav">
+        <!-- ==================================================
+             NAVIGATION
+        ================================================== -->
+
+        <nav class="nav">
 
             <button
                 class="active"
-                onclick="show('registrations',this)"
+                onclick="showPanel('registrations', this)"
             >
                 👩 Registrations
             </button>
 
+
             <button
-                onclick="show('wards',this)"
+                onclick="showPanel('wards', this)"
             >
                 🏘️ Wards
             </button>
 
+
             <button
-                onclick="show('excos',this)"
+                onclick="showPanel('excos', this)"
             >
-                👥 Ward Excos
+                👥 Ward EXCOs
             </button>
 
-        </div>
+        </nav>
 
 
-        <!-- REGISTRATIONS -->
 
-        <div
+        <!-- ==================================================
+             REGISTRATIONS
+        ================================================== -->
+
+        <section
             id="registrations"
             class="panel"
         >
@@ -486,6 +1019,11 @@ select,
                 Registration Requests
             </h2>
 
+            <p class="panel-description">
+                Approve or reject women who register on the website.
+            </p>
+
+
             <div class="table-wrap">
 
                 <table>
@@ -493,110 +1031,258 @@ select,
                     <thead>
 
                         <tr>
-                            <th>Name</th>
-                            <th>Phone</th>
-                            <th>Ward</th>
-                            <th>Status</th>
-                            <th>Action</th>
+
+                            <th>
+                                Name
+                            </th>
+
+                            <th>
+                                Phone
+                            </th>
+
+                            <th>
+                                Bank
+                            </th>
+
+                            <th>
+                                Account
+                            </th>
+
+                            <th>
+                                Ward
+                            </th>
+
+                            <th>
+                                Status
+                            </th>
+
+                            <th>
+                                Action
+                            </th>
+
                         </tr>
 
                     </thead>
 
-                    <tbody id="registrationList">
 
-                    </tbody>
+                    <tbody
+                        id="registrationList"
+                    ></tbody>
 
                 </table>
 
             </div>
 
-        </div>
+        </section>
 
 
-        <!-- WARDS -->
 
-        <div
+        <!-- ==================================================
+             WARDS
+        ================================================== -->
+
+        <section
             id="wards"
             class="panel hidden"
         >
 
             <h2>
-                Ado LG Wards
+                Ado Local Government Wards
             </h2>
+
+            <p class="panel-description">
+                Registration totals for each ward.
+            </p>
+
 
             <div
                 id="wardList"
                 class="wards"
             ></div>
 
-        </div>
+        </section>
 
 
-        <!-- EXCOS -->
 
-        <div
+        <!-- ==================================================
+             EXCOS
+        ================================================== -->
+
+        <section
             id="excos"
             class="panel hidden"
         >
 
             <h2>
-                Ward Executives
+                Ward EXCO Management
             </h2>
 
-            <select
-                id="excoWard"
-                onchange="loadExcos()"
-            ></select>
+            <p class="panel-description">
+                Add, edit or remove the eight structured
+                ward executive positions.
+            </p>
+
+
+            <div class="exco-selector">
+
+                <label>
+                    Select Ward
+                </label>
+
+                <select
+                    id="excoWard"
+                    onchange="loadExcos()"
+                ></select>
+
+            </div>
+
 
             <div
                 id="excoList"
-                style="margin-top:20px"
+                class="exco-list"
             ></div>
 
-        </div>
+        </section>
 
-    </div>
 
-</div>
+    </main>
+
+</section>
+
 
 
 <script>
 
+
+/* ==================================================
+   WARDS
+================================================== */
+
 const WARDS = [
-"ADO 'A' AJILOSUN",
-"ADO 'B' INISA",
-"ADO 'C' IDOLOFIN",
-"ADO 'D' IJIGBO",
-"ADO 'E' IJOKA / OREREOWU",
-"ADO 'F' OKEYINMI",
-"ADO 'G' OKE ILA",
-"ADO 'H' EREGURU",
-"ADO 'I' DALLIMORE",
-"ADO 'J' OKESA",
-"ADO 'K' IRONA",
-"ADO 'L' IGBEHIN",
-"ADO 'M' FARM SETTLEMENT"
+
+    {
+        number: 1,
+        name: "ADO 'A' AJILOSUN"
+    },
+
+    {
+        number: 2,
+        name: "ADO 'B' INISA"
+    },
+
+    {
+        number: 3,
+        name: "ADO 'C' IDOLOFIN"
+    },
+
+    {
+        number: 4,
+        name: "ADO 'D' IJIGBO"
+    },
+
+    {
+        number: 5,
+        name: "ADO 'E' IJOKA / OREREOWU"
+    },
+
+    {
+        number: 6,
+        name: "ADO 'F' OKEYINMI"
+    },
+
+    {
+        number: 7,
+        name: "ADO 'G' OKE ILA"
+    },
+
+    {
+        number: 8,
+        name: "ADO 'H' EREGURU"
+    },
+
+    {
+        number: 9,
+        name: "ADO 'I' DALLIMORE"
+    },
+
+    {
+        number: 10,
+        name: "ADO 'J' OKESA"
+    },
+
+    {
+        number: 11,
+        name: "ADO 'K' IRONA"
+    },
+
+    {
+        number: 12,
+        name: "ADO 'L' IGBEHIN"
+    },
+
+    {
+        number: 13,
+        name: "ADO 'M' FARM SETTLEMENT"
+    }
+
 ];
+
+
+
+/* ==================================================
+   POSITIONS
+================================================== */
 
 const POSITIONS = [
-"Ward Coordinator",
-"Deputy Ward Coordinator",
-"Secretary",
-"Mobilization Officer",
-"Women Empowerment Officer",
-"Media/Publicity Officer",
-"Welfare Officer",
-"Polling Unit Officer"
+
+    "Ward Coordinator",
+
+    "Deputy Ward Coordinator",
+
+    "Secretary",
+
+    "Mobilization Officer",
+
+    "Women Empowerment Officer",
+
+    "Media/Publicity Officer",
+
+    "Welfare Officer",
+
+    "Polling Unit Officer"
+
 ];
 
+
+
+/* ==================================================
+   STORAGE KEYS
+================================================== */
+
+const REGISTRATION_KEY =
+    "bwi_registrations";
+
+const EXCO_KEY =
+    "bwi_excos";
+
+
+
+/* ==================================================
+   LOGIN
+================================================== */
 
 function login() {
 
     const username =
-        document.getElementById("username").value;
+        document
+            .getElementById("username")
+            .value
+            .trim();
 
     const password =
-        document.getElementById("password").value;
+        document
+            .getElementById("password")
+            .value;
 
 
     if (
@@ -604,308 +1290,759 @@ function login() {
         password === "admin123"
     ) {
 
+        sessionStorage.setItem(
+            "bwi_admin_logged_in",
+            "true"
+        );
+
+
         document
             .getElementById("loginScreen")
             .classList.add("hidden");
+
 
         document
             .getElementById("dashboard")
             .classList.remove("hidden");
 
-        load();
+
+        initializeDashboard();
+
 
     } else {
 
         document
-            .getElementById("error")
+            .getElementById("loginError")
             .textContent =
-            "Incorrect username or password.";
+            "❌ Incorrect username or password.";
 
     }
 
 }
 
 
+
+/* ==================================================
+   LOGOUT
+================================================== */
+
 function logout() {
+
+    sessionStorage.removeItem(
+        "bwi_admin_logged_in"
+    );
 
     location.reload();
 
 }
 
 
-function show(id, button) {
+
+/* ==================================================
+   NAVIGATION
+================================================== */
+
+function showPanel(
+    panelName,
+    clickedButton
+) {
 
     document
         .querySelectorAll(".panel")
-        .forEach(panel =>
-            panel.classList.add("hidden")
-        );
+        .forEach(panel => {
 
-    document
-        .getElementById(id)
-        .classList.remove("hidden");
+            panel.classList.add("hidden");
+
+        });
+
+
+    const panel =
+        document.getElementById(panelName);
+
+
+    if (panel) {
+
+        panel.classList.remove("hidden");
+
+    }
+
 
     document
         .querySelectorAll(".nav button")
-        .forEach(btn =>
-            btn.classList.remove("active")
+        .forEach(button => {
+
+            button.classList.remove("active");
+
+        });
+
+
+    if (clickedButton) {
+
+        clickedButton.classList.add("active");
+
+    }
+
+}
+
+
+
+/* ==================================================
+   REGISTRATION STORAGE
+================================================== */
+
+function getRegistrations() {
+
+    try {
+
+        return JSON.parse(
+
+            localStorage.getItem(
+                REGISTRATION_KEY
+            ) || "[]"
+
         );
 
-    button.classList.add("active");
+    } catch {
+
+        return [];
+
+    }
 
 }
 
 
-function getData() {
 
-    return JSON.parse(
-        localStorage.getItem(
-            "bwi_registrations"
-        ) || "[]"
-    );
-
-}
-
-
-function saveData(data) {
+function saveRegistrations(data) {
 
     localStorage.setItem(
-        "bwi_registrations",
+
+        REGISTRATION_KEY,
+
         JSON.stringify(data)
+
     );
 
 }
 
 
-function load() {
 
-    const data = getData();
+/* ==================================================
+   EXCO STORAGE
+================================================== */
 
-    document.getElementById("pending")
-        .textContent =
-        data.filter(
-            x => x.status === "pending"
-        ).length;
+function getExcos() {
 
-    document.getElementById("approved")
-        .textContent =
-        data.filter(
-            x => x.status === "approved"
-        ).length;
+    try {
 
-    document.getElementById("rejected")
-        .textContent =
-        data.filter(
-            x => x.status === "rejected"
-        ).length;
+        return JSON.parse(
 
+            localStorage.getItem(
+                EXCO_KEY
+            ) || "{}"
 
-    const list =
-        document.getElementById(
-            "registrationList"
         );
 
-    list.innerHTML = "";
+    } catch {
 
-
-    if (!data.length) {
-
-        list.innerHTML = `
-            <tr>
-                <td colspan="5"
-                    style="text-align:center;padding:40px">
-                    No registration requests yet.
-                </td>
-            </tr>
-        `;
-
-    }
-
-
-    data.forEach(person => {
-
-        const row =
-            document.createElement("tr");
-
-        row.innerHTML = `
-
-            <td>
-                ${person.name}
-            </td>
-
-            <td>
-                ${person.phone}
-            </td>
-
-            <td>
-                ${person.ward}
-            </td>
-
-            <td>
-                <span class="status ${person.status}">
-                    ${person.status}
-                </span>
-            </td>
-
-            <td>
-
-                ${
-                    person.status === "pending"
-                    ? `
-                        <button
-                            class="action approve"
-                            onclick="approve(${person.id})"
-                        >
-                            ✅ Approve
-                        </button>
-
-                        <button
-                            class="action reject"
-                            onclick="reject(${person.id})"
-                        >
-                            ❌ Reject
-                        </button>
-                    `
-                    : ""
-                }
-
-            </td>
-        `;
-
-        list.appendChild(row);
-
-    });
-
-
-    loadWards();
-
-    loadExcoSelector();
-
-}
-
-
-function approve(id) {
-
-    const data = getData();
-
-    const person =
-        data.find(x => x.id === id);
-
-    if (person) {
-
-        person.status = "approved";
-
-        saveData(data);
-
-        load();
+        return {};
 
     }
 
 }
 
 
-function reject(id) {
 
-    const data = getData();
+function saveExcos(data) {
 
-    const person =
-        data.find(x => x.id === id);
+    localStorage.setItem(
 
-    if (person) {
+        EXCO_KEY,
 
-        person.status = "rejected";
+        JSON.stringify(data)
 
-        saveData(data);
-
-        load();
-
-    }
+    );
 
 }
 
 
-function loadWards() {
 
-    const container =
-        document.getElementById(
-            "wardList"
-        );
+/* ==================================================
+   INITIALIZE DASHBOARD
+================================================== */
 
-    container.innerHTML = "";
+function initializeDashboard() {
 
-    WARDS.forEach((ward,index) => {
+    populateExcoWards();
 
-        const data = getData();
+    renderRegistrations();
 
-        const count =
-            data.filter(
-                x =>
-                    x.status === "approved" &&
-                    x.ward === ward
-            ).length;
+    renderStatistics();
 
-        container.innerHTML += `
-
-            <div class="ward">
-
-                <strong>
-                    Ward ${index + 1}
-                </strong>
-
-                <span>
-                    ${ward}
-                </span>
-
-                <b>
-                    ${count} approved
-                </b>
-
-            </div>
-        `;
-
-    });
-
-}
-
-
-function loadExcoSelector() {
-
-    const select =
-        document.getElementById(
-            "excoWard"
-        );
-
-    select.innerHTML = "";
-
-    WARDS.forEach((ward,index) => {
-
-        select.innerHTML += `
-
-            <option value="${ward}">
-                Ward ${index + 1} — ${ward}
-            </option>
-
-        `;
-
-    });
+    renderWards();
 
     loadExcos();
 
 }
 
 
-function loadExcos() {
 
-    const ward =
+/* ==================================================
+   STATISTICS
+================================================== */
+
+function renderStatistics() {
+
+    const registrations =
+        getRegistrations();
+
+
+    const pending =
+        registrations.filter(
+
+            item =>
+                item.status === "pending"
+
+        ).length;
+
+
+    const approved =
+        registrations.filter(
+
+            item =>
+                item.status === "approved"
+
+        ).length;
+
+
+    const rejected =
+        registrations.filter(
+
+            item =>
+                item.status === "rejected"
+
+        ).length;
+
+
+    document
+        .getElementById("pendingCount")
+        .textContent =
+        pending;
+
+
+    document
+        .getElementById("approvedCount")
+        .textContent =
+        approved;
+
+
+    document
+        .getElementById("rejectedCount")
+        .textContent =
+        rejected;
+
+}
+
+
+
+/* ==================================================
+   RENDER REGISTRATIONS
+================================================== */
+
+function renderRegistrations() {
+
+    const container =
+        document.getElementById(
+            "registrationList"
+        );
+
+
+    const registrations =
+        getRegistrations();
+
+
+    container.innerHTML = "";
+
+
+    if (!registrations.length) {
+
+        container.innerHTML = `
+
+            <tr>
+
+                <td
+                    colspan="7"
+                    style="
+                        text-align:center;
+                        padding:45px;
+                        color:#777;
+                    "
+                >
+
+                    No registration requests yet.
+
+                </td>
+
+            </tr>
+
+        `;
+
+        return;
+
+    }
+
+
+    registrations.forEach(
+        registration => {
+
+            const row =
+                document.createElement("tr");
+
+
+            const id =
+                registration.id;
+
+
+            row.innerHTML = `
+
+                <td>
+                    ${escapeHTML(
+                        registration.name
+                    )}
+                </td>
+
+                <td>
+                    ${escapeHTML(
+                        registration.phone || ""
+                    )}
+                </td>
+
+                <td>
+                    ${escapeHTML(
+                        registration.bank || ""
+                    )}
+                </td>
+
+                <td>
+                    ${escapeHTML(
+                        registration.account || ""
+                    )}
+                </td>
+
+                <td>
+                    ${escapeHTML(
+                        registration.ward || ""
+                    )}
+                </td>
+
+                <td>
+
+                    <span
+                        class="status
+                        ${registration.status}"
+                    >
+
+                        ${escapeHTML(
+                            registration.status
+                        )}
+
+                    </span>
+
+                </td>
+
+                <td>
+
+                    ${
+                        registration.status ===
+                        "pending"
+
+                        ?
+
+                        `
+
+                            <button
+                                class="
+                                    action
+                                    approve
+                                "
+                                onclick="
+                                    approveRegistration(
+                                        '${id}'
+                                    )
+                                "
+                            >
+                                ✅ Approve
+                            </button>
+
+
+                            <button
+                                class="
+                                    action
+                                    reject
+                                "
+                                onclick="
+                                    rejectRegistration(
+                                        '${id}'
+                                    )
+                                "
+                            >
+                                ❌ Reject
+                            </button>
+
+                        `
+
+                        :
+
+                        registration.status ===
+                        "approved"
+
+                        ?
+
+                        `
+
+                            <button
+                                class="
+                                    action
+                                    reject
+                                "
+                                onclick="
+                                    rejectRegistration(
+                                        '${id}'
+                                    )
+                                "
+                            >
+                                Reject
+                            </button>
+
+                        `
+
+                        :
+
+                        `
+
+                            <button
+                                class="
+                                    action
+                                    approve
+                                "
+                                onclick="
+                                    approveRegistration(
+                                        '${id}'
+                                    )
+                                "
+                            >
+                                Approve
+                            </button>
+
+                        `
+                    }
+
+
+                    <button
+                        class="
+                            action
+                            delete
+                        "
+                        onclick="
+                            deleteRegistration(
+                                '${id}'
+                            )
+                        "
+                    >
+                        🗑️ Delete
+                    </button>
+
+                </td>
+
+            `;
+
+
+            container.appendChild(row);
+
+        }
+    );
+
+}
+
+
+
+/* ==================================================
+   APPROVE
+================================================== */
+
+function approveRegistration(id) {
+
+    const registrations =
+        getRegistrations();
+
+
+    const person =
+        registrations.find(
+
+            item =>
+                String(item.id) ===
+                String(id)
+
+        );
+
+
+    if (!person) {
+
+        alert(
+            "Registration not found."
+        );
+
+        return;
+
+    }
+
+
+    person.status =
+        "approved";
+
+
+    saveRegistrations(
+        registrations
+    );
+
+
+    refreshDashboard();
+
+
+    alert(
+        `${person.name} has been approved.`
+    );
+
+}
+
+
+
+/* ==================================================
+   REJECT
+================================================== */
+
+function rejectRegistration(id) {
+
+    const registrations =
+        getRegistrations();
+
+
+    const person =
+        registrations.find(
+
+            item =>
+                String(item.id) ===
+                String(id)
+
+        );
+
+
+    if (!person) return;
+
+
+    person.status =
+        "rejected";
+
+
+    saveRegistrations(
+        registrations
+    );
+
+
+    refreshDashboard();
+
+
+    alert(
+        `${person.name} has been rejected.`
+    );
+
+}
+
+
+
+/* ==================================================
+   DELETE REGISTRATION
+================================================== */
+
+function deleteRegistration(id) {
+
+    const confirmed =
+        confirm(
+            "Delete this registration permanently?"
+        );
+
+
+    if (!confirmed) return;
+
+
+    const registrations =
+        getRegistrations();
+
+
+    const filtered =
+        registrations.filter(
+
+            item =>
+                String(item.id) !==
+                String(id)
+
+        );
+
+
+    saveRegistrations(
+        filtered
+    );
+
+
+    refreshDashboard();
+
+}
+
+
+
+/* ==================================================
+   REFRESH
+================================================== */
+
+function refreshDashboard() {
+
+    renderStatistics();
+
+    renderRegistrations();
+
+    renderWards();
+
+}
+
+
+
+/* ==================================================
+   RENDER WARDS
+================================================== */
+
+function renderWards() {
+
+    const container =
+        document.getElementById(
+            "wardList"
+        );
+
+
+    const registrations =
+        getRegistrations();
+
+
+    container.innerHTML = "";
+
+
+    WARDS.forEach(ward => {
+
+        const count =
+            registrations.filter(
+
+                item =>
+
+                    item.status ===
+                    "approved"
+
+                    &&
+
+                    item.ward ===
+                    ward.name
+
+            ).length;
+
+
+        const card =
+            document.createElement("div");
+
+
+        card.className =
+            "ward";
+
+
+        card.innerHTML = `
+
+            <div
+                class="ward-number"
+            >
+                WARD ${ward.number}
+            </div>
+
+            <strong>
+                ${escapeHTML(
+                    ward.name
+                )}
+            </strong>
+
+            <span>
+                Approved registered women
+            </span>
+
+            <b>
+                ${count}
+            </b>
+
+        `;
+
+
+        container.appendChild(card);
+
+    });
+
+}
+
+
+
+/* ==================================================
+   POPULATE EXCO WARDS
+================================================== */
+
+function populateExcoWards() {
+
+    const select =
         document.getElementById(
             "excoWard"
-        ).value;
+        );
 
-    const data =
-        JSON.parse(
-            localStorage.getItem(
-                "bwi_excos"
-            ) || "{}"
+
+    select.innerHTML = "";
+
+
+    WARDS.forEach(ward => {
+
+        const option =
+            document.createElement(
+                "option"
+            );
+
+
+        option.value =
+            ward.name;
+
+
+        option.textContent =
+            `Ward ${ward.number} — ${ward.name}`;
+
+
+        select.appendChild(
+            option
+        );
+
+    });
+
+}
+
+
+
+/* ==================================================
+   LOAD EXCOS
+================================================== */
+
+function loadExcos() {
+
+    const select =
+        document.getElementById(
+            "excoWard"
         );
 
 
@@ -914,81 +2051,333 @@ function loadExcos() {
             "excoList"
         );
 
+
+    if (!select || !container)
+        return;
+
+
+    const ward =
+        select.value;
+
+
+    const data =
+        getExcos();
+
+
     container.innerHTML = "";
 
 
-    POSITIONS.forEach((position,index) => {
-
-        const value =
-            data?.[ward]?.[position] || "";
+    POSITIONS.forEach(
+        (position, index) => {
 
 
-        container.innerHTML += `
+            const name =
+                data[ward]?.[position] ||
+                "";
 
-            <div class="exco">
 
-                <strong>
-                    ${position}
-                </strong>
+            const row =
+                document.createElement(
+                    "div"
+                );
+
+
+            row.className =
+                "exco";
+
+
+            row.innerHTML = `
+
+                <div
+                    class="
+                        exco-position
+                    "
+                >
+
+                    ${escapeHTML(
+                        position
+                    )}
+
+                </div>
+
 
                 <input
-                    id="exco_${index}"
-                    value="${value}"
-                    placeholder="Enter name"
+
+                    id="
+                        excoInput${index}
+                    "
+
+                    value="
+                        ${escapeHTML(name)}
+                    "
+
+                    placeholder="
+                        Enter executive name
+                    "
                 >
+
 
                 <button
+
                     class="save"
-                    onclick="saveExco('${position}',${index})"
+
+                    onclick="
+                        saveExco(
+                            ${index}
+                        )
+                    "
                 >
-                    Save
+
+                    💾 Save
+
                 </button>
 
-            </div>
 
-        `;
+                ${
+                    name
 
-    });
+                    ?
+
+                    `
+
+                        <button
+
+                            class="
+                                action
+                                reject
+                            "
+
+                            onclick="
+                                removeExco(
+                                    ${index}
+                                )
+                            "
+                        >
+
+                            🗑️ Remove
+
+                        </button>
+
+                    `
+
+                    :
+
+                    ""
+
+                }
+
+            `;
+
+
+            container.appendChild(
+                row
+            );
+
+        }
+    );
 
 }
 
 
-function saveExco(position,index) {
+
+/* ==================================================
+   SAVE EXCO
+================================================== */
+
+function saveExco(index) {
+
+    const select =
+        document.getElementById(
+            "excoWard"
+        );
+
+
+    const input =
+        document.getElementById(
+            `excoInput${index}`
+        );
+
+
+    const ward =
+        select.value;
+
+
+    const name =
+        input.value.trim();
+
+
+    if (!name) {
+
+        alert(
+            "Please enter the executive's name."
+        );
+
+        return;
+
+    }
+
+
+    const data =
+        getExcos();
+
+
+    if (!data[ward]) {
+
+        data[ward] = {};
+
+    }
+
+
+    data[ward][
+        POSITIONS[index]
+    ] = name;
+
+
+    saveExcos(data);
+
+
+    loadExcos();
+
+
+    alert(
+        `${POSITIONS[index]} added successfully.`
+    );
+
+}
+
+
+
+/* ==================================================
+   REMOVE EXCO
+================================================== */
+
+function removeExco(index) {
 
     const ward =
         document.getElementById(
             "excoWard"
         ).value;
 
+
     const data =
-        JSON.parse(
-            localStorage.getItem(
-                "bwi_excos"
-            ) || "{}"
-        );
+        getExcos();
 
 
-    if (!data[ward]) {
-        data[ward] = {};
+    const position =
+        POSITIONS[index];
+
+
+    if (
+        !data[ward] ||
+        !data[ward][position]
+    ) {
+
+        return;
+
     }
 
 
-    data[ward][position] =
-        document.getElementById(
-            `exco_${index}`
-        ).value;
+    const name =
+        data[ward][position];
 
 
-    localStorage.setItem(
-        "bwi_excos",
-        JSON.stringify(data)
-    );
+    const confirmed =
+        confirm(
+
+            `Remove ${name} as ${position}?`
+
+        );
+
+
+    if (!confirmed)
+        return;
+
+
+    delete data[ward][position];
+
+
+    saveExcos(data);
 
 
     loadExcos();
 
+
+    alert(
+        `${position} has been removed.`
+    );
+
 }
 
+
+
+/* ==================================================
+   ESCAPE HTML
+================================================== */
+
+function escapeHTML(value) {
+
+    return String(value ?? "")
+
+        .replaceAll(
+            "&",
+            "&amp;"
+        )
+
+        .replaceAll(
+            "<",
+            "&lt;"
+        )
+
+        .replaceAll(
+            ">",
+            "&gt;"
+        )
+
+        .replaceAll(
+            '"',
+            "&quot;"
+        )
+
+        .replaceAll(
+            "'",
+            "&#039;"
+        );
+
+}
+
+
+
+/* ==================================================
+   AUTO LOGIN
+================================================== */
+
+if (
+    sessionStorage.getItem(
+        "bwi_admin_logged_in"
+    ) === "true"
+) {
+
+    document
+        .getElementById(
+            "loginScreen"
+        )
+        .classList.add(
+            "hidden"
+        );
+
+
+    document
+        .getElementById(
+            "dashboard"
+        )
+        .classList.remove(
+            "hidden"
+        );
+
+
+    initializeDashboard();
+
+}
 
 </script>
 
