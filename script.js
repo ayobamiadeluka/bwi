@@ -79,7 +79,7 @@ const wards = [
 
 
 /* =========================================
-   THE 8 STRUCTURED WARD OFFICES
+   WARD OFFICES
 ========================================= */
 
 const officePositions = [
@@ -104,52 +104,72 @@ const officePositions = [
 
 
 /* =========================================
-   WARD EXCO DATA
+   STORAGE KEYS
 ========================================= */
 
-const excos = {};
+const REGISTRATION_KEY =
+    "bwi_registrations";
 
-
-wards.forEach(ward => {
-
-    excos[ward.name] = {};
-
-    officePositions.forEach(position => {
-
-        excos[ward.name][position] = {
-
-            name: "Not yet added"
-
-        };
-
-    });
-
-});
+const EXCO_KEY =
+    "bwi_excos";
 
 
 /* =========================================
-   REGISTERED WOMEN
+   GET REGISTRATIONS
 ========================================= */
 
-let women = [
+function getRegistrations() {
 
-    /*
-    Real registrations will be added here
-    after the database is connected.
+    return JSON.parse(
+        localStorage.getItem(
+            REGISTRATION_KEY
+        ) || "[]"
+    );
 
-    Example:
+}
 
-    {
-        name: "Jane Doe",
-        phone: "08012345678",
-        bank: "Example Bank",
-        account: "1234567890",
-        ward: "ADO 'A' AJILOSUN"
-    }
 
-    */
+/* =========================================
+   SAVE REGISTRATIONS
+========================================= */
 
-];
+function saveRegistrations(data) {
+
+    localStorage.setItem(
+        REGISTRATION_KEY,
+        JSON.stringify(data)
+    );
+
+}
+
+
+/* =========================================
+   GET EXCOS
+========================================= */
+
+function getExcos() {
+
+    return JSON.parse(
+        localStorage.getItem(
+            EXCO_KEY
+        ) || "{}"
+    );
+
+}
+
+
+/* =========================================
+   SAVE EXCOS
+========================================= */
+
+function saveExcos(data) {
+
+    localStorage.setItem(
+        EXCO_KEY,
+        JSON.stringify(data)
+    );
+
+}
 
 
 /* =========================================
@@ -159,25 +179,44 @@ let women = [
 function displayWards() {
 
     const container =
-        document.getElementById("wardsContainer");
+        document.getElementById(
+            "wardsContainer"
+        );
+
+    if (!container) return;
 
     container.innerHTML = "";
 
 
     wards.forEach(ward => {
 
-        const count = women.filter(
-            woman => woman.ward === ward.name
-        ).length;
+        const registrations =
+            getRegistrations();
+
+
+        const count =
+            registrations.filter(
+                woman =>
+                    woman.ward === ward.name &&
+                    woman.status === "approved"
+            ).length;
 
 
         const card =
             document.createElement("div");
 
-        card.className = "ward-card";
 
-        card.onclick = () =>
-            openWard(ward.name);
+        card.className =
+            "ward-card";
+
+
+        card.onclick = function() {
+
+            openWard(
+                ward.name
+            );
+
+        };
 
 
         card.innerHTML = `
@@ -191,49 +230,18 @@ function displayWards() {
             </h3>
 
             <p>
-                ${ward.name}
+                ${escapeHTML(ward.name)}
             </p>
 
             <p>
                 ${count}
-                registered woman${count === 1 ? "" : "en"}
+                approved woman${count === 1 ? "" : "en"}
             </p>
 
         `;
 
 
         container.appendChild(card);
-
-    });
-
-}
-
-
-/* =========================================
-   POPULATE WARD SELECT
-========================================= */
-
-function populateWardSelect() {
-
-    const select =
-        document.getElementById("ward");
-
-
-    wards.forEach(ward => {
-
-        const option =
-            document.createElement("option");
-
-
-        option.value =
-            ward.name;
-
-
-        option.textContent =
-            `Ward ${ward.number} — ${ward.name}`;
-
-
-        select.appendChild(option);
 
     });
 
@@ -247,56 +255,88 @@ function populateWardSelect() {
 function openWard(wardName) {
 
     const details =
-        document.getElementById("wardDetails");
+        document.getElementById(
+            "wardDetails"
+        );
 
-
-    details.classList.remove("hidden");
-
-
-    document.getElementById("wards")
-        .style.display = "none";
-
-
-    document.getElementById("selectedWard")
-        .textContent = wardName;
-
-
-    /* WOMEN */
-
-    const wardWomen =
-        women.filter(
-            woman => woman.ward === wardName
+    const wardsSection =
+        document.getElementById(
+            "wards"
         );
 
 
+    if (!details || !wardsSection)
+        return;
+
+
+    details.classList.remove(
+        "hidden"
+    );
+
+
+    wardsSection.style.display =
+        "none";
+
+
     document.getElementById(
-        "wardWomenCount"
-    ).textContent = wardWomen.length;
+        "selectedWard"
+    ).textContent =
+        wardName;
 
 
-    const womenContainer =
-        document.getElementById("wardWomen");
+    const registrations =
+        getRegistrations();
 
 
-    womenContainer.innerHTML = "";
+    const wardWomen =
+        registrations.filter(
+            woman =>
+                woman.ward === wardName &&
+                woman.status === "approved"
+        );
+
+
+    const count =
+        document.getElementById(
+            "wardWomenCount"
+        );
+
+
+    if (count) {
+
+        count.textContent =
+            wardWomen.length;
+
+    }
+
+
+    const container =
+        document.getElementById(
+            "wardWomen"
+        );
+
+
+    if (!container)
+        return;
+
+
+    container.innerHTML = "";
 
 
     if (wardWomen.length === 0) {
 
-        womenContainer.innerHTML = `
+        container.innerHTML = `
 
             <div class="woman-card">
 
-                <div>
-                    <strong>
-                        No women registered yet
-                    </strong>
+                <strong>
+                    No approved women registered yet.
+                </strong>
 
-                    <small>
-                        Registration data will appear
-                        here after submission.
-                    </small>
-                </div>
+                <small>
+                    Approved registration data
+                    will appear here.
+                </small>
 
             </div>
 
@@ -305,51 +345,55 @@ function openWard(wardName) {
     }
 
 
-    wardWomen.forEach(woman => {
+    wardWomen.forEach(
+        woman => {
 
-        const card =
-            document.createElement("div");
+            const card =
+                document.createElement(
+                    "div"
+                );
 
 
-        card.className = "woman-card";
+            card.className =
+                "woman-card";
 
 
-        /*
-            IMPORTANT:
-            Phone, bank and account number
-            are deliberately NOT displayed
-            publicly.
-        */
+            card.innerHTML = `
 
-        card.innerHTML = `
+                <div>
 
-            <div>
+                    <strong>
+                        ${escapeHTML(
+                            woman.name
+                        )}
+                    </strong>
 
-                <strong>
-                    ${escapeHTML(woman.name)}
-                </strong>
+                    <small>
+                        Registered member
+                    </small>
+
+                </div>
 
                 <small>
-                    Registered member
+                    Ward ${getWardNumber(
+                        wardName
+                    )}
                 </small>
 
-            </div>
-
-            <small>
-                Ward ${getWardNumber(wardName)}
-            </small>
-
-        `;
+            `;
 
 
-        womenContainer.appendChild(card);
+            container.appendChild(
+                card
+            );
 
-    });
+        }
+    );
 
 
-    /* EXCOS */
-
-    displayWardExcos(wardName);
+    displayWardExcos(
+        wardName
+    );
 
 
     details.scrollIntoView({
@@ -363,44 +407,72 @@ function openWard(wardName) {
    DISPLAY WARD EXCOS
 ========================================= */
 
-function displayWardExcos(wardName) {
+function displayWardExcos(
+    wardName
+) {
 
     const container =
-        document.getElementById("wardExcos");
+        document.getElementById(
+            "wardExcos"
+        );
+
+
+    if (!container)
+        return;
 
 
     container.innerHTML = "";
 
 
-    officePositions.forEach(position => {
-
-        const exco =
-            excos[wardName][position];
+    const excos =
+        getExcos();
 
 
-        const card =
-            document.createElement("div");
+    const wardExcos =
+        excos[wardName] || {};
 
 
-        card.className = "exco-card";
+    officePositions.forEach(
+        position => {
+
+            const name =
+                wardExcos[position] ||
+                "Not yet added";
 
 
-        card.innerHTML = `
-
-            <div class="position">
-                ${position}
-            </div>
-
-            <strong>
-                ${escapeHTML(exco.name)}
-            </strong>
-
-        `;
+            const card =
+                document.createElement(
+                    "div"
+                );
 
 
-        container.appendChild(card);
+            card.className =
+                "exco-card";
 
-    });
+
+            card.innerHTML = `
+
+                <div class="position">
+                    ${escapeHTML(
+                        position
+                    )}
+                </div>
+
+                <strong>
+                    ${escapeHTML(
+                        name
+                    )}
+                </strong>
+
+            `;
+
+
+            container.appendChild(
+                card
+            );
+
+        }
+    );
 
 }
 
@@ -411,21 +483,36 @@ function displayWardExcos(wardName) {
 
 function closeWard() {
 
-    document.getElementById(
-        "wardDetails"
-    ).classList.add("hidden");
+    const details =
+        document.getElementById(
+            "wardDetails"
+        );
+
+    const wardsSection =
+        document.getElementById(
+            "wards"
+        );
 
 
-    document.getElementById(
-        "wards"
-    ).style.display = "block";
+    if (details) {
+
+        details.classList.add(
+            "hidden"
+        );
+
+    }
 
 
-    document.getElementById(
-        "wards"
-    ).scrollIntoView({
-        behavior: "smooth"
-    });
+    if (wardsSection) {
+
+        wardsSection.style.display =
+            "block";
+
+        wardsSection.scrollIntoView({
+            behavior: "smooth"
+        });
+
+    }
 
 }
 
@@ -434,9 +521,15 @@ function closeWard() {
    REGISTRATION
 ========================================= */
 
-document
-    .getElementById("registrationForm")
-    .addEventListener(
+const registrationForm =
+    document.getElementById(
+        "registrationForm"
+    );
+
+
+if (registrationForm) {
+
+    registrationForm.addEventListener(
         "submit",
         function(event) {
 
@@ -444,40 +537,38 @@ document
 
 
             const name =
-                document
-                    .getElementById("name")
-                    .value
-                    .trim();
+                document.getElementById(
+                    "name"
+                ).value.trim();
 
 
             const phone =
-                document
-                    .getElementById("phone")
-                    .value
-                    .trim();
+                document.getElementById(
+                    "phone"
+                ).value.trim();
 
 
             const bank =
-                document
-                    .getElementById("bank")
-                    .value
-                    .trim();
+                document.getElementById(
+                    "bank"
+                ).value.trim();
 
 
             const account =
-                document
-                    .getElementById("account")
-                    .value
-                    .trim();
+                document.getElementById(
+                    "account"
+                ).value.trim();
 
 
             const ward =
-                document
-                    .getElementById("ward")
-                    .value;
+                document.getElementById(
+                    "ward"
+                ).value;
 
 
-            /* VALIDATION */
+            /* =========================
+               VALIDATION
+            ========================= */
 
             if (
                 !name ||
@@ -496,7 +587,11 @@ document
             }
 
 
-            if (!/^\d{10}$/.test(account)) {
+            if (
+                !/^\d{10}$/.test(
+                    account
+                )
+            ) {
 
                 alert(
                     "Account number must contain exactly 10 digits."
@@ -507,62 +602,130 @@ document
             }
 
 
-            /* SAVE */
+            /* =========================
+               CREATE REGISTRATION
+            ========================= */
 
-            women.push({
-
-                name,
-                phone,
-                bank,
-                account,
-                ward
-
-            });
+            const registrations =
+                getRegistrations();
 
 
-            /* UPDATE */
+            const registration = {
+
+                id:
+                    Date.now(),
+
+                name:
+                    name,
+
+                phone:
+                    phone,
+
+                bank:
+                    bank,
+
+                account:
+                    account,
+
+                ward:
+                    ward,
+
+                status:
+                    "pending",
+
+                createdAt:
+                    new Date().toISOString()
+
+            };
+
+
+            registrations.push(
+                registration
+            );
+
+
+            saveRegistrations(
+                registrations
+            );
+
+
+            /* =========================
+               UPDATE WEBSITE
+            ========================= */
 
             displayWards();
 
             updateStatistics();
 
 
-            /* SUCCESS */
+            /* =========================
+               SUCCESS MESSAGE
+            ========================= */
 
-            document.getElementById(
-                "registrationMessage"
-            ).innerHTML = `
-
-                <div class="success">
-
-                    ✅
-                    ${escapeHTML(name)}
-                    has been registered successfully
-                    under Ward ${getWardNumber(ward)}.
-
-                </div>
-
-            `;
+            const message =
+                document.getElementById(
+                    "registrationMessage"
+                );
 
 
-            /* RESET */
+            if (message) {
 
-            document
-                .getElementById("registrationForm")
-                .reset();
+                message.innerHTML = `
+
+                    <div class="success">
+
+                        ✅
+
+                        ${escapeHTML(
+                            name
+                        )}
+
+                        has been registered successfully.
+
+                        <br>
+
+                        Your registration is now
+                        <strong>
+                            pending approval
+                        </strong>.
+
+                        <br>
+
+                        Ward ${getWardNumber(
+                            ward
+                        )}
+
+                    </div>
+
+                `;
+
+            }
 
 
-            /* SCROLL */
+            /* =========================
+               RESET FORM
+            ========================= */
 
-            document.getElementById(
-                "registrationMessage"
-            ).scrollIntoView({
-                behavior: "smooth",
-                block: "center"
-            });
+            registrationForm.reset();
+
+
+            /* =========================
+               SCROLL MESSAGE
+            ========================= */
+
+            if (message) {
+
+                message.scrollIntoView({
+                    behavior: "smooth",
+                    block: "center"
+                });
+
+            }
 
         }
     );
+
+}
 
 
 /* =========================================
@@ -571,37 +734,55 @@ document
 
 function searchWomen() {
 
+    const input =
+        document.getElementById(
+            "searchInput"
+        );
+
+
+    const results =
+        document.getElementById(
+            "searchResults"
+        );
+
+
+    if (!input || !results)
+        return;
+
+
     const query =
-        document
-            .getElementById("searchInput")
-            .value
+        input.value
             .toLowerCase()
             .trim();
 
 
-    const results =
-        document.getElementById("searchResults");
-
-
     if (!query) {
 
-        results.innerHTML = "";
+        results.innerHTML =
+            "";
 
         return;
 
     }
 
 
+    const registrations =
+        getRegistrations();
+
+
     const matches =
-        women.filter(
+        registrations.filter(
             woman =>
+                woman.status ===
+                    "approved" &&
                 woman.name
                     .toLowerCase()
                     .includes(query)
         );
 
 
-    results.innerHTML = "";
+    results.innerHTML =
+        "";
 
 
     if (matches.length === 0) {
@@ -611,7 +792,7 @@ function searchWomen() {
             <div class="woman-card">
 
                 <strong>
-                    No registered woman found.
+                    No approved woman found.
                 </strong>
 
             </div>
@@ -623,39 +804,50 @@ function searchWomen() {
     }
 
 
-    matches.forEach(woman => {
+    matches.forEach(
+        woman => {
 
-        const card =
-            document.createElement("div");
+            const card =
+                document.createElement(
+                    "div"
+                );
 
 
-        card.className = "woman-card";
+            card.className =
+                "woman-card";
 
 
-        card.innerHTML = `
+            card.innerHTML = `
 
-            <div>
+                <div>
 
-                <strong>
-                    ${escapeHTML(woman.name)}
-                </strong>
+                    <strong>
+                        ${escapeHTML(
+                            woman.name
+                        )}
+                    </strong>
+
+                    <small>
+                        Approved member
+                    </small>
+
+                </div>
 
                 <small>
-                    Registered member
+                    ${escapeHTML(
+                        woman.ward
+                    )}
                 </small>
 
-            </div>
-
-            <small>
-                ${escapeHTML(woman.ward)}
-            </small>
-
-        `;
+            `;
 
 
-        results.appendChild(card);
+            results.appendChild(
+                card
+            );
 
-    });
+        }
+    );
 
 }
 
@@ -667,64 +859,96 @@ function searchWomen() {
 function displayAllExcos() {
 
     const container =
-        document.getElementById("allExcos");
+        document.getElementById(
+            "allExcos"
+        );
+
+
+    if (!container)
+        return;
 
 
     container.innerHTML = "";
 
 
-    wards.forEach(ward => {
-
-        const card =
-            document.createElement("div");
+    const excos =
+        getExcos();
 
 
-        card.className =
-            "exco-overview-card";
+    wards.forEach(
+        ward => {
+
+            const card =
+                document.createElement(
+                    "div"
+                );
 
 
-        let html = `
-
-            <h3>
-                Ward ${ward.number}
-            </h3>
-
-            <p>
-                <strong>
-                    ${ward.name}
-                </strong>
-            </p>
-
-        `;
+            card.className =
+                "exco-overview-card";
 
 
-        officePositions.forEach(position => {
+            let html = `
 
-            html += `
+                <h3>
+                    Ward ${ward.number}
+                </h3>
 
                 <p>
-
                     <strong>
-                        ${position}:
+                        ${escapeHTML(
+                            ward.name
+                        )}
                     </strong>
-
-                    ${escapeHTML(
-                        excos[ward.name][position].name
-                    )}
-
                 </p>
 
             `;
 
-        });
+
+            officePositions.forEach(
+                position => {
+
+                    const name =
+                        excos[
+                            ward.name
+                        ]?.[
+                            position
+                        ] ||
+                        "Not yet added";
 
 
-        card.innerHTML = html;
+                    html += `
+
+                        <p>
+
+                            <strong>
+                                ${escapeHTML(
+                                    position
+                                )}:
+                            </strong>
+
+                            ${escapeHTML(
+                                name
+                            )}
+
+                        </p>
+
+                    `;
+
+                }
+            );
 
 
-        container.appendChild(card);
+            card.innerHTML =
+                html;
 
-    });
+
+            container.appendChild(
+                card
+            );
+
+        }
+    );
 
 }
 
@@ -735,15 +959,45 @@ function displayAllExcos() {
 
 function updateStatistics() {
 
-    document.getElementById(
-        "womenCount"
-    ).textContent = women.length;
+    const registrations =
+        getRegistrations();
 
 
-    document.getElementById(
-        "excoCount"
-    ).textContent =
-        wards.length * officePositions.length;
+    const approved =
+        registrations.filter(
+            woman =>
+                woman.status ===
+                "approved"
+        ).length;
+
+
+    const womenCount =
+        document.getElementById(
+            "womenCount"
+        );
+
+
+    if (womenCount) {
+
+        womenCount.textContent =
+            approved;
+
+    }
+
+
+    const excoCount =
+        document.getElementById(
+            "excoCount"
+        );
+
+
+    if (excoCount) {
+
+        excoCount.textContent =
+            wards.length *
+            officePositions.length;
+
+    }
 
 }
 
@@ -752,11 +1006,15 @@ function updateStatistics() {
    GET WARD NUMBER
 ========================================= */
 
-function getWardNumber(wardName) {
+function getWardNumber(
+    wardName
+) {
 
     const ward =
         wards.find(
-            item => item.name === wardName
+            item =>
+                item.name ===
+                wardName
         );
 
 
@@ -773,36 +1031,66 @@ function getWardNumber(wardName) {
 
 function toggleMenu() {
 
-    document
-        .getElementById("mainNav")
-        .classList.toggle("show");
+    const nav =
+        document.getElementById(
+            "mainNav"
+        );
+
+
+    if (nav) {
+
+        nav.classList.toggle(
+            "show"
+        );
+
+    }
 
 }
 
 
 /* =========================================
-   BASIC HTML ESCAPING
+   HTML ESCAPING
 ========================================= */
 
-function escapeHTML(value) {
+function escapeHTML(
+    value
+) {
 
     return String(value)
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;")
-        .replaceAll('"', "&quot;")
-        .replaceAll("'", "&#039;");
+
+        .replaceAll(
+            "&",
+            "&amp;"
+        )
+
+        .replaceAll(
+            "<",
+            "&lt;"
+        )
+
+        .replaceAll(
+            ">",
+            "&gt;"
+        )
+
+        .replaceAll(
+            '"',
+            "&quot;"
+        )
+
+        .replaceAll(
+            "'",
+            "&#039;"
+        );
 
 }
 
 
 /* =========================================
-   START
+   START WEBSITE
 ========================================= */
 
 displayWards();
-
-populateWardSelect();
 
 displayAllExcos();
 
