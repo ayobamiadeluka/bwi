@@ -1,478 +1,77 @@
-# Admin JavaScript
+const WARDS = Array.from(
+    { length: 13 },
+    (_, i) => `Ward ${i + 1}`
+);
 
-```javascript
-let allWomen = [];
+const POSITIONS = [
+    "Ward Coordinator",
+    "Deputy Ward Coordinator",
+    "Secretary",
+    "Mobilization Officer",
+    "Women Empowerment Officer",
+    "Media/Publicity Officer",
+    "Welfare Officer",
+    "Polling Unit Officer"
+];
 
-let allExcos = [];
+const WOMEN_KEY = "bwi_registered_women";
+const EXCO_KEY = "bwi_excos";
 
 
-/* =========================
-   AUTH CHECK
-========================= */
+// ===============================
+// DATA
+// ===============================
 
-async function checkAuth() {
-
-    const response =
-        await fetch("/api/admin/me");
-
-
-    if (!response.ok) {
-
-        window.location =
-            "/admin/login.html";
-
-        return false;
-
-    }
-
-    return true;
-
+function getWomen() {
+    return JSON.parse(
+        localStorage.getItem(WOMEN_KEY) || "[]"
+    );
 }
 
+function saveWomen(data) {
+    localStorage.setItem(
+        WOMEN_KEY,
+        JSON.stringify(data)
+    );
+}
 
-/* =========================
-   PAGE SWITCHING
-========================= */
+function getExcos() {
 
-function showPage(page) {
+    let data = JSON.parse(
+        localStorage.getItem(EXCO_KEY) || "null"
+    );
 
-    document
-        .querySelectorAll(".page")
-        .forEach(section => {
+    if (!data) {
 
-            section.classList.add("hidden");
+        data = {};
+
+        WARDS.forEach(ward => {
+
+            data[ward] = {};
+
+            POSITIONS.forEach(position => {
+                data[ward][position] = "";
+            });
 
         });
 
-
-    document
-        .getElementById(
-            `${page}Page`
-        )
-        .classList.remove("hidden");
-
-
-    if (page === "women") {
-
-        loadWomen();
-
+        saveExcos(data);
     }
 
-
-    if (page === "excos") {
-
-        loadExcos();
-
-    }
-
-
-    if (page === "wards") {
-
-        loadWards();
-
-    }
-
+    return data;
 }
 
-
-/* =========================
-   STATS
-========================= */
-
-async function loadStats() {
-
-    const response =
-        await fetch(
-            "/api/admin/stats"
-        );
-
-
-    if (!response.ok) return;
-
-
-    const stats =
-        await response.json();
-
-
-    document.getElementById(
-        "statWomen"
-    ).textContent =
-        stats.women;
-
-}
-
-
-/* =========================
-   WOMEN
-========================= */
-
-async function loadWomen() {
-
-    const response =
-        await fetch(
-            "/api/admin/women"
-        );
-
-
-    allWomen =
-        await response.json();
-
-
-    renderWomen(allWomen);
-
-}
-
-
-function renderWomen(women) {
-
-    const table =
-        document.getElementById(
-            "womenTable"
-        );
-
-
-    table.innerHTML = "";
-
-
-    women.forEach(woman => {
-
-        const row =
-            document.createElement("tr");
-
-
-        row.innerHTML = `
-
-            <td>
-                ${escapeHTML(woman.name)}
-            </td>
-
-            <td>
-                ${escapeHTML(woman.phone)}
-            </td>
-
-            <td>
-                ${escapeHTML(woman.bank)}
-            </td>
-
-            <td>
-                ${escapeHTML(woman.account)}
-            </td>
-
-            <td>
-                ${escapeHTML(woman.ward)}
-            </td>
-
-            <td>
-
-                <button
-                    class="delete"
-                    onclick="deleteWoman(${woman.id})"
-                >
-                    Delete
-                </button>
-
-            </td>
-
-        `;
-
-
-        table.appendChild(row);
-
-    });
-
-}
-
-
-function filterWomen() {
-
-    const query =
-        document
-            .getElementById(
-                "adminSearch"
-            )
-            .value
-            .toLowerCase();
-
-
-    const filtered =
-        allWomen.filter(woman =>
-            woman.name
-                .toLowerCase()
-                .includes(query) ||
-
-            woman.ward
-                .toLowerCase()
-                .includes(query)
-        );
-
-
-    renderWomen(filtered);
-
-}
-
-
-async function deleteWoman(id) {
-
-    if (
-        !confirm(
-            "Delete this registration?"
-        )
-    ) return;
-
-
-    const response =
-        await fetch(
-            `/api/admin/women/${id}`,
-            {
-                method: "DELETE"
-            }
-        );
-
-
-    if (response.ok) {
-
-        loadWomen();
-
-        loadStats();
-
-    }
-
-}
-
-
-/* =========================
-   EXCOS
-========================= */
-
-async function loadExcos() {
-
-    const response =
-        await fetch(
-            "/api/admin/excos"
-        );
-
-
-    allExcos =
-        await response.json();
-
-
-    const container =
-        document.getElementById(
-            "excosContainer"
-        );
-
-
-    container.innerHTML = "";
-
-
-    const grouped = {};
-
-
-    allExcos.forEach(exco => {
-
-        if (!grouped[exco.ward]) {
-
-            grouped[exco.ward] = [];
-
-        }
-
-        grouped[exco.ward].push(exco);
-
-    });
-
-
-    Object.entries(grouped)
-        .forEach(
-            ([ward, excos]) => {
-
-                const section =
-                    document.createElement(
-                        "div"
-                    );
-
-
-                section.className =
-                    "exco-ward";
-
-
-                section.innerHTML =
-                    `<h2>${escapeHTML(ward)}</h2>`;
-
-
-                excos.forEach(exco => {
-
-                    const row =
-                        document.createElement(
-                            "div"
-                        );
-
-
-                    row.className =
-                        "exco-row";
-
-
-                    row.innerHTML = `
-
-                        <strong>
-                            ${escapeHTML(
-                                exco.position
-                            )}
-                        </strong>
-
-                        <input
-                            id="exco-${exco.id}"
-                            value="${escapeHTML(
-                                exco.name
-                            )}"
-                            placeholder="Enter name"
-                        >
-
-                        <button
-                            class="save-btn"
-                            onclick="saveExco(${exco.id})"
-                        >
-                            Save
-                        </button>
-
-                    `;
-
-
-                    section.appendChild(row);
-
-                });
-
-
-                container.appendChild(
-                    section
-                );
-
-            }
-        );
-
-}
-
-
-async function saveExco(id) {
-
-    const input =
-        document.getElementById(
-            `exco-${id}`
-        );
-
-
-    const response =
-        await fetch(
-            `/api/admin/excos/${id}`,
-            {
-                method: "PUT",
-
-                headers: {
-                    "Content-Type":
-                        "application/json"
-                },
-
-                body:
-                    JSON.stringify({
-                        name: input.value
-                    })
-            }
-        );
-
-
-    if (response.ok) {
-
-        alert(
-            "Exco updated successfully."
-        );
-
-    }
-
-}
-
-
-/* =========================
-   WARDS
-========================= */
-
-async function loadWards() {
-
-    const response =
-        await fetch(
-            "/api/wards"
-        );
-
-
-    const wards =
-        await response.json();
-
-
-    const container =
-        document.getElementById(
-            "adminWards"
-        );
-
-
-    container.innerHTML = "";
-
-
-    wards.forEach(ward => {
-
-        const card =
-            document.createElement("div");
-
-
-        card.className =
-            "admin-ward";
-
-
-        card.innerHTML = `
-
-            <strong>
-                Ward ${ward.number}
-            </strong>
-
-            <p>
-                ${escapeHTML(ward.name)}
-            </p>
-
-            <small>
-                ${ward.women}
-                registered women
-            </small>
-
-        `;
-
-
-        container.appendChild(card);
-
-    });
-
-}
-
-
-/* =========================
-   LOGOUT
-========================= */
-
-async function logout() {
-
-    await fetch(
-        "/api/admin/logout",
-        {
-            method: "POST"
-        }
+function saveExcos(data) {
+    localStorage.setItem(
+        EXCO_KEY,
+        JSON.stringify(data)
     );
-
-
-    window.location =
-        "/admin/login.html";
-
 }
 
 
-/* =========================
-   ESCAPE HTML
-========================= */
+// ===============================
+// SECURITY HELPERS
+// ===============================
 
 function escapeHTML(value) {
 
@@ -482,25 +81,583 @@ function escapeHTML(value) {
         .replaceAll(">", "&gt;")
         .replaceAll('"', "&quot;")
         .replaceAll("'", "&#039;");
-
 }
 
 
-/* =========================
-   START
-========================= */
+// ===============================
+// ADMIN LOGIN
+// ===============================
 
-(async function() {
-
-    const authenticated =
-        await checkAuth();
+const ADMIN_USERNAME = "admin";
+const ADMIN_PASSWORD = "admin123";
 
 
-    if (!authenticated)
+const loginForm =
+    document.getElementById("loginForm");
+
+if (loginForm) {
+
+    loginForm.addEventListener(
+        "submit",
+        function (event) {
+
+            event.preventDefault();
+
+            const username =
+                document.getElementById(
+                    "username"
+                ).value.trim();
+
+            const password =
+                document.getElementById(
+                    "password"
+                ).value;
+
+
+            if (
+                username === ADMIN_USERNAME &&
+                password === ADMIN_PASSWORD
+            ) {
+
+                sessionStorage.setItem(
+                    "bwi_admin_logged_in",
+                    "true"
+                );
+
+                showDashboard();
+
+            } else {
+
+                document.getElementById(
+                    "loginError"
+                ).textContent =
+                    "Invalid username or password.";
+
+            }
+
+        }
+    );
+}
+
+
+function showDashboard() {
+
+    document
+        .getElementById("loginScreen")
+        .classList.add("hidden");
+
+    document
+        .getElementById("dashboard")
+        .classList.remove("hidden");
+
+    populateWardSelectors();
+
+    renderOverview();
+
+    renderWomen();
+
+    renderExcos();
+
+    renderAdminWards();
+}
+
+
+function logout() {
+
+    sessionStorage.removeItem(
+        "bwi_admin_logged_in"
+    );
+
+    location.reload();
+}
+
+
+// ===============================
+// PANEL NAVIGATION
+// ===============================
+
+function showPanel(panelName) {
+
+    document
+        .querySelectorAll(".panel")
+        .forEach(panel => {
+            panel.classList.add("hidden");
+        });
+
+
+    const selected =
+        document.getElementById(panelName);
+
+    if (selected) {
+        selected.classList.remove("hidden");
+    }
+
+
+    const titles = {
+        overview: "Dashboard",
+        women: "Registered Women",
+        excos: "Ward Excos",
+        wards: "Wards"
+    };
+
+
+    document.getElementById(
+        "pageTitle"
+    ).textContent =
+        titles[panelName] || "Dashboard";
+}
+
+
+// ===============================
+// OVERVIEW
+// ===============================
+
+function renderOverview() {
+
+    const women = getWomen();
+
+    const stat =
+        document.getElementById(
+            "statWomen"
+        );
+
+    if (stat) {
+        stat.textContent = women.length;
+    }
+
+
+    const container =
+        document.getElementById(
+            "wardStats"
+        );
+
+    if (!container) return;
+
+    container.innerHTML = "";
+
+
+    WARDS.forEach(ward => {
+
+        const count =
+            women.filter(
+                person =>
+                    person.ward === ward
+            ).length;
+
+
+        container.innerHTML += `
+
+            <div class="ward-stat">
+
+                <strong>
+                    ${escapeHTML(ward)}
+                </strong>
+
+                <span>
+                    ${count} registered women
+                </span>
+
+            </div>
+
+        `;
+    });
+}
+
+
+// ===============================
+// WARD SELECTORS
+// ===============================
+
+function populateWardSelectors() {
+
+    const filter =
+        document.getElementById(
+            "wardFilter"
+        );
+
+    const excoWard =
+        document.getElementById(
+            "excoWard"
+        );
+
+
+    if (filter) {
+
+        filter.innerHTML = `
+            <option value="">
+                All Wards
+            </option>
+        `;
+
+        WARDS.forEach(ward => {
+
+            filter.innerHTML += `
+                <option value="${escapeHTML(ward)}">
+                    ${escapeHTML(ward)}
+                </option>
+            `;
+
+        });
+    }
+
+
+    if (excoWard) {
+
+        excoWard.innerHTML = "";
+
+        WARDS.forEach(ward => {
+
+            excoWard.innerHTML += `
+                <option value="${escapeHTML(ward)}">
+                    ${escapeHTML(ward)}
+                </option>
+            `;
+
+        });
+    }
+}
+
+
+// ===============================
+// REGISTERED WOMEN
+// ===============================
+
+function renderWomen() {
+
+    const container =
+        document.getElementById(
+            "womenTable"
+        );
+
+    if (!container) return;
+
+
+    const search =
+        (
+            document.getElementById(
+                "adminSearch"
+            )?.value || ""
+        )
+        .toLowerCase()
+        .trim();
+
+
+    const ward =
+        document.getElementById(
+            "wardFilter"
+        )?.value || "";
+
+
+    let women = getWomen();
+
+
+    if (search) {
+
+        women = women.filter(person =>
+            person.name
+                .toLowerCase()
+                .includes(search)
+        );
+
+    }
+
+
+    if (ward) {
+
+        women = women.filter(
+            person =>
+                person.ward === ward
+        );
+
+    }
+
+
+    if (!women.length) {
+
+        container.innerHTML = `
+            <div class="empty-state">
+                No registrations found.
+            </div>
+        `;
+
         return;
+    }
 
 
-    loadStats();
+    let html = `
 
-})();
-```
+        <table>
+
+            <thead>
+
+                <tr>
+                    <th>Name</th>
+                    <th>Phone</th>
+                    <th>Bank</th>
+                    <th>Account</th>
+                    <th>Ward</th>
+                    <th>Action</th>
+                </tr>
+
+            </thead>
+
+            <tbody>
+    `;
+
+
+    women.forEach(person => {
+
+        html += `
+
+            <tr>
+
+                <td>
+                    ${escapeHTML(person.name)}
+                </td>
+
+                <td>
+                    ${escapeHTML(person.phone)}
+                </td>
+
+                <td>
+                    ${escapeHTML(person.bank)}
+                </td>
+
+                <td>
+                    ${escapeHTML(person.account)}
+                </td>
+
+                <td>
+                    ${escapeHTML(person.ward)}
+                </td>
+
+                <td>
+
+                    <button
+                        class="delete-btn"
+                        onclick="deleteWoman(${person.id})"
+                    >
+                        Delete
+                    </button>
+
+                </td>
+
+            </tr>
+
+        `;
+
+    });
+
+
+    html += `
+            </tbody>
+
+        </table>
+    `;
+
+
+    container.innerHTML = html;
+}
+
+
+function deleteWoman(id) {
+
+    const confirmed =
+        confirm(
+            "Are you sure you want to delete this registration?"
+        );
+
+    if (!confirmed) return;
+
+
+    const women =
+        getWomen().filter(
+            person =>
+                person.id !== id
+        );
+
+
+    saveWomen(women);
+
+    renderWomen();
+
+    renderOverview();
+
+    renderAdminWards();
+}
+
+
+// ===============================
+// EXCOS
+// ===============================
+
+function renderExcos() {
+
+    const wardSelect =
+        document.getElementById(
+            "excoWard"
+        );
+
+    const container =
+        document.getElementById(
+            "excoEditor"
+        );
+
+    if (!wardSelect || !container) {
+        return;
+    }
+
+
+    const ward = wardSelect.value;
+
+    const data = getExcos();
+
+    container.innerHTML = "";
+
+
+    POSITIONS.forEach((position, index) => {
+
+        const current =
+            data[ward]?.[position] || "";
+
+
+        const row =
+            document.createElement("div");
+
+        row.className = "exco-row";
+
+
+        row.innerHTML = `
+
+            <label>
+                ${escapeHTML(position)}
+            </label>
+
+            <input
+                type="text"
+                id="excoInput${index}"
+                value="${escapeHTML(current)}"
+                placeholder="Enter executive name"
+            >
+
+            <button
+                class="save-exco"
+                onclick="saveExco(${index})"
+            >
+                Save
+            </button>
+
+        `;
+
+
+        container.appendChild(row);
+
+    });
+}
+
+
+function saveExco(index) {
+
+    const ward =
+        document.getElementById(
+            "excoWard"
+        ).value;
+
+
+    const input =
+        document.getElementById(
+            `excoInput${index}`
+        );
+
+
+    if (!input) return;
+
+
+    const position =
+        POSITIONS[index];
+
+
+    const data = getExcos();
+
+
+    if (!data[ward]) {
+        data[ward] = {};
+    }
+
+
+    data[ward][position] =
+        input.value.trim();
+
+
+    saveExcos(data);
+
+    renderExcos();
+
+
+    alert(
+        `${position} saved for ${ward}.`
+    );
+}
+
+
+// ===============================
+// WARDS
+// ===============================
+
+function renderAdminWards() {
+
+    const container =
+        document.getElementById(
+            "adminWards"
+        );
+
+    if (!container) return;
+
+
+    const women = getWomen();
+
+    container.innerHTML = "";
+
+
+    WARDS.forEach(ward => {
+
+        const count =
+            women.filter(
+                person =>
+                    person.ward === ward
+            ).length;
+
+
+        container.innerHTML += `
+
+            <div class="admin-ward">
+
+                <strong>
+                    ${escapeHTML(ward)}
+                </strong>
+
+                <span>
+                    ${count} registered women
+                </span>
+
+            </div>
+
+        `;
+
+    });
+}
+
+
+// ===============================
+// START
+// ===============================
+
+if (
+    sessionStorage.getItem(
+        "bwi_admin_logged_in"
+    ) === "true"
+) {
+
+    showDashboard();
+
+}
