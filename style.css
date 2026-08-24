@@ -1001,24 +1001,3 @@ footer small {
     }
 
 }
-
-/* =========================================
-   FIX WARD DROPDOWN
-========================================= */
-
-#ward {
-    display: block;
-    width: 100%;
-    color: #222 !important;
-    background-color: #fff !important;
-    opacity: 1 !important;
-    visibility: visible !important;
-    appearance: auto;
-    -webkit-appearance: auto;
-}
-
-#ward option {
-    display: block;
-    color: #222 !important;
-    background-color: #fff !important;
-}
