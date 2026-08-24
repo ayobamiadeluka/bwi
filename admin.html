@@ -1,426 +1,996 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+<title>BWI Ado LG - Admin</title>
 
-    <title>
-        Admin Panel | Ekiti State Women of Influence
-    </title>
+<style>
+* {
+    box-sizing: border-box;
+}
 
-    <link
-        rel="stylesheet"
-        href="admin/admin.css"
-    >
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f5f3f7;
+    color: #222;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* LOGIN */
+
+#loginScreen {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #5b0875, #a22caf);
+    padding: 20px;
+}
+
+.login-box {
+    width: 100%;
+    max-width: 400px;
+    background: white;
+    padding: 35px;
+    border-radius: 18px;
+    box-shadow: 0 20px 60px rgba(0,0,0,.25);
+}
+
+.login-box h1 {
+    margin: 0 0 8px;
+    text-align: center;
+}
+
+.login-box p {
+    text-align: center;
+    color: #777;
+}
+
+.login-box input {
+    width: 100%;
+    padding: 14px;
+    margin: 8px 0;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 16px;
+}
+
+.login-box button {
+    width: 100%;
+    padding: 14px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 8px;
+    background: #72118f;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+#error {
+    color: #d00;
+    text-align: center;
+    margin-top: 12px;
+}
+
+
+/* DASHBOARD */
+
+#dashboard {
+    min-height: 100vh;
+}
+
+.header {
+    background: #4e075f;
+    color: white;
+    padding: 20px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header h1 {
+    margin: 0;
+}
+
+.logout {
+    background: #d32f2f;
+    color: white;
+    border: 0;
+    padding: 10px 18px;
+    border-radius: 7px;
+    cursor: pointer;
+}
+
+.container {
+    max-width: 1400px;
+    margin: auto;
+    padding: 25px;
+}
+
+
+/* STATS */
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+}
+
+.stat {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,.06);
+}
+
+.stat small {
+    color: #777;
+}
+
+.stat strong {
+    display: block;
+    font-size: 32px;
+    margin-top: 10px;
+}
+
+
+/* NAV */
+
+.nav {
+    display: flex;
+    gap: 10px;
+    margin: 25px 0;
+    flex-wrap: wrap;
+}
+
+.nav button {
+    border: 0;
+    padding: 12px 18px;
+    border-radius: 8px;
+    background: white;
+    cursor: pointer;
+}
+
+.nav button.active {
+    background: #72118f;
+    color: white;
+}
+
+
+/* PANEL */
+
+.panel {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,.06);
+}
+
+.panel h2 {
+    margin-top: 0;
+}
+
+
+/* TABLE */
+
+.table-wrap {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th,
+td {
+    padding: 14px;
+    border-bottom: 1px solid #eee;
+    text-align: left;
+}
+
+th {
+    background: #fafafa;
+}
+
+.status {
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+}
+
+.pending {
+    background: #fff0bd;
+}
+
+.approved {
+    background: #d5f5dc;
+}
+
+.rejected {
+    background: #ffd7d7;
+}
+
+.approve {
+    background: #2e7d32;
+    color: white;
+}
+
+.reject {
+    background: #c62828;
+    color: white;
+}
+
+.delete {
+    background: #555;
+    color: white;
+}
+
+.action {
+    border: 0;
+    padding: 8px 10px;
+    border-radius: 6px;
+    margin: 2px;
+    cursor: pointer;
+}
+
+
+/* WARDS */
+
+.wards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+}
+
+.ward {
+    border: 1px solid #eee;
+    padding: 18px;
+    border-radius: 10px;
+}
+
+.ward strong {
+    display: block;
+}
+
+.ward span {
+    display: block;
+    color: #777;
+    margin: 8px 0;
+}
+
+
+/* EXCO */
+
+select,
+.exco input {
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 7px;
+}
+
+.exco {
+    display: grid;
+    grid-template-columns: 250px 1fr 80px;
+    gap: 10px;
+    margin: 12px 0;
+    align-items: center;
+}
+
+.save {
+    border: 0;
+    padding: 10px;
+    border-radius: 6px;
+    background: #72118f;
+    color: white;
+}
+
+
+/* MOBILE */
+
+@media(max-width:800px) {
+
+    .stats {
+        grid-template-columns: repeat(2,1fr);
+    }
+
+    .wards {
+        grid-template-columns: 1fr;
+    }
+
+    .exco {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media(max-width:500px) {
+
+    .stats {
+        grid-template-columns: 1fr;
+    }
+
+    .header {
+        padding: 15px;
+    }
+
+    .container {
+        padding: 12px;
+    }
+}
+</style>
 </head>
 
 <body>
 
-    <!-- =========================
-         LOGIN
-    ========================== -->
 
-    <section
-        id="loginScreen"
-        class="login-screen"
-    >
+<!-- LOGIN -->
 
-        <div class="login-card">
+<div id="loginScreen">
 
-            <div class="admin-logo">
-                🔐
+    <div class="login-box">
+
+        <h1>🔐 Admin Panel</h1>
+
+        <p>
+            Ekiti State Women of Influence<br>
+            Ado Local Government
+        </p>
+
+        <input
+            id="username"
+            placeholder="Username"
+        >
+
+        <input
+            id="password"
+            type="password"
+            placeholder="Password"
+        >
+
+        <button onclick="login()">
+            Login
+        </button>
+
+        <div id="error"></div>
+
+    </div>
+
+</div>
+
+
+<!-- DASHBOARD -->
+
+<div
+    id="dashboard"
+    class="hidden"
+>
+
+    <div class="header">
+
+        <h1>
+            BWI Admin Dashboard
+        </h1>
+
+        <button
+            class="logout"
+            onclick="logout()"
+        >
+            Logout
+        </button>
+
+    </div>
+
+
+    <div class="container">
+
+
+        <!-- STATS -->
+
+        <div class="stats">
+
+            <div class="stat">
+
+                <small>
+                    Pending
+                </small>
+
+                <strong id="pending">
+                    0
+                </strong>
+
             </div>
 
-            <h1>
-                Admin Panel
-            </h1>
 
-            <p>
-                Ekiti State Women of Influence<br>
-                Ado Local Government
-            </p>
+            <div class="stat">
 
-            <form id="loginForm">
+                <small>
+                    Approved
+                </small>
 
-                <label>
-                    Username
-                </label>
+                <strong id="approved">
+                    0
+                </strong>
 
-                <input
-                    id="username"
-                    type="text"
-                    placeholder="Admin username"
-                    required
-                >
+            </div>
 
-                <label>
-                    Password
-                </label>
 
-                <input
-                    id="password"
-                    type="password"
-                    placeholder="Admin password"
-                    required
-                >
+            <div class="stat">
 
-                <button type="submit">
-                    Login
-                </button>
+                <small>
+                    Rejected
+                </small>
 
-            </form>
+                <strong id="rejected">
+                    0
+                </strong>
 
-            <div
-                id="loginError"
-                class="error"
-            ></div>
+            </div>
 
-            <a href="index.html">
-                ← Back to Website
-            </a>
+
+            <div class="stat">
+
+                <small>
+                    Wards
+                </small>
+
+                <strong>
+                    13
+                </strong>
+
+            </div>
 
         </div>
 
-    </section>
 
+        <!-- NAV -->
 
-    <!-- =========================
-         DASHBOARD
-    ========================== -->
-
-    <section
-        id="dashboard"
-        class="dashboard hidden"
-    >
-
-        <!-- SIDEBAR -->
-
-        <aside class="sidebar">
-
-            <div class="side-brand">
-
-                <div class="admin-logo">
-                    👩🏽
-                </div>
-
-                <strong>
-                    WOMEN OF INFLUENCE
-                </strong>
-
-                <small>
-                    ADO LG
-                </small>
-
-            </div>
-
+        <div class="nav">
 
             <button
-                class="side-btn active"
-                onclick="showPanel('overview')"
+                class="active"
+                onclick="show('registrations',this)"
             >
-                📊 Dashboard
+                👩 Registrations
             </button>
 
-
             <button
-                class="side-btn"
-                onclick="showPanel('women')"
-            >
-                👩 Registered Women
-            </button>
-
-
-            <button
-                class="side-btn"
-                onclick="showPanel('excos')"
-            >
-                👥 Ward Excos
-            </button>
-
-
-            <button
-                class="side-btn"
-                onclick="showPanel('wards')"
+                onclick="show('wards',this)"
             >
                 🏘️ Wards
             </button>
 
-
             <button
-                class="logout-btn"
-                onclick="logout()"
+                onclick="show('excos',this)"
             >
-                🚪 Logout
+                👥 Ward Excos
             </button>
 
-        </aside>
+        </div>
 
 
-        <!-- MAIN -->
+        <!-- REGISTRATIONS -->
 
-        <main class="main">
+        <div
+            id="registrations"
+            class="panel"
+        >
 
-            <header class="topbar">
+            <h2>
+                Registration Requests
+            </h2>
 
-                <div>
+            <div class="table-wrap">
 
-                    <span>
-                        ADMINISTRATION
-                    </span>
+                <table>
 
-                    <h1 id="pageTitle">
-                        Dashboard
-                    </h1>
+                    <thead>
 
-                </div>
+                        <tr>
+                            <th>Name</th>
+                            <th>Phone</th>
+                            <th>Ward</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
 
+                    </thead>
 
-                <a href="index.html">
-                    View Website ↗
-                </a>
+                    <tbody id="registrationList">
 
-            </header>
+                    </tbody>
 
-
-            <!-- =========================
-                 OVERVIEW
-            ========================== -->
-
-            <div
-                id="overview"
-                class="panel"
-            >
-
-                <div class="cards">
-
-                    <div class="dashboard-card">
-
-                        <span>👩</span>
-
-                        <strong id="statWomen">
-                            0
-                        </strong>
-
-                        <small>
-                            Approved Women
-                        </small>
-
-                    </div>
-
-
-                    <div class="dashboard-card">
-
-                        <span>⏳</span>
-
-                        <strong id="pendingCount">
-                            0
-                        </strong>
-
-                        <small>
-                            Pending
-                        </small>
-
-                    </div>
-
-
-                    <div class="dashboard-card">
-
-                        <span>✅</span>
-
-                        <strong id="approvedCount">
-                            0
-                        </strong>
-
-                        <small>
-                            Approved
-                        </small>
-
-                    </div>
-
-
-                    <div class="dashboard-card">
-
-                        <span>🏘️</span>
-
-                        <strong>
-                            13
-                        </strong>
-
-                        <small>
-                            Wards
-                        </small>
-
-                    </div>
-
-                </div>
-
-
-                <div class="panel-box">
-
-                    <span>
-                        ADO LOCAL GOVERNMENT
-                    </span>
-
-                    <h2>
-                        Ward Registration
-                    </h2>
-
-                    <div
-                        id="wardStats"
-                        class="ward-stats"
-                    ></div>
-
-                </div>
+                </table>
 
             </div>
 
+        </div>
 
-            <!-- =========================
-                 WOMEN
-            ========================== -->
+
+        <!-- WARDS -->
+
+        <div
+            id="wards"
+            class="panel hidden"
+        >
+
+            <h2>
+                Ado LG Wards
+            </h2>
 
             <div
-                id="women"
-                class="panel hidden"
-            >
+                id="wardList"
+                class="wards"
+            ></div>
 
-                <div class="panel-box">
-
-                    <div class="panel-heading">
-
-                        <div>
-
-                            <span>
-                                REGISTRATION
-                            </span>
-
-                            <h2>
-                                Registered Women
-                            </h2>
-
-                        </div>
+        </div>
 
 
-                        <input
-                            id="adminSearch"
-                            type="search"
-                            placeholder="Search woman..."
-                            oninput="renderWomen()"
+        <!-- EXCOS -->
+
+        <div
+            id="excos"
+            class="panel hidden"
+        >
+
+            <h2>
+                Ward Executives
+            </h2>
+
+            <select
+                id="excoWard"
+                onchange="loadExcos()"
+            ></select>
+
+            <div
+                id="excoList"
+                style="margin-top:20px"
+            ></div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+const WARDS = [
+"ADO 'A' AJILOSUN",
+"ADO 'B' INISA",
+"ADO 'C' IDOLOFIN",
+"ADO 'D' IJIGBO",
+"ADO 'E' IJOKA / OREREOWU",
+"ADO 'F' OKEYINMI",
+"ADO 'G' OKE ILA",
+"ADO 'H' EREGURU",
+"ADO 'I' DALLIMORE",
+"ADO 'J' OKESA",
+"ADO 'K' IRONA",
+"ADO 'L' IGBEHIN",
+"ADO 'M' FARM SETTLEMENT"
+];
+
+const POSITIONS = [
+"Ward Coordinator",
+"Deputy Ward Coordinator",
+"Secretary",
+"Mobilization Officer",
+"Women Empowerment Officer",
+"Media/Publicity Officer",
+"Welfare Officer",
+"Polling Unit Officer"
+];
+
+
+function login() {
+
+    const username =
+        document.getElementById("username").value;
+
+    const password =
+        document.getElementById("password").value;
+
+
+    if (
+        username === "admin" &&
+        password === "admin123"
+    ) {
+
+        document
+            .getElementById("loginScreen")
+            .classList.add("hidden");
+
+        document
+            .getElementById("dashboard")
+            .classList.remove("hidden");
+
+        load();
+
+    } else {
+
+        document
+            .getElementById("error")
+            .textContent =
+            "Incorrect username or password.";
+
+    }
+
+}
+
+
+function logout() {
+
+    location.reload();
+
+}
+
+
+function show(id, button) {
+
+    document
+        .querySelectorAll(".panel")
+        .forEach(panel =>
+            panel.classList.add("hidden")
+        );
+
+    document
+        .getElementById(id)
+        .classList.remove("hidden");
+
+    document
+        .querySelectorAll(".nav button")
+        .forEach(btn =>
+            btn.classList.remove("active")
+        );
+
+    button.classList.add("active");
+
+}
+
+
+function getData() {
+
+    return JSON.parse(
+        localStorage.getItem(
+            "bwi_registrations"
+        ) || "[]"
+    );
+
+}
+
+
+function saveData(data) {
+
+    localStorage.setItem(
+        "bwi_registrations",
+        JSON.stringify(data)
+    );
+
+}
+
+
+function load() {
+
+    const data = getData();
+
+    document.getElementById("pending")
+        .textContent =
+        data.filter(
+            x => x.status === "pending"
+        ).length;
+
+    document.getElementById("approved")
+        .textContent =
+        data.filter(
+            x => x.status === "approved"
+        ).length;
+
+    document.getElementById("rejected")
+        .textContent =
+        data.filter(
+            x => x.status === "rejected"
+        ).length;
+
+
+    const list =
+        document.getElementById(
+            "registrationList"
+        );
+
+    list.innerHTML = "";
+
+
+    if (!data.length) {
+
+        list.innerHTML = `
+            <tr>
+                <td colspan="5"
+                    style="text-align:center;padding:40px">
+                    No registration requests yet.
+                </td>
+            </tr>
+        `;
+
+    }
+
+
+    data.forEach(person => {
+
+        const row =
+            document.createElement("tr");
+
+        row.innerHTML = `
+
+            <td>
+                ${person.name}
+            </td>
+
+            <td>
+                ${person.phone}
+            </td>
+
+            <td>
+                ${person.ward}
+            </td>
+
+            <td>
+                <span class="status ${person.status}">
+                    ${person.status}
+                </span>
+            </td>
+
+            <td>
+
+                ${
+                    person.status === "pending"
+                    ? `
+                        <button
+                            class="action approve"
+                            onclick="approve(${person.id})"
                         >
+                            ✅ Approve
+                        </button>
 
-                    </div>
-
-
-                    <div class="filter-row">
-
-                        <select
-                            id="wardFilter"
-                            onchange="renderWomen()"
+                        <button
+                            class="action reject"
+                            onclick="reject(${person.id})"
                         >
+                            ❌ Reject
+                        </button>
+                    `
+                    : ""
+                }
 
-                            <option value="">
-                                All Wards
-                            </option>
+            </td>
+        `;
 
-                        </select>
+        list.appendChild(row);
 
-                    </div>
+    });
 
 
-                    <div
-                        id="womenTable"
-                        class="table-wrapper"
-                    ></div>
+    loadWards();
 
-                </div>
+    loadExcoSelector();
+
+}
+
+
+function approve(id) {
+
+    const data = getData();
+
+    const person =
+        data.find(x => x.id === id);
+
+    if (person) {
+
+        person.status = "approved";
+
+        saveData(data);
+
+        load();
+
+    }
+
+}
+
+
+function reject(id) {
+
+    const data = getData();
+
+    const person =
+        data.find(x => x.id === id);
+
+    if (person) {
+
+        person.status = "rejected";
+
+        saveData(data);
+
+        load();
+
+    }
+
+}
+
+
+function loadWards() {
+
+    const container =
+        document.getElementById(
+            "wardList"
+        );
+
+    container.innerHTML = "";
+
+    WARDS.forEach((ward,index) => {
+
+        const data = getData();
+
+        const count =
+            data.filter(
+                x =>
+                    x.status === "approved" &&
+                    x.ward === ward
+            ).length;
+
+        container.innerHTML += `
+
+            <div class="ward">
+
+                <strong>
+                    Ward ${index + 1}
+                </strong>
+
+                <span>
+                    ${ward}
+                </span>
+
+                <b>
+                    ${count} approved
+                </b>
+
+            </div>
+        `;
+
+    });
+
+}
+
+
+function loadExcoSelector() {
+
+    const select =
+        document.getElementById(
+            "excoWard"
+        );
+
+    select.innerHTML = "";
+
+    WARDS.forEach((ward,index) => {
+
+        select.innerHTML += `
+
+            <option value="${ward}">
+                Ward ${index + 1} — ${ward}
+            </option>
+
+        `;
+
+    });
+
+    loadExcos();
+
+}
+
+
+function loadExcos() {
+
+    const ward =
+        document.getElementById(
+            "excoWard"
+        ).value;
+
+    const data =
+        JSON.parse(
+            localStorage.getItem(
+                "bwi_excos"
+            ) || "{}"
+        );
+
+
+    const container =
+        document.getElementById(
+            "excoList"
+        );
+
+    container.innerHTML = "";
+
+
+    POSITIONS.forEach((position,index) => {
+
+        const value =
+            data?.[ward]?.[position] || "";
+
+
+        container.innerHTML += `
+
+            <div class="exco">
+
+                <strong>
+                    ${position}
+                </strong>
+
+                <input
+                    id="exco_${index}"
+                    value="${value}"
+                    placeholder="Enter name"
+                >
+
+                <button
+                    class="save"
+                    onclick="saveExco('${position}',${index})"
+                >
+                    Save
+                </button>
 
             </div>
 
+        `;
 
-            <!-- =========================
-                 EXCOS
-            ========================== -->
+    });
 
-            <div
-                id="excos"
-                class="panel hidden"
-            >
-
-                <div class="panel-box">
-
-                    <div class="panel-heading">
-
-                        <div>
-
-                            <span>
-                                LEADERSHIP
-                            </span>
-
-                            <h2>
-                                Ward Executives
-                            </h2>
-
-                        </div>
+}
 
 
-                        <select
-                            id="excoWard"
-                            onchange="renderExcos()"
-                        ></select>
+function saveExco(position,index) {
 
-                    </div>
+    const ward =
+        document.getElementById(
+            "excoWard"
+        ).value;
 
-
-                    <div
-                        id="excoEditor"
-                        class="exco-editor"
-                    ></div>
-
-                </div>
-
-            </div>
+    const data =
+        JSON.parse(
+            localStorage.getItem(
+                "bwi_excos"
+            ) || "{}"
+        );
 
 
-            <!-- =========================
-                 WARDS
-            ========================== -->
-
-            <div
-                id="wards"
-                class="panel hidden"
-            >
-
-                <div class="panel-box">
-
-                    <span>
-                        ADO LOCAL GOVERNMENT
-                    </span>
-
-                    <h2>
-                        Wards
-                    </h2>
-
-                    <div
-                        id="adminWards"
-                        class="admin-wards"
-                    ></div>
-
-                </div>
-
-            </div>
-
-        </main>
-
-    </section>
+    if (!data[ward]) {
+        data[ward] = {};
+    }
 
 
-    <script src="admin/admin.js"></script>
+    data[ward][position] =
+        document.getElementById(
+            `exco_${index}`
+        ).value;
+
+
+    localStorage.setItem(
+        "bwi_excos",
+        JSON.stringify(data)
+    );
+
+
+    loadExcos();
+
+}
+
+
+</script>
 
 </body>
-
 </html>
