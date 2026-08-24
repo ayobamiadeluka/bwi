@@ -4,352 +4,1002 @@
     box-sizing: border-box;
 }
 
+html {
+    scroll-behavior: smooth;
+}
 
 body {
-    font-family: Arial, sans-serif;
-    background: #f7f7f7;
-    color: #222;
+    font-family: Inter, Arial, Helvetica, sans-serif;
+    background: #faf8fc;
+    color: #211923;
+    line-height: 1.6;
 }
 
 
-/* HEADER */
+/* =========================
+   NAVBAR
+========================= */
 
-header {
-    height: 70px;
-    background: #7b1fa2;
-    color: white;
+.navbar {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+
+    height: 78px;
+
+    padding: 0 7%;
+
+    background: rgba(255,255,255,.96);
 
     display: flex;
     align-items: center;
     justify-content: space-between;
 
-    padding: 0 7%;
+    box-shadow: 0 2px 20px rgba(0,0,0,.07);
 }
 
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
 
-.logo {
-    font-size: 22px;
-    font-weight: bold;
+    color: #251326;
+    text-decoration: none;
 }
 
+.brand-icon {
+    width: 45px;
+    height: 45px;
+
+    display: grid;
+    place-items: center;
+
+    border-radius: 12px;
+
+    background: #8d3f83;
+
+    font-size: 24px;
+}
+
+.brand strong {
+    display: block;
+
+    font-size: 15px;
+    letter-spacing: .5px;
+}
+
+.brand span {
+    display: block;
+
+    color: #8d3f83;
+
+    font-size: 11px;
+    font-weight: 700;
+
+    letter-spacing: 1px;
+}
 
 nav {
     display: flex;
-    gap: 25px;
+    gap: 30px;
 }
-
 
 nav a {
-    color: white;
+    color: #352c37;
+
     text-decoration: none;
-    font-weight: bold;
+
+    font-size: 14px;
+    font-weight: 700;
+}
+
+nav a:hover {
+    color: #8d3f83;
+}
+
+.menu-btn {
+    display: none;
+
+    border: 0;
+    background: transparent;
+
+    font-size: 28px;
+
+    cursor: pointer;
 }
 
 
-/* HERO */
+/* =========================
+   HERO
+========================= */
 
 .hero {
-    min-height: 500px;
+    min-height: 590px;
+
+    position: relative;
 
     display: flex;
-    justify-content: center;
     align-items: center;
 
-    text-align: center;
+    padding: 80px 7%;
+
+    overflow: hidden;
 
     background:
         linear-gradient(
-            rgba(123, 31, 162, 0.85),
-            rgba(123, 31, 162, 0.85)
-        ),
-        url("https://images.unsplash.com/photo-1573496359142-b8d87734a5a2");
+            120deg,
+            #32112f,
+            #74336f,
+            #ad5d9d
+        );
+}
 
-    background-size: cover;
-    background-position: center;
+.hero::after {
+    content: "";
+
+    position: absolute;
+
+    width: 500px;
+    height: 500px;
+
+    right: -170px;
+    bottom: -220px;
+
+    border: 70px solid rgba(255,255,255,.08);
+
+    border-radius: 50%;
+}
+
+.hero-overlay {
+    position: absolute;
+
+    inset: 0;
+
+    background:
+        radial-gradient(
+            circle at 80% 20%,
+            rgba(255,255,255,.12),
+            transparent 35%
+        );
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+
+    max-width: 800px;
 
     color: white;
 }
 
-
-.hero-content {
-    max-width: 700px;
-    padding: 30px;
-}
-
-
-.hero h1 {
-    font-size: 48px;
-    margin-bottom: 20px;
-}
-
-
-.hero h1 span {
-    color: #ffd54f;
-}
-
-
-.hero p {
-    font-size: 20px;
-    margin-bottom: 30px;
-}
-
-
-/* BUTTON */
-
-.button {
+.hero-label {
     display: inline-block;
 
-    padding: 13px 25px;
+    padding: 8px 16px;
 
-    border: none;
+    border: 1px solid rgba(255,255,255,.3);
+
+    border-radius: 30px;
+
+    background: rgba(255,255,255,.1);
+
+    font-size: 12px;
+    font-weight: 800;
+
+    letter-spacing: 1.5px;
+}
+
+.hero h1 {
+    margin: 25px 0 20px;
+
+    font-size: clamp(48px, 8vw, 88px);
+
+    line-height: .95;
+
+    letter-spacing: -3px;
+}
+
+.hero h1 span {
+    color: #ffd9f3;
+}
+
+.hero p {
+    max-width: 580px;
+
+    color: #f3e6f2;
+
+    font-size: 19px;
+}
+
+.hero-buttons {
+    display: flex;
+
+    gap: 14px;
+
+    margin-top: 35px;
+}
+
+.btn {
+    display: inline-block;
+
+    padding: 14px 24px;
+
     border-radius: 8px;
-
-    background: #ffd54f;
-    color: #222;
 
     text-decoration: none;
 
-    font-weight: bold;
+    font-weight: 800;
+}
 
-    cursor: pointer;
+.btn-primary {
+    color: #71336c;
+
+    background: white;
+}
+
+.btn-outline {
+    color: white;
+
+    border: 1px solid rgba(255,255,255,.6);
 }
 
 
-.button:hover {
-    background: #ffca28;
-}
+/* =========================
+   STATS
+========================= */
 
+.stats {
+    position: relative;
+    z-index: 10;
 
-/* SECTIONS */
-
-.section {
-    padding: 60px 7%;
-}
-
-
-.section h2 {
-    text-align: center;
-    font-size: 32px;
-    margin-bottom: 10px;
-}
-
-
-.section-description {
-    text-align: center;
-    color: #666;
-    margin-bottom: 35px;
-}
-
-
-/* WARDS */
-
-.ward-container {
     display: grid;
-
-    grid-template-columns:
-        repeat(auto-fit, minmax(220px, 1fr));
+    grid-template-columns: repeat(3,1fr);
 
     gap: 20px;
+
+    padding: 0 7%;
+
+    margin-top: -45px;
 }
 
+.stat-card {
+    display: flex;
+    align-items: center;
 
-.ward-card {
-    background: white;
-
-    padding: 30px;
-
-    border-radius: 12px;
-
-    box-shadow:
-        0 4px 15px rgba(0, 0, 0, 0.08);
-
-    text-align: center;
-
-    cursor: pointer;
-
-    transition: 0.2s;
-}
-
-
-.ward-card:hover {
-    transform: translateY(-5px);
-}
-
-
-.ward-card h3 {
-    color: #7b1fa2;
-}
-
-
-/* CARDS */
-
-.card {
-    background: white;
-
-    max-width: 900px;
-
-    margin: 25px auto;
+    gap: 18px;
 
     padding: 25px;
 
-    border-radius: 12px;
-
-    box-shadow:
-        0 4px 15px rgba(0, 0, 0, 0.08);
-}
-
-
-.card h3 {
-    color: #7b1fa2;
-    margin-bottom: 20px;
-}
-
-
-/* PEOPLE */
-
-.person {
-    padding: 15px;
-
-    border-bottom: 1px solid #eee;
-}
-
-
-.person:last-child {
-    border-bottom: none;
-}
-
-
-.person strong {
-    display: block;
-}
-
-
-.person span {
-    color: #666;
-}
-
-
-/* FORM */
-
-form {
-    max-width: 600px;
-
-    margin: auto;
-
     background: white;
 
-    padding: 30px;
+    border-radius: 15px;
 
-    border-radius: 12px;
-
-    box-shadow:
-        0 4px 15px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 10px 35px rgba(53,25,50,.1);
 }
 
+.stat-icon {
+    width: 55px;
+    height: 55px;
 
-form label {
+    display: grid;
+    place-items: center;
+
+    border-radius: 14px;
+
+    background: #f3e4f1;
+
+    font-size: 27px;
+}
+
+.stat-card strong {
     display: block;
 
-    margin-top: 15px;
-    margin-bottom: 7px;
+    color: #8d3f83;
 
-    font-weight: bold;
+    font-size: 28px;
+}
+
+.stat-card span {
+    color: #777;
+
+    font-size: 13px;
 }
 
 
-form input,
-form select {
-    width: 100%;
+/* =========================
+   GENERAL SECTIONS
+========================= */
 
-    padding: 13px;
+.section,
+.search-section,
+.register-section {
+    padding: 90px 7%;
+}
+
+.section-heading {
+    max-width: 680px;
+
+    margin: 0 auto 45px;
+
+    text-align: center;
+}
+
+.section-heading span {
+    color: #9a4e91;
+
+    font-size: 12px;
+    font-weight: 800;
+
+    letter-spacing: 2px;
+}
+
+.section-heading h2 {
+    margin: 8px 0;
+
+    color: #281b29;
+
+    font-size: 40px;
+}
+
+.section-heading p {
+    color: #777;
+}
+
+
+/* =========================
+   SEARCH
+========================= */
+
+.search-section {
+    margin-top: 0;
+
+    background: white;
+}
+
+.search-box {
+    max-width: 720px;
+
+    display: flex;
+
+    gap: 10px;
+
+    margin: auto;
+}
+
+.search-box input {
+    flex: 1;
+
+    padding: 16px;
 
     border: 1px solid #ddd;
 
-    border-radius: 7px;
+    border-radius: 9px;
 
-    font-size: 16px;
+    outline: none;
+
+    font-size: 15px;
 }
 
-
-form button {
-    margin-top: 25px;
+.search-box input:focus {
+    border-color: #9a4e91;
 }
 
+.search-box button {
+    padding: 0 25px;
 
-/* BACK BUTTON */
+    border: 0;
 
-.back-button {
-    display: block;
+    border-radius: 9px;
 
-    margin: 0 auto 30px;
-
-    padding: 10px 18px;
-
-    border: none;
-
-    border-radius: 7px;
-
-    background: #7b1fa2;
+    background: #8d3f83;
 
     color: white;
+
+    font-weight: 700;
 
     cursor: pointer;
 }
 
+#searchResults {
+    max-width: 720px;
 
-/* HIDDEN */
+    margin: 25px auto 0;
+}
+
+
+/* =========================
+   WARDS
+========================= */
+
+.wards-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(4,1fr);
+
+    gap: 18px;
+}
+
+.ward-card {
+    padding: 24px;
+
+    background: white;
+
+    border: 1px solid #eee;
+
+    border-radius: 15px;
+
+    cursor: pointer;
+
+    transition: .25s;
+}
+
+.ward-card:hover {
+    transform: translateY(-5px);
+
+    border-color: #c68ac0;
+
+    box-shadow:
+        0 12px 30px rgba(72,35,68,.1);
+}
+
+.ward-number {
+    width: 45px;
+    height: 45px;
+
+    display: grid;
+    place-items: center;
+
+    margin-bottom: 15px;
+
+    border-radius: 50%;
+
+    background: #f3e4f1;
+
+    color: #8d3f83;
+
+    font-weight: 900;
+}
+
+.ward-card h3 {
+    margin-bottom: 4px;
+
+    font-size: 17px;
+}
+
+.ward-card p {
+    color: #888;
+
+    font-size: 13px;
+}
+
+
+/* =========================
+   WARD DETAILS
+========================= */
+
+.ward-details {
+    padding: 80px 7%;
+
+    background: #f4edf5;
+}
 
 .hidden {
     display: none;
 }
 
+.details-container {
+    max-width: 1200px;
 
-/* MESSAGE */
+    margin: auto;
+}
 
-#message {
+.back-btn {
+    margin-bottom: 25px;
+
+    padding: 11px 18px;
+
+    border: 0;
+
+    border-radius: 8px;
+
+    background: white;
+
+    cursor: pointer;
+
+    font-weight: 700;
+}
+
+.ward-title-card {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    padding: 30px;
+
+    background: white;
+
+    border-radius: 17px;
+}
+
+.ward-title-card span {
+    color: #9a4e91;
+
+    font-size: 11px;
+
+    font-weight: 800;
+
+    letter-spacing: 1px;
+}
+
+.ward-title-card h2 {
+    font-size: 36px;
+}
+
+.ward-count {
+    min-width: 130px;
+
+    padding: 15px;
+
+    border-radius: 12px;
+
+    background: #f5e8f3;
+
     text-align: center;
+}
 
-    margin-top: 20px;
+.ward-count strong {
+    display: block;
 
-    font-weight: bold;
+    color: #8d3f83;
+
+    font-size: 30px;
+}
+
+.ward-count small {
+    color: #777;
 }
 
 
-/* FOOTER */
+/* =========================
+   DETAILS BLOCK
+========================= */
+
+.details-block {
+    margin-top: 35px;
+}
+
+.block-heading {
+    margin-bottom: 20px;
+}
+
+.block-heading span {
+    color: #9a4e91;
+
+    font-size: 11px;
+
+    font-weight: 800;
+
+    letter-spacing: 1.5px;
+}
+
+.block-heading h3 {
+    font-size: 27px;
+}
+
+.excos-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(4,1fr);
+
+    gap: 15px;
+}
+
+.exco-card {
+    min-height: 130px;
+
+    padding: 20px;
+
+    background: white;
+
+    border-radius: 13px;
+
+    border-left: 4px solid #9a4e91;
+}
+
+.exco-card .position {
+    margin-bottom: 8px;
+
+    color: #9a4e91;
+
+    font-size: 11px;
+
+    font-weight: 800;
+
+    text-transform: uppercase;
+}
+
+.exco-card strong {
+    font-size: 16px;
+}
+
+
+/* =========================
+   WOMEN
+========================= */
+
+.women-list {
+    display: grid;
+
+    gap: 10px;
+}
+
+.woman-card {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    padding: 18px 20px;
+
+    background: white;
+
+    border-radius: 11px;
+}
+
+.woman-card small {
+    display: block;
+
+    color: #888;
+
+    font-size: 12px;
+}
+
+
+/* =========================
+   REGISTER
+========================= */
+
+.register-section {
+    background: white;
+}
+
+.registration-form {
+    max-width: 760px;
+
+    margin: auto;
+
+    padding: 35px;
+
+    border-radius: 18px;
+
+    background: #faf7fb;
+
+    border: 1px solid #eee;
+}
+
+.form-row {
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 18px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+
+    margin-bottom: 7px;
+
+    font-size: 14px;
+
+    font-weight: 800;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+
+    padding: 15px;
+
+    border: 1px solid #ddd;
+
+    border-radius: 8px;
+
+    background: white;
+
+    outline: none;
+
+    font-size: 15px;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    border-color: #9a4e91;
+}
+
+.submit-btn {
+    width: 100%;
+
+    padding: 16px;
+
+    border: 0;
+
+    border-radius: 9px;
+
+    background: #8d3f83;
+
+    color: white;
+
+    font-size: 16px;
+
+    font-weight: 800;
+
+    cursor: pointer;
+}
+
+.submit-btn:hover {
+    background: #6e2d66;
+}
+
+.privacy-note {
+    margin-top: 15px;
+
+    color: #777;
+
+    font-size: 12px;
+
+    text-align: center;
+}
+
+.success {
+    max-width: 760px;
+
+    margin: 20px auto;
+
+    padding: 15px;
+
+    border-radius: 9px;
+
+    background: #e4f7e9;
+
+    color: #267542;
+
+    text-align: center;
+}
+
+
+/* =========================
+   EXCOS OVERVIEW
+========================= */
+
+.excos-section {
+    background: #faf8fc;
+}
+
+.excos-overview {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3,1fr);
+
+    gap: 20px;
+}
+
+.exco-overview-card {
+    padding: 25px;
+
+    background: white;
+
+    border-radius: 15px;
+
+    box-shadow:
+        0 5px 25px rgba(0,0,0,.05);
+}
+
+.exco-overview-card h3 {
+    margin-bottom: 18px;
+
+    color: #8d3f83;
+}
+
+.exco-overview-card p {
+    padding: 8px 0;
+
+    border-bottom: 1px solid #eee;
+
+    font-size: 13px;
+}
+
+.exco-overview-card p:last-child {
+    border-bottom: 0;
+}
+
+
+/* =========================
+   FOOTER
+========================= */
 
 footer {
-    background: #222;
+    padding: 45px 7%;
+
+    background: #281727;
 
     color: white;
 
     text-align: center;
+}
 
-    padding: 25px;
+.footer-brand {
+    font-size: 18px;
+}
+
+footer p {
+    color: #cdb8c9;
+
+    margin-top: 5px;
+}
+
+footer small {
+    display: block;
+
+    margin-top: 20px;
+
+    color: #8f798b;
 }
 
 
-/* MOBILE */
+/* =========================
+   MOBILE
+========================= */
 
-@media (max-width: 600px) {
-
-    header {
-        padding: 0 20px;
-    }
+@media (max-width: 950px) {
 
     nav {
-        gap: 10px;
+        display: none;
+
+        position: absolute;
+
+        top: 78px;
+        right: 5%;
+
+        flex-direction: column;
+
+        gap: 18px;
+
+        padding: 22px;
+
+        background: white;
+
+        border-radius: 12px;
+
+        box-shadow: 0 10px 30px rgba(0,0,0,.12);
     }
 
-    nav a {
-        font-size: 14px;
+    nav.show {
+        display: flex;
+    }
+
+    .menu-btn {
+        display: block;
+    }
+
+    .wards-grid {
+        grid-template-columns:
+            repeat(2,1fr);
+    }
+
+    .excos-grid {
+        grid-template-columns:
+            repeat(2,1fr);
+    }
+
+    .excos-overview {
+        grid-template-columns:
+            repeat(2,1fr);
+    }
+
+}
+
+
+@media (max-width: 650px) {
+
+    .navbar {
+        padding: 0 5%;
+    }
+
+    .brand strong {
+        font-size: 12px;
+    }
+
+    .hero {
+        padding: 70px 5%;
     }
 
     .hero h1 {
-        font-size: 36px;
+        font-size: 52px;
+
+        letter-spacing: -2px;
     }
 
-    .section {
-        padding: 40px 20px;
+    .hero-buttons {
+        flex-direction: column;
+    }
+
+    .btn {
+        text-align: center;
+    }
+
+    .stats {
+        grid-template-columns: 1fr;
+
+        padding: 0 5%;
+    }
+
+    .section,
+    .search-section,
+    .register-section {
+        padding: 65px 5%;
+    }
+
+    .section-heading h2 {
+        font-size: 31px;
+    }
+
+    .search-box {
+        flex-direction: column;
+    }
+
+    .search-box button {
+        padding: 15px;
+    }
+
+    .wards-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .excos-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .excos-overview {
+        grid-template-columns: 1fr;
+    }
+
+    .form-row {
+        grid-template-columns: 1fr;
+
+        gap: 0;
+    }
+
+    .registration-form {
+        padding: 22px;
+    }
+
+    .ward-title-card {
+        flex-direction: column;
+
+        align-items: flex-start;
+
+        gap: 20px;
+    }
+
+    .woman-card {
+        align-items: flex-start;
+
+        gap: 15px;
+
+        flex-direction: column;
     }
 
 }
+
+
