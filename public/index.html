@@ -1,0 +1,449 @@
+# Public Website
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Ekiti State Women of Influence | Ado LG
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+
+</head>
+
+
+<body>
+
+
+<header class="navbar">
+
+    <div class="brand">
+
+        <div class="logo">
+            👩🏽
+        </div>
+
+        <div>
+
+            <strong>
+                EKITI STATE WOMEN
+            </strong>
+
+            <span>
+                OF INFLUENCE • ADO LG
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <nav>
+
+        <a href="#home">
+            Home
+        </a>
+
+        <a href="#wards">
+            Wards
+        </a>
+
+        <a href="#register">
+            Register
+        </a>
+
+        <a href="#excos">
+            Ward Excos
+        </a>
+
+    </nav>
+
+</header>
+
+
+<section id="home" class="hero">
+
+    <div class="hero-content">
+
+        <span class="badge">
+            EKITI STATE WOMEN OF INFLUENCE
+        </span>
+
+        <h1>
+            ADO LOCAL
+            <span>
+                GOVERNMENT
+            </span>
+        </h1>
+
+        <p>
+            Women directory and ward leadership
+            structure for Ado Local Government.
+        </p>
+
+
+        <div class="buttons">
+
+            <a
+                href="#register"
+                class="btn primary"
+            >
+                Register Your Name
+            </a>
+
+            <a
+                href="#wards"
+                class="btn secondary"
+            >
+                View Wards
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<section class="stats">
+
+    <div class="stat">
+
+        <strong id="womenCount">
+            0
+        </strong>
+
+        <span>
+            Registered Women
+        </span>
+
+    </div>
+
+
+    <div class="stat">
+
+        <strong>
+            13
+        </strong>
+
+        <span>
+            Wards
+        </span>
+
+    </div>
+
+
+    <div class="stat">
+
+        <strong>
+            104
+        </strong>
+
+        <span>
+            Ward Offices
+        </span>
+
+    </div>
+
+</section>
+
+
+<section class="search-section">
+
+    <div class="heading">
+
+        <span>
+            DIRECTORY
+        </span>
+
+        <h2>
+            Search Women
+        </h2>
+
+    </div>
+
+
+    <div class="search">
+
+        <input
+            id="searchInput"
+            type="text"
+            placeholder="Search by name..."
+        >
+
+        <button onclick="searchWomen()">
+            Search
+        </button>
+
+    </div>
+
+
+    <div id="searchResults"></div>
+
+</section>
+
+
+<section
+    id="wards"
+    class="section"
+>
+
+    <div class="heading">
+
+        <span>
+            ADO LOCAL GOVERNMENT
+        </span>
+
+        <h2>
+            13 Wards
+        </h2>
+
+        <p>
+            Select a ward to view its executives
+            and registered women.
+        </p>
+
+    </div>
+
+
+    <div
+        id="wardsContainer"
+        class="wards"
+    ></div>
+
+</section>
+
+
+<section
+    id="wardDetails"
+    class="ward-details hidden"
+>
+
+    <div class="container">
+
+        <button
+            onclick="closeWard()"
+            class="back"
+        >
+            ← Back
+        </button>
+
+
+        <div class="ward-header">
+
+            <div>
+
+                <span>
+                    WARD
+                </span>
+
+                <h2 id="selectedWard">
+                    Ward
+                </h2>
+
+            </div>
+
+
+            <div>
+
+                <strong id="wardWomenCount">
+                    0
+                </strong>
+
+                <small>
+                    Registered Women
+                </small>
+
+            </div>
+
+        </div>
+
+
+        <h3>
+            👥 Ward Executives
+        </h3>
+
+        <div
+            id="wardExcos"
+            class="excos"
+        ></div>
+
+
+        <h3 class="registered-title">
+            👩🏽 Registered Women
+        </h3>
+
+        <div
+            id="wardWomen"
+            class="women"
+        ></div>
+
+    </div>
+
+</section>
+
+
+<section
+    id="register"
+    class="register"
+>
+
+    <div class="heading">
+
+        <span>
+            REGISTRATION
+        </span>
+
+        <h2>
+            Register Your Name
+        </h2>
+
+        <p>
+            Please enter your details below.
+        </p>
+
+    </div>
+
+
+    <form id="registrationForm">
+
+
+        <label>
+            Full Name *
+        </label>
+
+        <input
+            id="name"
+            required
+        >
+
+
+        <label>
+            Phone Number *
+        </label>
+
+        <input
+            id="phone"
+            type="tel"
+            required
+        >
+
+
+        <label>
+            Bank Name *
+        </label>
+
+        <input
+            id="bank"
+            required
+        >
+
+
+        <label>
+            Account Number *
+        </label>
+
+        <input
+            id="account"
+            maxlength="10"
+            inputmode="numeric"
+            required
+        >
+
+
+        <label>
+            Ward *
+        </label>
+
+        <select
+            id="ward"
+            required
+        >
+
+            <option value="">
+                Select your ward
+            </option>
+
+        </select>
+
+
+        <button type="submit">
+            Submit Registration
+        </button>
+
+
+        <p class="privacy">
+            🔒 Your financial information is
+            not displayed publicly.
+        </p>
+
+    </form>
+
+
+    <div id="registrationMessage"></div>
+
+</section>
+
+
+<section
+    id="excos"
+    class="section"
+>
+
+    <div class="heading">
+
+        <span>
+            LEADERSHIP
+        </span>
+
+        <h2>
+            Ward Excos
+        </h2>
+
+    </div>
+
+
+    <div
+        id="allExcos"
+        class="all-excos"
+    ></div>
+
+</section>
+
+
+<footer>
+
+    <strong>
+        EKITI STATE WOMEN OF INFLUENCE
+    </strong>
+
+    <p>
+        Ado Local Government
+    </p>
+
+    <small>
+        © 2026
+    </small>
+
+</footer>
+
+
+<script src="script.js"></script>
+
+</body>
+
+</html>
+```
