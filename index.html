@@ -1,354 +1,625 @@
 <!DOCTYPE html>
-<html lang="en" data-admin="true">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Ekiti State Women of Influence | Ado LG</title>
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="Ekiti State Women of Influence - Ado Local Government"
+    >
+
+    <title>
+        Ekiti State Women of Influence | Ado LG
+    </title>
 
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<header class="navbar">
+<!-- =====================================================
+     HEADER
+===================================================== -->
 
-    <div class="brand">
-        <div class="logo">👩🏽</div>
+<header class="header">
 
-        <div>
-            <strong>EKITI STATE WOMEN</strong>
-            <span>OF INFLUENCE • ADO LG</span>
+    <div class="header-container">
+
+        <div class="logo-area">
+
+            <!-- Replace logo.png with your actual logo -->
+            <img
+                src="public/logo.png"
+                alt="Ekiti State Women of Influence Logo"
+                class="logo"
+            >
+
+            <div>
+                <h1>
+                    Ekiti State Women of Influence
+                </h1>
+
+                <p>
+                    Ado Local Government
+                </p>
+            </div>
+
         </div>
+
+
+        <button
+            class="menu-button"
+            onclick="toggleMenu()"
+            aria-label="Open menu"
+        >
+            ☰
+        </button>
+
+
+        <nav id="mainNav">
+
+            <a href="#home">
+                Home
+            </a>
+
+            <a href="#wards">
+                Wards
+            </a>
+
+            <a href="#register">
+                Register
+            </a>
+
+            <a href="#excos">
+                Ward EXCOs
+            </a>
+
+        </nav>
+
     </div>
-
-    <nav id="mainNav">
-        <a href="#home">Home</a>
-        <a href="#wards">Wards</a>
-        <a href="#register">Register</a>
-        <a href="#excos">Ward Excos</a>
-        <a href="admin.html" class="admin-link">Admin</a>
-    </nav>
-
-    <button class="menu-btn" onclick="toggleMenu()">☰</button>
 
 </header>
 
 
-<section id="home" class="hero">
+<!-- =====================================================
+     HERO
+===================================================== -->
+
+<section
+    id="home"
+    class="hero"
+>
 
     <div class="hero-content">
 
-        <div class="badge">
-            EKITI STATE WOMEN OF INFLUENCE
-        </div>
+        <span class="hero-badge">
+            ADO LOCAL GOVERNMENT
+        </span>
 
-        <h1>
-            ADO LOCAL
-            <span>GOVERNMENT</span>
-        </h1>
+        <h2>
+            Ekiti State Women of Influence
+        </h2>
 
         <p>
-            Connecting and organizing women across
-            the wards of Ado Local Government.
+            Registration and ward coordination platform
+            for women across Ado Local Government.
         </p>
 
-        <div class="hero-buttons">
-
-            <a href="#register" class="btn primary">
-                Register Your Name
-            </a>
-
-            <a href="#wards" class="btn secondary">
-                Explore Wards
-            </a>
-
-        </div>
+        <a
+            href="#register"
+            class="primary-button"
+        >
+            Register Now
+        </a>
 
     </div>
 
 </section>
 
 
-<section class="stats">
+<!-- =====================================================
+     STATISTICS
+===================================================== -->
+
+<section class="statistics">
 
     <div class="stat-card">
-        <strong id="totalWomen">0</strong>
-        <span>Registered Women</span>
+
+        <strong id="womenCount">
+            0
+        </strong>
+
+        <span>
+            Approved Women
+        </span>
+
     </div>
 
-    <div class="stat-card">
-        <strong>13</strong>
-        <span>Wards</span>
-    </div>
 
     <div class="stat-card">
-        <strong>104</strong>
-        <span>Ward Offices</span>
+
+        <strong>
+            13
+        </strong>
+
+        <span>
+            Wards
+        </span>
+
+    </div>
+
+
+    <div class="stat-card">
+
+        <strong id="excoCount">
+            104
+        </strong>
+
+        <span>
+            Ward Positions
+        </span>
+
     </div>
 
 </section>
 
 
-<section class="search-section">
+<!-- =====================================================
+     WARDS
+===================================================== -->
 
-    <div class="section-title">
+<section
+    id="wards"
+    class="section"
+>
 
-        <span>DIRECTORY</span>
+    <div class="section-heading">
 
-        <h2>Find a Registered Woman</h2>
+        <span>
+            ADO LOCAL GOVERNMENT
+        </span>
+
+        <h2>
+            Our Wards
+        </h2>
 
         <p>
-            Search the public directory by name.
+            Select a ward to view its registered members
+            and ward executives.
         </p>
 
     </div>
+
+
+    <div
+        id="wardsContainer"
+        class="wards-grid"
+    ></div>
+
+</section>
+
+
+<!-- =====================================================
+     WARD DETAILS
+===================================================== -->
+
+<section
+    id="wardDetails"
+    class="section hidden"
+>
+
+    <button
+        class="back-button"
+        onclick="closeWard()"
+    >
+        ← Back to Wards
+    </button>
+
+
+    <div class="ward-header">
+
+        <span>
+            SELECTED WARD
+        </span>
+
+        <h2 id="selectedWard">
+            Ward
+        </h2>
+
+    </div>
+
+
+    <!-- WOMEN -->
+
+    <div class="content-card">
+
+        <div class="card-heading">
+
+            <div>
+
+                <span>
+                    REGISTERED WOMEN
+                </span>
+
+                <h3>
+                    Women in this Ward
+                </h3>
+
+            </div>
+
+            <strong id="wardWomenCount">
+                0
+            </strong>
+
+        </div>
+
+
+        <div id="wardWomen"></div>
+
+    </div>
+
+
+    <!-- EXCOS -->
+
+    <div class="content-card">
+
+        <div class="card-heading">
+
+            <div>
+
+                <span>
+                    WARD LEADERSHIP
+                </span>
+
+                <h3>
+                    Ward EXCOs
+                </h3>
+
+            </div>
+
+        </div>
+
+
+        <div
+            id="wardExcos"
+            class="exco-grid"
+        ></div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     REGISTRATION
+===================================================== -->
+
+<section
+    id="register"
+    class="section registration-section"
+>
+
+    <div class="section-heading">
+
+        <span>
+            JOIN US
+        </span>
+
+        <h2>
+            Register as a Woman
+        </h2>
+
+        <p>
+            Complete the form below to register under
+            your ward.
+        </p>
+
+    </div>
+
+
+    <div class="registration-card">
+
+        <form id="registrationForm">
+
+
+            <!-- NAME -->
+
+            <div class="form-group">
+
+                <label for="name">
+                    Full Name
+                </label>
+
+                <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    placeholder="Enter your full name"
+                    autocomplete="name"
+                    required
+                >
+
+            </div>
+
+
+            <!-- PHONE -->
+
+            <div class="form-group">
+
+                <label for="phone">
+                    Phone Number
+                </label>
+
+                <input
+                    type="tel"
+                    id="phone"
+                    name="phone"
+                    placeholder="08012345678"
+                    autocomplete="tel"
+                    required
+                >
+
+            </div>
+
+
+            <!-- BANK -->
+
+            <div class="form-group">
+
+                <label for="bank">
+                    Bank Name
+                </label>
+
+                <input
+                    type="text"
+                    id="bank"
+                    name="bank"
+                    placeholder="Enter your bank name"
+                    required
+                >
+
+            </div>
+
+
+            <!-- ACCOUNT -->
+
+            <div class="form-group">
+
+                <label for="account">
+                    Account Number
+                </label>
+
+                <input
+                    type="text"
+                    id="account"
+                    name="account"
+                    placeholder="10-digit account number"
+                    inputmode="numeric"
+                    maxlength="10"
+                    pattern="[0-9]{10}"
+                    required
+                >
+
+            </div>
+
+
+            <!-- =================================================
+                 WARD DROPDOWN
+            ================================================= -->
+
+            <div class="form-group">
+
+                <label for="ward">
+                    Select Your Ward
+                </label>
+
+                <select
+                    id="ward"
+                    name="ward"
+                    required
+                >
+
+                    <option value="">
+                        Select your ward
+                    </option>
+
+                    <option value="ADO 'A' AJILOSUN">
+                        Ward 1 — ADO 'A' AJILOSUN
+                    </option>
+
+                    <option value="ADO 'B' INISA">
+                        Ward 2 — ADO 'B' INISA
+                    </option>
+
+                    <option value="ADO 'C' IDOLOFIN">
+                        Ward 3 — ADO 'C' IDOLOFIN
+                    </option>
+
+                    <option value="ADO 'D' IJIGBO">
+                        Ward 4 — ADO 'D' IJIGBO
+                    </option>
+
+                    <option value="ADO 'E' IJOKA / OREREOWU">
+                        Ward 5 — ADO 'E' IJOKA / OREREOWU
+                    </option>
+
+                    <option value="ADO 'F' OKEYINMI">
+                        Ward 6 — ADO 'F' OKEYINMI
+                    </option>
+
+                    <option value="ADO 'G' OKE ILA">
+                        Ward 7 — ADO 'G' OKE ILA
+                    </option>
+
+                    <option value="ADO 'H' EREGURU">
+                        Ward 8 — ADO 'H' EREGURU
+                    </option>
+
+                    <option value="ADO 'I' DALLIMORE">
+                        Ward 9 — ADO 'I' DALLIMORE
+                    </option>
+
+                    <option value="ADO 'J' OKESA">
+                        Ward 10 — ADO 'J' OKESA
+                    </option>
+
+                    <option value="ADO 'K' IRONA">
+                        Ward 11 — ADO 'K' IRONA
+                    </option>
+
+                    <option value="ADO 'L' IGBEHIN">
+                        Ward 12 — ADO 'L' IGBEHIN
+                    </option>
+
+                    <option value="ADO 'M' FARM SETTLEMENT">
+                        Ward 13 — ADO 'M' FARM SETTLEMENT
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- SUBMIT -->
+
+            <button
+                type="submit"
+                class="submit-button"
+            >
+                Submit Registration
+            </button>
+
+
+        </form>
+
+
+        <!-- SUCCESS MESSAGE -->
+
+        <div
+            id="registrationMessage"
+            class="registration-message"
+        ></div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     SEARCH
+===================================================== -->
+
+<section
+    class="section search-section"
+>
+
+    <div class="section-heading">
+
+        <span>
+            MEMBER SEARCH
+        </span>
+
+        <h2>
+            Find a Registered Woman
+        </h2>
+
+    </div>
+
 
     <div class="search-box">
 
         <input
-            id="searchInput"
             type="search"
-            placeholder="Enter woman's name..."
+            id="searchInput"
+            placeholder="Search by name..."
+            oninput="searchWomen()"
         >
 
-        <button onclick="searchWomen()">
+        <button
+            type="button"
+            onclick="searchWomen()"
+        >
             Search
         </button>
 
     </div>
+
 
     <div id="searchResults"></div>
 
 </section>
 
 
-<section id="wards" class="section">
+<!-- =====================================================
+     ALL EXCOS
+===================================================== -->
 
-    <div class="section-title">
+<section
+    id="excos"
+    class="section"
+>
 
-        <span>ADO LOCAL GOVERNMENT</span>
+    <div class="section-heading">
 
-        <h2>Our Wards</h2>
+        <span>
+            LEADERSHIP
+        </span>
 
-        <p>
-            Select a ward to view its executives
-            and registered women.
-        </p>
-
-    </div>
-
-    <div id="wardsGrid" class="wards-grid"></div>
-
-</section>
-
-
-<section id="wardDetails" class="ward-details hidden">
-
-    <div class="container">
-
-        <button class="back-btn" onclick="closeWard()">
-            ← Back to Wards
-        </button>
-
-        <div class="ward-heading">
-
-            <div>
-                <span>WARD</span>
-                <h2 id="wardName"></h2>
-            </div>
-
-            <div class="ward-count">
-
-                <strong id="wardCount">0</strong>
-
-                <small>
-                    Registered Women
-                </small>
-
-            </div>
-
-        </div>
-
-
-        <div class="subheading">
-
-            <span>LEADERSHIP</span>
-
-            <h3>Ward Executives</h3>
-
-        </div>
-
-        <div id="wardExcos" class="excos-grid"></div>
-
-
-        <div class="subheading women-heading">
-
-            <span>DIRECTORY</span>
-
-            <h3>Registered Women</h3>
-
-        </div>
-
-        <div id="wardWomen" class="women-list"></div>
-
-    </div>
-
-</section>
-
-
-<section id="register" class="register-section">
-
-    <div class="section-title">
-
-        <span>REGISTRATION</span>
-
-        <h2>Register Your Name</h2>
+        <h2>
+            Ward EXCOs
+        </h2>
 
         <p>
-            Enter your details and select your ward.
+            Structured leadership offices across
+            Ado Local Government wards.
         </p>
 
     </div>
 
 
-    <form id="registrationForm" class="registration-form">
-
-        <div class="form-group">
-
-            <label for="fullName">
-                Full Name
-            </label>
-
-            <input
-                id="fullName"
-                type="text"
-                placeholder="Enter your full name"
-                required
-            >
-
-        </div>
-
-
-        <div class="form-group">
-
-            <label for="phone">
-                Phone Number
-            </label>
-
-            <input
-                id="phone"
-                type="tel"
-                placeholder="Enter phone number"
-                required
-            >
-
-        </div>
-
-
-        <div class="form-group">
-
-            <label for="bank">
-                Bank Name
-            </label>
-
-            <input
-                id="bank"
-                type="text"
-                placeholder="Enter bank name"
-                required
-            >
-
-        </div>
-
-
-        <div class="form-group">
-
-            <label for="account">
-                Account Number
-            </label>
-
-            <input
-                id="account"
-                type="text"
-                inputmode="numeric"
-                maxlength="10"
-                placeholder="10-digit account number"
-                required
-            >
-
-        </div>
-
-
-        <div class="form-group">
-
-            <label for="wardSelect">
-                Select Your Ward
-            </label>
-
-            <select id="wardSelect" required>
-
-                <option value="">
-                    Select your ward
-                </option>
-
-            </select>
-
-        </div>
-
-
-        <button class="submit-btn" type="submit">
-            Submit Registration
-        </button>
-
-        <p class="security-note">
-            🔒 Your financial information is not
-            displayed in the public directory.
-        </p>
-
-    </form>
-
-
-    <div id="registrationMessage"></div>
+    <div
+        id="allExcos"
+        class="exco-overview-grid"
+    ></div>
 
 </section>
 
 
-<section id="excos" class="section">
-
-    <div class="section-title">
-
-        <span>LEADERSHIP STRUCTURE</span>
-
-        <h2>Ward Excos</h2>
-
-        <p>
-            The structured offices for each ward.
-        </p>
-
-    </div>
-
-    <div id="allExcos" class="all-excos"></div>
-
-</section>
-
+<!-- =====================================================
+     FOOTER
+===================================================== -->
 
 <footer>
 
-    <div class="footer-logo">👩🏽</div>
+    <div>
 
-    <h3>
-        EKITI STATE WOMEN OF INFLUENCE
-    </h3>
+        <h3>
+            Ekiti State Women of Influence
+        </h3>
 
-    <p>Ado Local Government</p>
+        <p>
+            Ado Local Government
+        </p>
 
-    <small>
-        © 2026 Ekiti State Women of Influence
-    </small>
+    </div>
+
+
+    <p>
+        © 2026 Ekiti State Women of Influence.
+        All rights reserved.
+    </p>
 
 </footer>
 
+
+<!-- =====================================================
+     JAVASCRIPT
+===================================================== -->
 
 <script src="script.js"></script>
 
