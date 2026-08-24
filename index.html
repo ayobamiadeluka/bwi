@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Ado Local Government Women</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <header>
+        <div class="logo">
+            ADO WOMEN
+        </div>
+
+        <nav>
+            <a href="#home">Home</a>
+            <a href="#wards">Wards</a>
+            <a href="#register">Register</a>
+        </nav>
+    </header>
+
+
+    <main>
+
+        <!-- HOME -->
+        <section id="home" class="hero">
+
+            <div class="hero-content">
+
+                <h1>
+                    Ado Local Government
+                    <span>Women</span>
+                </h1>
+
+                <p>
+                    Find women and ward executives
+                    across Ado Local Government.
+                </p>
+
+                <a href="#wards" class="button">
+                    View Wards
+                </a>
+
+            </div>
+
+        </section>
+
+
+        <!-- WARDS -->
+        <section id="wards" class="section">
+
+            <h2>Select Your Ward</h2>
+
+            <p class="section-description">
+                Select a ward to view its women and ward EXCOs.
+            </p>
+
+            <div id="wardContainer" class="ward-container">
+                <!-- JavaScript will create the wards here -->
+            </div>
+
+        </section>
+
+
+        <!-- WARD DETAILS -->
+        <section id="wardDetails" class="section hidden">
+
+            <button class="back-button" onclick="showWards()">
+                ← Back to Wards
+            </button>
+
+            <h2 id="wardTitle"></h2>
+
+            <div class="card">
+
+                <h3>Ward EXCOs</h3>
+
+                <div id="excoList"></div>
+
+            </div>
+
+
+            <div class="card">
+
+                <h3>Women in this Ward</h3>
+
+                <div id="womenList"></div>
+
+            </div>
+
+        </section>
+
+
+        <!-- REGISTER -->
+        <section id="register" class="section">
+
+            <h2>Register a Woman</h2>
+
+            <p class="section-description">
+                Enter the woman's details and select her ward.
+            </p>
+
+            <form id="registrationForm">
+
+                <label for="name">
+                    Full Name
+                </label>
+
+                <input
+                    type="text"
+                    id="name"
+                    placeholder="Enter full name"
+                    required
+                >
+
+
+                <label for="ward">
+                    Select Ward
+                </label>
+
+                <select id="ward" required>
+                    <option value="">
+                        Select a ward
+                    </option>
+                </select>
+
+
+                <label for="phone">
+                    Phone Number
+                </label>
+
+                <input
+                    type="tel"
+                    id="phone"
+                    placeholder="Enter phone number"
+                    required
+                >
+
+
+                <button type="submit" class="button">
+                    Register
+                </button>
+
+            </form>
+
+            <p id="message"></p>
+
+        </section>
+
+    </main>
+
+
+    <footer>
+
+        <p>
+            © 2026 Ado Local Government Women
+        </p>
+
+    </footer>
+
+
+    <script src="script.js"></script>
+
+</body>
+</html>s
