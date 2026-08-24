@@ -1,0 +1,159 @@
+# Admin Login
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Admin Login | Women of Influence
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="admin.css"
+    >
+
+</head>
+
+
+<body>
+
+<div class="login-container">
+
+    <div class="login-card">
+
+        <div class="admin-logo">
+            👩🏽
+        </div>
+
+        <h1>
+            Admin Login
+        </h1>
+
+        <p>
+            Ekiti State Women of Influence
+            <br>
+            Ado LG
+        </p>
+
+
+        <form id="loginForm">
+
+            <label>
+                Username
+            </label>
+
+            <input
+                id="username"
+                required
+            >
+
+
+            <label>
+                Password
+            </label>
+
+            <input
+                id="password"
+                type="password"
+                required
+            >
+
+
+            <button>
+                Login
+            </button>
+
+        </form>
+
+
+        <div id="loginError"></div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+document
+    .getElementById("loginForm")
+    .addEventListener(
+        "submit",
+        async event => {
+
+            event.preventDefault();
+
+
+            const response =
+                await fetch(
+                    "/api/admin/login",
+                    {
+                        method: "POST",
+
+                        headers: {
+                            "Content-Type":
+                                "application/json"
+                        },
+
+                        body:
+                            JSON.stringify({
+
+                                username:
+                                    document
+                                        .getElementById(
+                                            "username"
+                                        )
+                                        .value,
+
+                                password:
+                                    document
+                                        .getElementById(
+                                            "password"
+                                        )
+                                        .value
+
+                            })
+                    }
+                );
+
+
+            const result =
+                await response.json();
+
+
+            if (!response.ok) {
+
+                document
+                    .getElementById(
+                        "loginError"
+                    )
+                    .textContent =
+                        result.error;
+
+                return;
+
+            }
+
+
+            window.location =
+                "/admin/dashboard.html";
+
+        }
+    );
+
+</script>
+
+</body>
+
+</html>
+```
