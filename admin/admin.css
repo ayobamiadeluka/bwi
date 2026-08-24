@@ -1,462 +1,451 @@
-# Admin Styles
-
-```css
 * {
     box-sizing: border-box;
-    margin: 0;
-    padding: 0;
 }
 
 body {
+    margin: 0;
     font-family: Arial, sans-serif;
-
-    background: #f5f3f6;
-
-    color: #241b25;
+    background: #f5f7fb;
+    color: #222;
 }
 
+.hidden {
+    display: none !important;
+}
 
 /* LOGIN */
 
-.login-container {
+.login-screen {
     min-height: 100vh;
-
-    display: grid;
-
-    place-items: center;
-
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #5b0f8c, #9b2fcf);
     padding: 20px;
-
-    background:
-        linear-gradient(
-            135deg,
-            #32102e,
-            #8c3d82
-        );
 }
 
 .login-card {
     width: 100%;
     max-width: 420px;
-
-    padding: 40px;
-
     background: white;
-
+    padding: 40px;
     border-radius: 18px;
-
+    box-shadow: 0 20px 60px rgba(0,0,0,.2);
     text-align: center;
-
-    box-shadow:
-        0 20px 60px rgba(0,0,0,.2);
 }
 
 .admin-logo {
-    width: 65px;
-    height: 65px;
-
-    display: grid;
-    place-items: center;
-
-    margin: 0 auto 20px;
-
-    border-radius: 16px;
-
-    background: #8c3d82;
-
-    font-size: 32px;
+    font-size: 48px;
+    margin-bottom: 10px;
 }
 
 .login-card h1 {
-    margin-bottom: 7px;
+    margin: 10px 0;
 }
 
 .login-card p {
-    color: #777;
+    color: #666;
+    line-height: 1.6;
+}
 
-    margin-bottom: 30px;
+.login-card form {
+    text-align: left;
+    margin-top: 25px;
 }
 
 .login-card label {
     display: block;
-
-    text-align: left;
-
-    margin-bottom: 6px;
-
+    margin: 12px 0 6px;
     font-weight: bold;
 }
 
 .login-card input {
     width: 100%;
-
     padding: 14px;
-
-    margin-bottom: 18px;
-
     border: 1px solid #ddd;
-
     border-radius: 8px;
+    font-size: 15px;
 }
 
 .login-card button {
     width: 100%;
-
-    padding: 15px;
-
-    border: 0;
-
-    border-radius: 8px;
-
-    background: #8c3d82;
-
-    color: white;
-
-    font-weight: bold;
-
-    cursor: pointer;
-}
-
-#loginError {
-    color: #c62828;
-
-    margin-top: 15px;
-}
-
-
-/* ADMIN LAYOUT */
-
-.admin-layout {
-    min-height: 100vh;
-
-    display: flex;
-}
-
-aside {
-    width: 250px;
-
-    padding: 25px 15px;
-
-    background: #281527;
-
-    color: white;
-
-    position: fixed;
-
-    top: 0;
-    bottom: 0;
-}
-
-.admin-brand {
-    padding: 10px;
-
-    margin-bottom: 30px;
-}
-
-.admin-brand strong {
-    display: block;
-
-    margin-top: 10px;
-}
-
-.admin-brand small {
-    color: #bda7ba;
-
-    font-size: 10px;
-}
-
-aside button {
-    width: 100%;
-
     padding: 14px;
-
-    margin-bottom: 7px;
-
+    margin-top: 20px;
     border: 0;
-
     border-radius: 8px;
-
-    background: transparent;
-
+    background: #6a1b9a;
     color: white;
-
-    text-align: left;
-
+    font-size: 16px;
     cursor: pointer;
 }
 
-aside button:hover {
-    background: #8c3d82;
+.login-card a {
+    display: block;
+    margin-top: 20px;
+    color: #6a1b9a;
+    text-decoration: none;
 }
 
-main {
-    margin-left: 250px;
-
-    width: calc(100% - 250px);
-
-    padding: 40px;
-}
-
-.page h1 {
-    margin-bottom: 8px;
-}
-
-.muted {
-    color: #777;
-
-    margin-bottom: 25px;
-}
-
-.hidden {
-    display: none;
+.error {
+    color: #d32f2f;
+    margin-top: 15px;
 }
 
 
 /* DASHBOARD */
 
-.dashboard-cards {
-    display: grid;
-
-    grid-template-columns:
-        repeat(3,1fr);
-
-    gap: 20px;
-
-    margin-top: 30px;
+.dashboard {
+    min-height: 100vh;
+    display: flex;
 }
 
-.dashboard-cards div {
-    padding: 25px;
-
-    background: white;
-
-    border-radius: 13px;
-
-    box-shadow:
-        0 5px 20px rgba(0,0,0,.05);
+.sidebar {
+    width: 250px;
+    background: #24102f;
+    color: white;
+    padding: 25px 15px;
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
 }
 
-.dashboard-cards span {
+.side-brand {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.side-brand strong {
     display: block;
+    font-size: 14px;
+}
 
+.side-brand small {
+    opacity: .7;
+}
+
+.side-btn,
+.logout-btn {
+    width: 100%;
+    padding: 14px;
+    margin: 5px 0;
+    border: 0;
+    border-radius: 8px;
+    text-align: left;
+    background: transparent;
+    color: white;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.side-btn:hover,
+.side-btn.active {
+    background: rgba(255,255,255,.12);
+}
+
+.logout-btn {
+    margin-top: 30px;
+    background: #b71c1c;
+}
+
+.main {
+    margin-left: 250px;
+    width: calc(100% - 250px);
+    padding: 30px;
+}
+
+.topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.topbar span,
+.panel-box > span {
+    color: #8a42aa;
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.topbar h1 {
+    margin: 5px 0;
+}
+
+.topbar a {
+    color: #6a1b9a;
+    text-decoration: none;
+}
+
+
+/* CARDS */
+
+.cards {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    margin-bottom: 25px;
+}
+
+.dashboard-card {
+    background: white;
+    padding: 25px;
+    border-radius: 14px;
+    box-shadow: 0 5px 20px rgba(0,0,0,.05);
+}
+
+.dashboard-card span {
+    font-size: 25px;
+}
+
+.dashboard-card strong {
+    display: block;
+    font-size: 30px;
+    margin: 10px 0;
+}
+
+.dashboard-card small {
     color: #777;
 }
 
-.dashboard-cards strong {
-    display: block;
 
-    margin-top: 10px;
+/* PANELS */
 
-    color: #8c3d82;
-
-    font-size: 35px;
-}
-
-
-/* SEARCH */
-
-.admin-search {
-    width: 100%;
-
-    padding: 15px;
-
-    margin: 20px 0;
-
-    border: 1px solid #ddd;
-
-    border-radius: 8px;
-}
-
-
-/* TABLE */
-
-.table-container {
-    overflow-x: auto;
-
+.panel-box {
     background: white;
-
-    border-radius: 12px;
-}
-
-table {
-    width: 100%;
-
-    border-collapse: collapse;
-}
-
-th,
-td {
-    padding: 15px;
-
-    border-bottom: 1px solid #eee;
-
-    text-align: left;
-
-    white-space: nowrap;
-}
-
-th {
-    background: #f6eef5;
-
-    color: #6d3266;
-}
-
-.delete {
-    padding: 7px 10px;
-
-    border: 0;
-
-    border-radius: 6px;
-
-    background: #d32f2f;
-
-    color: white;
-
-    cursor: pointer;
-}
-
-
-/* EXCOS */
-
-.admin-excos {
-    display: grid;
-
-    gap: 25px;
-
-    margin-top: 25px;
-}
-
-.exco-ward {
     padding: 25px;
-
-    background: white;
-
-    border-radius: 13px;
+    border-radius: 14px;
+    box-shadow: 0 5px 20px rgba(0,0,0,.05);
 }
 
-.exco-ward h2 {
-    color: #8c3d82;
-
+.panel-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
     margin-bottom: 20px;
 }
 
-.exco-row {
-    display: grid;
-
-    grid-template-columns:
-        1fr 1fr auto;
-
-    gap: 10px;
-
-    align-items: center;
-
-    margin-bottom: 10px;
+.panel-heading h2 {
+    margin-top: 5px;
 }
 
-.exco-row input {
-    padding: 11px;
-
+.panel-heading input,
+.panel-heading select,
+.filter-row select {
+    padding: 12px;
     border: 1px solid #ddd;
-
-    border-radius: 7px;
-}
-
-.save-btn {
-    padding: 11px 15px;
-
-    border: 0;
-
-    border-radius: 7px;
-
-    background: #8c3d82;
-
-    color: white;
-
-    cursor: pointer;
+    border-radius: 8px;
 }
 
 
 /* WARDS */
 
+.ward-stats,
 .admin-wards {
     display: grid;
-
-    grid-template-columns:
-        repeat(3,1fr);
-
-    gap: 18px;
-
-    margin-top: 25px;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    margin-top: 20px;
 }
 
+.ward-stat,
 .admin-ward {
-    padding: 25px;
-
-    background: white;
-
-    border-radius: 12px;
+    border: 1px solid #eee;
+    padding: 18px;
+    border-radius: 10px;
+    background: #fafafa;
 }
 
+.ward-stat strong,
 .admin-ward strong {
     display: block;
+}
 
-    color: #8c3d82;
+.ward-stat span,
+.admin-ward span {
+    display: block;
+    color: #777;
+    margin: 7px 0;
+    font-size: 13px;
+}
 
-    font-size: 25px;
+.ward-stat b,
+.admin-ward b {
+    color: #6a1b9a;
+}
+
+
+/* TABLE */
+
+.table-wrapper {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th,
+td {
+    padding: 14px;
+    border-bottom: 1px solid #eee;
+    text-align: left;
+}
+
+th {
+    background: #fafafa;
+}
+
+.status {
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    text-transform: capitalize;
+}
+
+.status.pending {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.status.approved {
+    background: #d4edda;
+    color: #155724;
+}
+
+.status.rejected {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+button {
+    cursor: pointer;
+}
+
+.approve-btn,
+.reject-btn,
+.delete-btn,
+.save-exco {
+    border: 0;
+    padding: 8px 10px;
+    border-radius: 6px;
+    margin: 2px;
+}
+
+.approve-btn {
+    background: #2e7d32;
+    color: white;
+}
+
+.reject-btn {
+    background: #c62828;
+    color: white;
+}
+
+.delete-btn {
+    background: #555;
+    color: white;
+}
+
+
+/* EXCO */
+
+.exco-editor {
+    display: grid;
+    gap: 15px;
+}
+
+.exco-row {
+    display: grid;
+    grid-template-columns: 230px 1fr 80px;
+    gap: 10px;
+    align-items: center;
+}
+
+.exco-row input {
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 7px;
+}
+
+.save-exco {
+    background: #6a1b9a;
+    color: white;
+}
+
+
+/* EMPTY */
+
+.empty-state {
+    padding: 40px;
+    text-align: center;
+    color: #777;
 }
 
 
 /* MOBILE */
 
-@media(max-width:800px) {
+@media (max-width: 900px) {
 
-    aside {
-        width: 200px;
+    .sidebar {
+        width: 210px;
     }
 
-    main {
-        margin-left: 200px;
-
-        width: calc(100% - 200px);
-
-        padding: 25px;
+    .main {
+        margin-left: 210px;
+        width: calc(100% - 210px);
     }
 
-    .dashboard-cards {
+    .cards {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .ward-stats,
+    .admin-wards {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 650px) {
+
+    .dashboard {
+        display: block;
+    }
+
+    .sidebar {
+        position: relative;
+        width: 100%;
+    }
+
+    .main {
+        margin-left: 0;
+        width: 100%;
+        padding: 15px;
+    }
+
+    .cards {
         grid-template-columns: 1fr;
     }
 
+    .ward-stats,
     .admin-wards {
         grid-template-columns: 1fr;
     }
 
-}
-
-@media(max-width:600px) {
-
-    aside {
-        width: 100%;
-
-        height: auto;
-
-        position: relative;
-    }
-
-    .admin-layout {
+    .panel-heading {
         display: block;
     }
 
-    main {
-        margin-left: 0;
-
+    .panel-heading input,
+    .panel-heading select {
         width: 100%;
-
-        padding: 20px;
+        margin-top: 10px;
     }
 
     .exco-row {
         grid-template-columns: 1fr;
     }
-
 }
-```
