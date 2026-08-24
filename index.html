@@ -1,627 +1,71 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
+<div class="form-group">
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
+    <label for="ward">
+        Select Your Ward
+    </label>
+
+    <select
+        id="ward"
+        name="ward"
+        required
     >
 
-    <meta
-        name="description"
-        content="Ekiti State Women of Influence - Ado Local Government"
-    >
+        <option value="">
+            Select your ward
+        </option>
 
-    <title>
-        Ekiti State Women of Influence | Ado LG
-    </title>
+        <option value="ADO 'A' AJILOSUN">
+            Ward 1 — ADO 'A' AJILOSUN
+        </option>
 
-    <link rel="stylesheet" href="style.css">
-</head>
+        <option value="ADO 'B' INISA">
+            Ward 2 — ADO 'B' INISA
+        </option>
 
-<body>
+        <option value="ADO 'C' IDOLOFIN">
+            Ward 3 — ADO 'C' IDOLOFIN
+        </option>
 
-<!-- =====================================================
-     HEADER
-===================================================== -->
+        <option value="ADO 'D' IJIGBO">
+            Ward 4 — ADO 'D' IJIGBO
+        </option>
 
-<header class="header">
+        <option value="ADO 'E' IJOKA / OREREOWU">
+            Ward 5 — ADO 'E' IJOKA / OREREOWU
+        </option>
 
-    <div class="header-container">
+        <option value="ADO 'F' OKEYINMI">
+            Ward 6 — ADO 'F' OKEYINMI
+        </option>
 
-        <div class="logo-area">
+        <option value="ADO 'G' OKE ILA">
+            Ward 7 — ADO 'G' OKE ILA
+        </option>
 
-            <!-- Replace logo.png with your actual logo -->
-            <img
-                src="public/logo.png"
-                alt="Ekiti State Women of Influence Logo"
-                class="logo"
-            >
+        <option value="ADO 'H' EREGURU">
+            Ward 8 — ADO 'H' EREGURU
+        </option>
 
-            <div>
-                <h1>
-                    Ekiti State Women of Influence
-                </h1>
+        <option value="ADO 'I' DALLIMORE">
+            Ward 9 — ADO 'I' DALLIMORE
+        </option>
 
-                <p>
-                    Ado Local Government
-                </p>
-            </div>
+        <option value="ADO 'J' OKESA">
+            Ward 10 — ADO 'J' OKESA
+        </option>
 
-        </div>
+        <option value="ADO 'K' IRONA">
+            Ward 11 — ADO 'K' IRONA
+        </option>
 
+        <option value="ADO 'L' IGBEHIN">
+            Ward 12 — ADO 'L' IGBEHIN
+        </option>
 
-        <button
-            class="menu-button"
-            onclick="toggleMenu()"
-            aria-label="Open menu"
-        >
-            ☰
-        </button>
+        <option value="ADO 'M' FARM SETTLEMENT">
+            Ward 13 — ADO 'M' FARM SETTLEMENT
+        </option>
 
+    </select>
 
-        <nav id="mainNav">
-
-            <a href="#home">
-                Home
-            </a>
-
-            <a href="#wards">
-                Wards
-            </a>
-
-            <a href="#register">
-                Register
-            </a>
-
-            <a href="#excos">
-                Ward EXCOs
-            </a>
-
-        </nav>
-
-    </div>
-
-</header>
-
-
-<!-- =====================================================
-     HERO
-===================================================== -->
-
-<section
-    id="home"
-    class="hero"
->
-
-    <div class="hero-content">
-
-        <span class="hero-badge">
-            ADO LOCAL GOVERNMENT
-        </span>
-
-        <h2>
-            Ekiti State Women of Influence
-        </h2>
-
-        <p>
-            Registration and ward coordination platform
-            for women across Ado Local Government.
-        </p>
-
-        <a
-            href="#register"
-            class="primary-button"
-        >
-            Register Now
-        </a>
-
-    </div>
-
-</section>
-
-
-<!-- =====================================================
-     STATISTICS
-===================================================== -->
-
-<section class="statistics">
-
-    <div class="stat-card">
-
-        <strong id="womenCount">
-            0
-        </strong>
-
-        <span>
-            Approved Women
-        </span>
-
-    </div>
-
-
-    <div class="stat-card">
-
-        <strong>
-            13
-        </strong>
-
-        <span>
-            Wards
-        </span>
-
-    </div>
-
-
-    <div class="stat-card">
-
-        <strong id="excoCount">
-            104
-        </strong>
-
-        <span>
-            Ward Positions
-        </span>
-
-    </div>
-
-</section>
-
-
-<!-- =====================================================
-     WARDS
-===================================================== -->
-
-<section
-    id="wards"
-    class="section"
->
-
-    <div class="section-heading">
-
-        <span>
-            ADO LOCAL GOVERNMENT
-        </span>
-
-        <h2>
-            Our Wards
-        </h2>
-
-        <p>
-            Select a ward to view its registered members
-            and ward executives.
-        </p>
-
-    </div>
-
-
-    <div
-        id="wardsContainer"
-        class="wards-grid"
-    ></div>
-
-</section>
-
-
-<!-- =====================================================
-     WARD DETAILS
-===================================================== -->
-
-<section
-    id="wardDetails"
-    class="section hidden"
->
-
-    <button
-        class="back-button"
-        onclick="closeWard()"
-    >
-        ← Back to Wards
-    </button>
-
-
-    <div class="ward-header">
-
-        <span>
-            SELECTED WARD
-        </span>
-
-        <h2 id="selectedWard">
-            Ward
-        </h2>
-
-    </div>
-
-
-    <!-- WOMEN -->
-
-    <div class="content-card">
-
-        <div class="card-heading">
-
-            <div>
-
-                <span>
-                    REGISTERED WOMEN
-                </span>
-
-                <h3>
-                    Women in this Ward
-                </h3>
-
-            </div>
-
-            <strong id="wardWomenCount">
-                0
-            </strong>
-
-        </div>
-
-
-        <div id="wardWomen"></div>
-
-    </div>
-
-
-    <!-- EXCOS -->
-
-    <div class="content-card">
-
-        <div class="card-heading">
-
-            <div>
-
-                <span>
-                    WARD LEADERSHIP
-                </span>
-
-                <h3>
-                    Ward EXCOs
-                </h3>
-
-            </div>
-
-        </div>
-
-
-        <div
-            id="wardExcos"
-            class="exco-grid"
-        ></div>
-
-    </div>
-
-</section>
-
-
-<!-- =====================================================
-     REGISTRATION
-===================================================== -->
-
-<section
-    id="register"
-    class="section registration-section"
->
-
-    <div class="section-heading">
-
-        <span>
-            JOIN US
-        </span>
-
-        <h2>
-            Register as a Woman
-        </h2>
-
-        <p>
-            Complete the form below to register under
-            your ward.
-        </p>
-
-    </div>
-
-
-    <div class="registration-card">
-
-        <form id="registrationForm">
-
-
-            <!-- NAME -->
-
-            <div class="form-group">
-
-                <label for="name">
-                    Full Name
-                </label>
-
-                <input
-                    type="text"
-                    id="name"
-                    name="name"
-                    placeholder="Enter your full name"
-                    autocomplete="name"
-                    required
-                >
-
-            </div>
-
-
-            <!-- PHONE -->
-
-            <div class="form-group">
-
-                <label for="phone">
-                    Phone Number
-                </label>
-
-                <input
-                    type="tel"
-                    id="phone"
-                    name="phone"
-                    placeholder="08012345678"
-                    autocomplete="tel"
-                    required
-                >
-
-            </div>
-
-
-            <!-- BANK -->
-
-            <div class="form-group">
-
-                <label for="bank">
-                    Bank Name
-                </label>
-
-                <input
-                    type="text"
-                    id="bank"
-                    name="bank"
-                    placeholder="Enter your bank name"
-                    required
-                >
-
-            </div>
-
-
-            <!-- ACCOUNT -->
-
-            <div class="form-group">
-
-                <label for="account">
-                    Account Number
-                </label>
-
-                <input
-                    type="text"
-                    id="account"
-                    name="account"
-                    placeholder="10-digit account number"
-                    inputmode="numeric"
-                    maxlength="10"
-                    pattern="[0-9]{10}"
-                    required
-                >
-
-            </div>
-
-
-            <!-- =================================================
-                 WARD DROPDOWN
-            ================================================= -->
-
-            <div class="form-group">
-
-                <label for="ward">
-                    Select Your Ward
-                </label>
-
-                <select
-                    id="ward"
-                    name="ward"
-                    required
-                >
-
-                    <option value="">
-                        Select your ward
-                    </option>
-
-                    <option value="ADO 'A' AJILOSUN">
-                        Ward 1 — ADO 'A' AJILOSUN
-                    </option>
-
-                    <option value="ADO 'B' INISA">
-                        Ward 2 — ADO 'B' INISA
-                    </option>
-
-                    <option value="ADO 'C' IDOLOFIN">
-                        Ward 3 — ADO 'C' IDOLOFIN
-                    </option>
-
-                    <option value="ADO 'D' IJIGBO">
-                        Ward 4 — ADO 'D' IJIGBO
-                    </option>
-
-                    <option value="ADO 'E' IJOKA / OREREOWU">
-                        Ward 5 — ADO 'E' IJOKA / OREREOWU
-                    </option>
-
-                    <option value="ADO 'F' OKEYINMI">
-                        Ward 6 — ADO 'F' OKEYINMI
-                    </option>
-
-                    <option value="ADO 'G' OKE ILA">
-                        Ward 7 — ADO 'G' OKE ILA
-                    </option>
-
-                    <option value="ADO 'H' EREGURU">
-                        Ward 8 — ADO 'H' EREGURU
-                    </option>
-
-                    <option value="ADO 'I' DALLIMORE">
-                        Ward 9 — ADO 'I' DALLIMORE
-                    </option>
-
-                    <option value="ADO 'J' OKESA">
-                        Ward 10 — ADO 'J' OKESA
-                    </option>
-
-                    <option value="ADO 'K' IRONA">
-                        Ward 11 — ADO 'K' IRONA
-                    </option>
-
-                    <option value="ADO 'L' IGBEHIN">
-                        Ward 12 — ADO 'L' IGBEHIN
-                    </option>
-
-                    <option value="ADO 'M' FARM SETTLEMENT">
-                        Ward 13 — ADO 'M' FARM SETTLEMENT
-                    </option>
-
-                </select>
-
-            </div>
-
-
-            <!-- SUBMIT -->
-
-            <button
-                type="submit"
-                class="submit-button"
-            >
-                Submit Registration
-            </button>
-
-
-        </form>
-
-
-        <!-- SUCCESS MESSAGE -->
-
-        <div
-            id="registrationMessage"
-            class="registration-message"
-        ></div>
-
-    </div>
-
-</section>
-
-
-<!-- =====================================================
-     SEARCH
-===================================================== -->
-
-<section
-    class="section search-section"
->
-
-    <div class="section-heading">
-
-        <span>
-            MEMBER SEARCH
-        </span>
-
-        <h2>
-            Find a Registered Woman
-        </h2>
-
-    </div>
-
-
-    <div class="search-box">
-
-        <input
-            type="search"
-            id="searchInput"
-            placeholder="Search by name..."
-            oninput="searchWomen()"
-        >
-
-        <button
-            type="button"
-            onclick="searchWomen()"
-        >
-            Search
-        </button>
-
-    </div>
-
-
-    <div id="searchResults"></div>
-
-</section>
-
-
-<!-- =====================================================
-     ALL EXCOS
-===================================================== -->
-
-<section
-    id="excos"
-    class="section"
->
-
-    <div class="section-heading">
-
-        <span>
-            LEADERSHIP
-        </span>
-
-        <h2>
-            Ward EXCOs
-        </h2>
-
-        <p>
-            Structured leadership offices across
-            Ado Local Government wards.
-        </p>
-
-    </div>
-
-
-    <div
-        id="allExcos"
-        class="exco-overview-grid"
-    ></div>
-
-</section>
-
-
-<!-- =====================================================
-     FOOTER
-===================================================== -->
-
-<footer>
-
-    <div>
-
-        <h3>
-            Ekiti State Women of Influence
-        </h3>
-
-        <p>
-            Ado Local Government
-        </p>
-
-    </div>
-
-
-    <p>
-        © 2026 Ekiti State Women of Influence.
-        All rights reserved.
-    </p>
-
-</footer>
-
-
-<!-- =====================================================
-     JAVASCRIPT
-===================================================== -->
-
-<script src="script.js"></script>
-
-</body>
-</html>
+</div>
