@@ -1,0 +1,248 @@
+# Admin Dashboard
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Admin Dashboard
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="admin.css"
+    >
+
+</head>
+
+
+<body>
+
+
+<div class="admin-layout">
+
+
+<aside>
+
+    <div class="admin-brand">
+
+        👩🏽
+
+        <strong>
+            Women of Influence
+        </strong>
+
+        <small>
+            ADO LG ADMIN
+        </small>
+
+    </div>
+
+
+    <button onclick="showPage('dashboard')">
+        📊 Dashboard
+    </button>
+
+
+    <button onclick="showPage('women')">
+        👩🏽 Registered Women
+    </button>
+
+
+    <button onclick="showPage('excos')">
+        👥 Ward Excos
+    </button>
+
+
+    <button onclick="showPage('wards')">
+        🏘️ Wards
+    </button>
+
+
+    <button onclick="logout()">
+        🚪 Logout
+    </button>
+
+</aside>
+
+
+<main>
+
+
+<!-- DASHBOARD -->
+
+<section
+    id="dashboardPage"
+    class="page"
+>
+
+    <h1>
+        Dashboard
+    </h1>
+
+    <p class="muted">
+        Ekiti State Women of Influence —
+        Ado Local Government
+    </p>
+
+
+    <div class="dashboard-cards">
+
+        <div>
+            <span>
+                Registered Women
+            </span>
+
+            <strong id="statWomen">
+                0
+            </strong>
+        </div>
+
+
+        <div>
+            <span>
+                Wards
+            </span>
+
+            <strong>
+                13
+            </strong>
+        </div>
+
+
+        <div>
+            <span>
+                Ward Offices
+            </span>
+
+            <strong>
+                104
+            </strong>
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- WOMEN -->
+
+<section
+    id="womenPage"
+    class="page hidden"
+>
+
+    <h1>
+        Registered Women
+    </h1>
+
+
+    <input
+        id="adminSearch"
+        class="admin-search"
+        placeholder="Search women..."
+        oninput="filterWomen()"
+    >
+
+
+    <div class="table-container">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>Name</th>
+
+                    <th>Phone</th>
+
+                    <th>Bank</th>
+
+                    <th>Account</th>
+
+                    <th>Ward</th>
+
+                    <th>Action</th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody id="womenTable">
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</section>
+
+
+<!-- EXCOS -->
+
+<section
+    id="excosPage"
+    class="page hidden"
+>
+
+    <h1>
+        Ward Excos
+    </h1>
+
+    <p class="muted">
+        Manage the 8 structured offices
+        for each ward.
+    </p>
+
+
+    <div
+        id="excosContainer"
+        class="admin-excos"
+    ></div>
+
+</section>
+
+
+<!-- WARDS -->
+
+<section
+    id="wardsPage"
+    class="page hidden"
+>
+
+    <h1>
+        Wards
+    </h1>
+
+
+    <div
+        id="adminWards"
+        class="admin-wards"
+    ></div>
+
+</section>
+
+
+</main>
+
+</div>
+
+
+<script src="admin.js"></script>
+
+</body>
+
+</html>
+```
