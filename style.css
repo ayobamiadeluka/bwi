@@ -1,1003 +1,1097 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+/* =========================================
+   EKITI STATE WOMEN OF INFLUENCE
+   ADO LOCAL GOVERNMENT
+========================================= */
+
+
+/* =========================================
+   OFFICIAL ADO LG WARDS
+========================================= */
+
+const wards = [
+
+    {
+        number: 1,
+        name: "ADO 'A' AJILOSUN"
+    },
+
+    {
+        number: 2,
+        name: "ADO 'B' INISA"
+    },
+
+    {
+        number: 3,
+        name: "ADO 'C' IDOLOFIN"
+    },
+
+    {
+        number: 4,
+        name: "ADO 'D' IJIGBO"
+    },
+
+    {
+        number: 5,
+        name: "ADO 'E' IJOKA / OREREOWU"
+    },
+
+    {
+        number: 6,
+        name: "ADO 'F' OKEYINMI"
+    },
+
+    {
+        number: 7,
+        name: "ADO 'G' OKE ILA"
+    },
+
+    {
+        number: 8,
+        name: "ADO 'H' EREGURU"
+    },
+
+    {
+        number: 9,
+        name: "ADO 'I' DALLIMORE"
+    },
+
+    {
+        number: 10,
+        name: "ADO 'J' OKESA"
+    },
+
+    {
+        number: 11,
+        name: "ADO 'K' IRONA"
+    },
+
+    {
+        number: 12,
+        name: "ADO 'L' IGBEHIN"
+    },
+
+    {
+        number: 13,
+        name: "ADO 'M' FARM SETTLEMENT"
+    }
+
+];
+
+
+/* =========================================
+   WARD OFFICES
+========================================= */
+
+const officePositions = [
+
+    "Ward Coordinator",
+
+    "Deputy Ward Coordinator",
+
+    "Secretary",
+
+    "Mobilization Officer",
+
+    "Women Empowerment Officer",
+
+    "Media/Publicity Officer",
+
+    "Welfare Officer",
+
+    "Polling Unit Officer"
+
+];
+
+
+/* =========================================
+   STORAGE KEYS
+========================================= */
+
+const REGISTRATION_KEY =
+    "bwi_registrations";
+
+const EXCO_KEY =
+    "bwi_excos";
+
+
+/* =========================================
+   GET REGISTRATIONS
+========================================= */
+
+function getRegistrations() {
+
+    return JSON.parse(
+        localStorage.getItem(
+            REGISTRATION_KEY
+        ) || "[]"
+    );
+
 }
 
-html {
-    scroll-behavior: smooth;
-}
 
-body {
-    font-family: Inter, Arial, Helvetica, sans-serif;
-    background: #faf8fc;
-    color: #211923;
-    line-height: 1.6;
-}
+/* =========================================
+   SAVE REGISTRATIONS
+========================================= */
 
+function saveRegistrations(data) {
 
-/* =========================
-   NAVBAR
-========================= */
+    localStorage.setItem(
+        REGISTRATION_KEY,
+        JSON.stringify(data)
+    );
 
-.navbar {
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-
-    height: 78px;
-
-    padding: 0 7%;
-
-    background: rgba(255,255,255,.96);
-
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    box-shadow: 0 2px 20px rgba(0,0,0,.07);
-}
-
-.brand {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-
-    color: #251326;
-    text-decoration: none;
-}
-
-.brand-icon {
-    width: 45px;
-    height: 45px;
-
-    display: grid;
-    place-items: center;
-
-    border-radius: 12px;
-
-    background: #8d3f83;
-
-    font-size: 24px;
-}
-
-.brand strong {
-    display: block;
-
-    font-size: 15px;
-    letter-spacing: .5px;
-}
-
-.brand span {
-    display: block;
-
-    color: #8d3f83;
-
-    font-size: 11px;
-    font-weight: 700;
-
-    letter-spacing: 1px;
-}
-
-nav {
-    display: flex;
-    gap: 30px;
-}
-
-nav a {
-    color: #352c37;
-
-    text-decoration: none;
-
-    font-size: 14px;
-    font-weight: 700;
-}
-
-nav a:hover {
-    color: #8d3f83;
-}
-
-.menu-btn {
-    display: none;
-
-    border: 0;
-    background: transparent;
-
-    font-size: 28px;
-
-    cursor: pointer;
 }
 
 
-/* =========================
-   HERO
-========================= */
+/* =========================================
+   GET EXCOS
+========================================= */
 
-.hero {
-    min-height: 590px;
+function getExcos() {
 
-    position: relative;
+    return JSON.parse(
+        localStorage.getItem(
+            EXCO_KEY
+        ) || "{}"
+    );
 
-    display: flex;
-    align-items: center;
+}
 
-    padding: 80px 7%;
 
-    overflow: hidden;
+/* =========================================
+   SAVE EXCOS
+========================================= */
 
-    background:
-        linear-gradient(
-            120deg,
-            #32112f,
-            #74336f,
-            #ad5d9d
+function saveExcos(data) {
+
+    localStorage.setItem(
+        EXCO_KEY,
+        JSON.stringify(data)
+    );
+
+}
+
+
+/* =========================================
+   DISPLAY WARDS
+========================================= */
+
+function displayWards() {
+
+    const container =
+        document.getElementById(
+            "wardsContainer"
         );
+
+    if (!container) return;
+
+    container.innerHTML = "";
+
+
+    wards.forEach(ward => {
+
+        const registrations =
+            getRegistrations();
+
+
+        const count =
+            registrations.filter(
+                woman =>
+                    woman.ward === ward.name &&
+                    woman.status === "approved"
+            ).length;
+
+
+        const card =
+            document.createElement("div");
+
+
+        card.className =
+            "ward-card";
+
+
+        card.onclick = function() {
+
+            openWard(
+                ward.name
+            );
+
+        };
+
+
+        card.innerHTML = `
+
+            <div class="ward-number">
+                ${ward.number}
+            </div>
+
+            <h3>
+                Ward ${ward.number}
+            </h3>
+
+            <p>
+                ${escapeHTML(ward.name)}
+            </p>
+
+            <p>
+                ${count}
+                approved woman${count === 1 ? "" : "en"}
+            </p>
+
+        `;
+
+
+        container.appendChild(card);
+
+    });
+
 }
 
-.hero::after {
-    content: "";
 
-    position: absolute;
+/* =========================================
+   OPEN WARD
+========================================= */
 
-    width: 500px;
-    height: 500px;
+function openWard(wardName) {
 
-    right: -170px;
-    bottom: -220px;
-
-    border: 70px solid rgba(255,255,255,.08);
-
-    border-radius: 50%;
-}
-
-.hero-overlay {
-    position: absolute;
-
-    inset: 0;
-
-    background:
-        radial-gradient(
-            circle at 80% 20%,
-            rgba(255,255,255,.12),
-            transparent 35%
+    const details =
+        document.getElementById(
+            "wardDetails"
         );
-}
 
-.hero-content {
-    position: relative;
-    z-index: 2;
+    const wardsSection =
+        document.getElementById(
+            "wards"
+        );
 
-    max-width: 800px;
 
-    color: white;
-}
+    if (!details || !wardsSection)
+        return;
 
-.hero-label {
-    display: inline-block;
 
-    padding: 8px 16px;
+    details.classList.remove(
+        "hidden"
+    );
 
-    border: 1px solid rgba(255,255,255,.3);
 
-    border-radius: 30px;
+    wardsSection.style.display =
+        "none";
 
-    background: rgba(255,255,255,.1);
 
-    font-size: 12px;
-    font-weight: 800;
+    document.getElementById(
+        "selectedWard"
+    ).textContent =
+        wardName;
 
-    letter-spacing: 1.5px;
-}
 
-.hero h1 {
-    margin: 25px 0 20px;
+    const registrations =
+        getRegistrations();
 
-    font-size: clamp(48px, 8vw, 88px);
 
-    line-height: .95;
+    const wardWomen =
+        registrations.filter(
+            woman =>
+                woman.ward === wardName &&
+                woman.status === "approved"
+        );
 
-    letter-spacing: -3px;
-}
 
-.hero h1 span {
-    color: #ffd9f3;
-}
+    const count =
+        document.getElementById(
+            "wardWomenCount"
+        );
 
-.hero p {
-    max-width: 580px;
 
-    color: #f3e6f2;
+    if (count) {
 
-    font-size: 19px;
-}
+        count.textContent =
+            wardWomen.length;
 
-.hero-buttons {
-    display: flex;
-
-    gap: 14px;
-
-    margin-top: 35px;
-}
-
-.btn {
-    display: inline-block;
-
-    padding: 14px 24px;
-
-    border-radius: 8px;
-
-    text-decoration: none;
-
-    font-weight: 800;
-}
-
-.btn-primary {
-    color: #71336c;
-
-    background: white;
-}
-
-.btn-outline {
-    color: white;
-
-    border: 1px solid rgba(255,255,255,.6);
-}
-
-
-/* =========================
-   STATS
-========================= */
-
-.stats {
-    position: relative;
-    z-index: 10;
-
-    display: grid;
-    grid-template-columns: repeat(3,1fr);
-
-    gap: 20px;
-
-    padding: 0 7%;
-
-    margin-top: -45px;
-}
-
-.stat-card {
-    display: flex;
-    align-items: center;
-
-    gap: 18px;
-
-    padding: 25px;
-
-    background: white;
-
-    border-radius: 15px;
-
-    box-shadow: 0 10px 35px rgba(53,25,50,.1);
-}
-
-.stat-icon {
-    width: 55px;
-    height: 55px;
-
-    display: grid;
-    place-items: center;
-
-    border-radius: 14px;
-
-    background: #f3e4f1;
-
-    font-size: 27px;
-}
-
-.stat-card strong {
-    display: block;
-
-    color: #8d3f83;
-
-    font-size: 28px;
-}
-
-.stat-card span {
-    color: #777;
-
-    font-size: 13px;
-}
-
-
-/* =========================
-   GENERAL SECTIONS
-========================= */
-
-.section,
-.search-section,
-.register-section {
-    padding: 90px 7%;
-}
-
-.section-heading {
-    max-width: 680px;
-
-    margin: 0 auto 45px;
-
-    text-align: center;
-}
-
-.section-heading span {
-    color: #9a4e91;
-
-    font-size: 12px;
-    font-weight: 800;
-
-    letter-spacing: 2px;
-}
-
-.section-heading h2 {
-    margin: 8px 0;
-
-    color: #281b29;
-
-    font-size: 40px;
-}
-
-.section-heading p {
-    color: #777;
-}
-
-
-/* =========================
-   SEARCH
-========================= */
-
-.search-section {
-    margin-top: 0;
-
-    background: white;
-}
-
-.search-box {
-    max-width: 720px;
-
-    display: flex;
-
-    gap: 10px;
-
-    margin: auto;
-}
-
-.search-box input {
-    flex: 1;
-
-    padding: 16px;
-
-    border: 1px solid #ddd;
-
-    border-radius: 9px;
-
-    outline: none;
-
-    font-size: 15px;
-}
-
-.search-box input:focus {
-    border-color: #9a4e91;
-}
-
-.search-box button {
-    padding: 0 25px;
-
-    border: 0;
-
-    border-radius: 9px;
-
-    background: #8d3f83;
-
-    color: white;
-
-    font-weight: 700;
-
-    cursor: pointer;
-}
-
-#searchResults {
-    max-width: 720px;
-
-    margin: 25px auto 0;
-}
-
-
-/* =========================
-   WARDS
-========================= */
-
-.wards-grid {
-    display: grid;
-
-    grid-template-columns:
-        repeat(4,1fr);
-
-    gap: 18px;
-}
-
-.ward-card {
-    padding: 24px;
-
-    background: white;
-
-    border: 1px solid #eee;
-
-    border-radius: 15px;
-
-    cursor: pointer;
-
-    transition: .25s;
-}
-
-.ward-card:hover {
-    transform: translateY(-5px);
-
-    border-color: #c68ac0;
-
-    box-shadow:
-        0 12px 30px rgba(72,35,68,.1);
-}
-
-.ward-number {
-    width: 45px;
-    height: 45px;
-
-    display: grid;
-    place-items: center;
-
-    margin-bottom: 15px;
-
-    border-radius: 50%;
-
-    background: #f3e4f1;
-
-    color: #8d3f83;
-
-    font-weight: 900;
-}
-
-.ward-card h3 {
-    margin-bottom: 4px;
-
-    font-size: 17px;
-}
-
-.ward-card p {
-    color: #888;
-
-    font-size: 13px;
-}
-
-
-/* =========================
-   WARD DETAILS
-========================= */
-
-.ward-details {
-    padding: 80px 7%;
-
-    background: #f4edf5;
-}
-
-.hidden {
-    display: none;
-}
-
-.details-container {
-    max-width: 1200px;
-
-    margin: auto;
-}
-
-.back-btn {
-    margin-bottom: 25px;
-
-    padding: 11px 18px;
-
-    border: 0;
-
-    border-radius: 8px;
-
-    background: white;
-
-    cursor: pointer;
-
-    font-weight: 700;
-}
-
-.ward-title-card {
-    display: flex;
-
-    align-items: center;
-
-    justify-content: space-between;
-
-    padding: 30px;
-
-    background: white;
-
-    border-radius: 17px;
-}
-
-.ward-title-card span {
-    color: #9a4e91;
-
-    font-size: 11px;
-
-    font-weight: 800;
-
-    letter-spacing: 1px;
-}
-
-.ward-title-card h2 {
-    font-size: 36px;
-}
-
-.ward-count {
-    min-width: 130px;
-
-    padding: 15px;
-
-    border-radius: 12px;
-
-    background: #f5e8f3;
-
-    text-align: center;
-}
-
-.ward-count strong {
-    display: block;
-
-    color: #8d3f83;
-
-    font-size: 30px;
-}
-
-.ward-count small {
-    color: #777;
-}
-
-
-/* =========================
-   DETAILS BLOCK
-========================= */
-
-.details-block {
-    margin-top: 35px;
-}
-
-.block-heading {
-    margin-bottom: 20px;
-}
-
-.block-heading span {
-    color: #9a4e91;
-
-    font-size: 11px;
-
-    font-weight: 800;
-
-    letter-spacing: 1.5px;
-}
-
-.block-heading h3 {
-    font-size: 27px;
-}
-
-.excos-grid {
-    display: grid;
-
-    grid-template-columns:
-        repeat(4,1fr);
-
-    gap: 15px;
-}
-
-.exco-card {
-    min-height: 130px;
-
-    padding: 20px;
-
-    background: white;
-
-    border-radius: 13px;
-
-    border-left: 4px solid #9a4e91;
-}
-
-.exco-card .position {
-    margin-bottom: 8px;
-
-    color: #9a4e91;
-
-    font-size: 11px;
-
-    font-weight: 800;
-
-    text-transform: uppercase;
-}
-
-.exco-card strong {
-    font-size: 16px;
-}
-
-
-/* =========================
-   WOMEN
-========================= */
-
-.women-list {
-    display: grid;
-
-    gap: 10px;
-}
-
-.woman-card {
-    display: flex;
-
-    align-items: center;
-
-    justify-content: space-between;
-
-    padding: 18px 20px;
-
-    background: white;
-
-    border-radius: 11px;
-}
-
-.woman-card small {
-    display: block;
-
-    color: #888;
-
-    font-size: 12px;
-}
-
-
-/* =========================
-   REGISTER
-========================= */
-
-.register-section {
-    background: white;
-}
-
-.registration-form {
-    max-width: 760px;
-
-    margin: auto;
-
-    padding: 35px;
-
-    border-radius: 18px;
-
-    background: #faf7fb;
-
-    border: 1px solid #eee;
-}
-
-.form-row {
-    display: grid;
-
-    grid-template-columns: 1fr 1fr;
-
-    gap: 18px;
-}
-
-.form-group {
-    margin-bottom: 20px;
-}
-
-.form-group label {
-    display: block;
-
-    margin-bottom: 7px;
-
-    font-size: 14px;
-
-    font-weight: 800;
-}
-
-.form-group input,
-.form-group select {
-    width: 100%;
-
-    padding: 15px;
-
-    border: 1px solid #ddd;
-
-    border-radius: 8px;
-
-    background: white;
-
-    outline: none;
-
-    font-size: 15px;
-}
-
-.form-group input:focus,
-.form-group select:focus {
-    border-color: #9a4e91;
-}
-
-.submit-btn {
-    width: 100%;
-
-    padding: 16px;
-
-    border: 0;
-
-    border-radius: 9px;
-
-    background: #8d3f83;
-
-    color: white;
-
-    font-size: 16px;
-
-    font-weight: 800;
-
-    cursor: pointer;
-}
-
-.submit-btn:hover {
-    background: #6e2d66;
-}
-
-.privacy-note {
-    margin-top: 15px;
-
-    color: #777;
-
-    font-size: 12px;
-
-    text-align: center;
-}
-
-.success {
-    max-width: 760px;
-
-    margin: 20px auto;
-
-    padding: 15px;
-
-    border-radius: 9px;
-
-    background: #e4f7e9;
-
-    color: #267542;
-
-    text-align: center;
-}
-
-
-/* =========================
-   EXCOS OVERVIEW
-========================= */
-
-.excos-section {
-    background: #faf8fc;
-}
-
-.excos-overview {
-    display: grid;
-
-    grid-template-columns:
-        repeat(3,1fr);
-
-    gap: 20px;
-}
-
-.exco-overview-card {
-    padding: 25px;
-
-    background: white;
-
-    border-radius: 15px;
-
-    box-shadow:
-        0 5px 25px rgba(0,0,0,.05);
-}
-
-.exco-overview-card h3 {
-    margin-bottom: 18px;
-
-    color: #8d3f83;
-}
-
-.exco-overview-card p {
-    padding: 8px 0;
-
-    border-bottom: 1px solid #eee;
-
-    font-size: 13px;
-}
-
-.exco-overview-card p:last-child {
-    border-bottom: 0;
-}
-
-
-/* =========================
-   FOOTER
-========================= */
-
-footer {
-    padding: 45px 7%;
-
-    background: #281727;
-
-    color: white;
-
-    text-align: center;
-}
-
-.footer-brand {
-    font-size: 18px;
-}
-
-footer p {
-    color: #cdb8c9;
-
-    margin-top: 5px;
-}
-
-footer small {
-    display: block;
-
-    margin-top: 20px;
-
-    color: #8f798b;
-}
-
-
-/* =========================
-   MOBILE
-========================= */
-
-@media (max-width: 950px) {
-
-    nav {
-        display: none;
-
-        position: absolute;
-
-        top: 78px;
-        right: 5%;
-
-        flex-direction: column;
-
-        gap: 18px;
-
-        padding: 22px;
-
-        background: white;
-
-        border-radius: 12px;
-
-        box-shadow: 0 10px 30px rgba(0,0,0,.12);
     }
 
-    nav.show {
-        display: flex;
+
+    const container =
+        document.getElementById(
+            "wardWomen"
+        );
+
+
+    if (!container)
+        return;
+
+
+    container.innerHTML = "";
+
+
+    if (wardWomen.length === 0) {
+
+        container.innerHTML = `
+
+            <div class="woman-card">
+
+                <strong>
+                    No approved women registered yet.
+                </strong>
+
+                <small>
+                    Approved registration data
+                    will appear here.
+                </small>
+
+            </div>
+
+        `;
+
     }
 
-    .menu-btn {
-        display: block;
+
+    wardWomen.forEach(
+        woman => {
+
+            const card =
+                document.createElement(
+                    "div"
+                );
+
+
+            card.className =
+                "woman-card";
+
+
+            card.innerHTML = `
+
+                <div>
+
+                    <strong>
+                        ${escapeHTML(
+                            woman.name
+                        )}
+                    </strong>
+
+                    <small>
+                        Registered member
+                    </small>
+
+                </div>
+
+                <small>
+                    Ward ${getWardNumber(
+                        wardName
+                    )}
+                </small>
+
+            `;
+
+
+            container.appendChild(
+                card
+            );
+
+        }
+    );
+
+
+    displayWardExcos(
+        wardName
+    );
+
+
+    details.scrollIntoView({
+        behavior: "smooth"
+    });
+
+}
+
+
+/* =========================================
+   DISPLAY WARD EXCOS
+========================================= */
+
+function displayWardExcos(
+    wardName
+) {
+
+    const container =
+        document.getElementById(
+            "wardExcos"
+        );
+
+
+    if (!container)
+        return;
+
+
+    container.innerHTML = "";
+
+
+    const excos =
+        getExcos();
+
+
+    const wardExcos =
+        excos[wardName] || {};
+
+
+    officePositions.forEach(
+        position => {
+
+            const name =
+                wardExcos[position] ||
+                "Not yet added";
+
+
+            const card =
+                document.createElement(
+                    "div"
+                );
+
+
+            card.className =
+                "exco-card";
+
+
+            card.innerHTML = `
+
+                <div class="position">
+                    ${escapeHTML(
+                        position
+                    )}
+                </div>
+
+                <strong>
+                    ${escapeHTML(
+                        name
+                    )}
+                </strong>
+
+            `;
+
+
+            container.appendChild(
+                card
+            );
+
+        }
+    );
+
+}
+
+
+/* =========================================
+   CLOSE WARD
+========================================= */
+
+function closeWard() {
+
+    const details =
+        document.getElementById(
+            "wardDetails"
+        );
+
+    const wardsSection =
+        document.getElementById(
+            "wards"
+        );
+
+
+    if (details) {
+
+        details.classList.add(
+            "hidden"
+        );
+
     }
 
-    .wards-grid {
-        grid-template-columns:
-            repeat(2,1fr);
-    }
 
-    .excos-grid {
-        grid-template-columns:
-            repeat(2,1fr);
-    }
+    if (wardsSection) {
 
-    .excos-overview {
-        grid-template-columns:
-            repeat(2,1fr);
+        wardsSection.style.display =
+            "block";
+
+        wardsSection.scrollIntoView({
+            behavior: "smooth"
+        });
+
     }
 
 }
 
 
-@media (max-width: 650px) {
+/* =========================================
+   REGISTRATION
+========================================= */
 
-    .navbar {
-        padding: 0 5%;
+const registrationForm =
+    document.getElementById(
+        "registrationForm"
+    );
+
+
+if (registrationForm) {
+
+    registrationForm.addEventListener(
+        "submit",
+        function(event) {
+
+            event.preventDefault();
+
+
+            const name =
+                document.getElementById(
+                    "name"
+                ).value.trim();
+
+
+            const phone =
+                document.getElementById(
+                    "phone"
+                ).value.trim();
+
+
+            const bank =
+                document.getElementById(
+                    "bank"
+                ).value.trim();
+
+
+            const account =
+                document.getElementById(
+                    "account"
+                ).value.trim();
+
+
+            const ward =
+                document.getElementById(
+                    "ward"
+                ).value;
+
+
+            /* =========================
+               VALIDATION
+            ========================= */
+
+            if (
+                !name ||
+                !phone ||
+                !bank ||
+                !account ||
+                !ward
+            ) {
+
+                alert(
+                    "Please complete all required fields."
+                );
+
+                return;
+
+            }
+
+
+            if (
+                !/^\d{10}$/.test(
+                    account
+                )
+            ) {
+
+                alert(
+                    "Account number must contain exactly 10 digits."
+                );
+
+                return;
+
+            }
+
+
+            /* =========================
+               CREATE REGISTRATION
+            ========================= */
+
+            const registrations =
+                getRegistrations();
+
+
+            const registration = {
+
+                id:
+                    Date.now(),
+
+                name:
+                    name,
+
+                phone:
+                    phone,
+
+                bank:
+                    bank,
+
+                account:
+                    account,
+
+                ward:
+                    ward,
+
+                status:
+                    "pending",
+
+                createdAt:
+                    new Date().toISOString()
+
+            };
+
+
+            registrations.push(
+                registration
+            );
+
+
+            saveRegistrations(
+                registrations
+            );
+
+
+            /* =========================
+               UPDATE WEBSITE
+            ========================= */
+
+            displayWards();
+
+            updateStatistics();
+
+
+            /* =========================
+               SUCCESS MESSAGE
+            ========================= */
+
+            const message =
+                document.getElementById(
+                    "registrationMessage"
+                );
+
+
+            if (message) {
+
+                message.innerHTML = `
+
+                    <div class="success">
+
+                        ✅
+
+                        ${escapeHTML(
+                            name
+                        )}
+
+                        has been registered successfully.
+
+                        <br>
+
+                        Your registration is now
+                        <strong>
+                            pending approval
+                        </strong>.
+
+                        <br>
+
+                        Ward ${getWardNumber(
+                            ward
+                        )}
+
+                    </div>
+
+                `;
+
+            }
+
+
+            /* =========================
+               RESET FORM
+            ========================= */
+
+            registrationForm.reset();
+
+
+            /* =========================
+               SCROLL MESSAGE
+            ========================= */
+
+            if (message) {
+
+                message.scrollIntoView({
+                    behavior: "smooth",
+                    block: "center"
+                });
+
+            }
+
+        }
+    );
+
+}
+
+
+/* =========================================
+   SEARCH WOMEN
+========================================= */
+
+function searchWomen() {
+
+    const input =
+        document.getElementById(
+            "searchInput"
+        );
+
+
+    const results =
+        document.getElementById(
+            "searchResults"
+        );
+
+
+    if (!input || !results)
+        return;
+
+
+    const query =
+        input.value
+            .toLowerCase()
+            .trim();
+
+
+    if (!query) {
+
+        results.innerHTML =
+            "";
+
+        return;
+
     }
 
-    .brand strong {
-        font-size: 12px;
+
+    const registrations =
+        getRegistrations();
+
+
+    const matches =
+        registrations.filter(
+            woman =>
+                woman.status ===
+                    "approved" &&
+                woman.name
+                    .toLowerCase()
+                    .includes(query)
+        );
+
+
+    results.innerHTML =
+        "";
+
+
+    if (matches.length === 0) {
+
+        results.innerHTML = `
+
+            <div class="woman-card">
+
+                <strong>
+                    No approved woman found.
+                </strong>
+
+            </div>
+
+        `;
+
+        return;
+
     }
 
-    .hero {
-        padding: 70px 5%;
+
+    matches.forEach(
+        woman => {
+
+            const card =
+                document.createElement(
+                    "div"
+                );
+
+
+            card.className =
+                "woman-card";
+
+
+            card.innerHTML = `
+
+                <div>
+
+                    <strong>
+                        ${escapeHTML(
+                            woman.name
+                        )}
+                    </strong>
+
+                    <small>
+                        Approved member
+                    </small>
+
+                </div>
+
+                <small>
+                    ${escapeHTML(
+                        woman.ward
+                    )}
+                </small>
+
+            `;
+
+
+            results.appendChild(
+                card
+            );
+
+        }
+    );
+
+}
+
+
+/* =========================================
+   DISPLAY ALL EXCOS
+========================================= */
+
+function displayAllExcos() {
+
+    const container =
+        document.getElementById(
+            "allExcos"
+        );
+
+
+    if (!container)
+        return;
+
+
+    container.innerHTML = "";
+
+
+    const excos =
+        getExcos();
+
+
+    wards.forEach(
+        ward => {
+
+            const card =
+                document.createElement(
+                    "div"
+                );
+
+
+            card.className =
+                "exco-overview-card";
+
+
+            let html = `
+
+                <h3>
+                    Ward ${ward.number}
+                </h3>
+
+                <p>
+                    <strong>
+                        ${escapeHTML(
+                            ward.name
+                        )}
+                    </strong>
+                </p>
+
+            `;
+
+
+            officePositions.forEach(
+                position => {
+
+                    const name =
+                        excos[
+                            ward.name
+                        ]?.[
+                            position
+                        ] ||
+                        "Not yet added";
+
+
+                    html += `
+
+                        <p>
+
+                            <strong>
+                                ${escapeHTML(
+                                    position
+                                )}:
+                            </strong>
+
+                            ${escapeHTML(
+                                name
+                            )}
+
+                        </p>
+
+                    `;
+
+                }
+            );
+
+
+            card.innerHTML =
+                html;
+
+
+            container.appendChild(
+                card
+            );
+
+        }
+    );
+
+}
+
+
+/* =========================================
+   STATISTICS
+========================================= */
+
+function updateStatistics() {
+
+    const registrations =
+        getRegistrations();
+
+
+    const approved =
+        registrations.filter(
+            woman =>
+                woman.status ===
+                "approved"
+        ).length;
+
+
+    const womenCount =
+        document.getElementById(
+            "womenCount"
+        );
+
+
+    if (womenCount) {
+
+        womenCount.textContent =
+            approved;
+
     }
 
-    .hero h1 {
-        font-size: 52px;
 
-        letter-spacing: -2px;
-    }
+    const excoCount =
+        document.getElementById(
+            "excoCount"
+        );
 
-    .hero-buttons {
-        flex-direction: column;
-    }
 
-    .btn {
-        text-align: center;
-    }
+    if (excoCount) {
 
-    .stats {
-        grid-template-columns: 1fr;
+        excoCount.textContent =
+            wards.length *
+            officePositions.length;
 
-        padding: 0 5%;
-    }
-
-    .section,
-    .search-section,
-    .register-section {
-        padding: 65px 5%;
-    }
-
-    .section-heading h2 {
-        font-size: 31px;
-    }
-
-    .search-box {
-        flex-direction: column;
-    }
-
-    .search-box button {
-        padding: 15px;
-    }
-
-    .wards-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .excos-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .excos-overview {
-        grid-template-columns: 1fr;
-    }
-
-    .form-row {
-        grid-template-columns: 1fr;
-
-        gap: 0;
-    }
-
-    .registration-form {
-        padding: 22px;
-    }
-
-    .ward-title-card {
-        flex-direction: column;
-
-        align-items: flex-start;
-
-        gap: 20px;
-    }
-
-    .woman-card {
-        align-items: flex-start;
-
-        gap: 15px;
-
-        flex-direction: column;
     }
 
 }
+
+
+/* =========================================
+   GET WARD NUMBER
+========================================= */
+
+function getWardNumber(
+    wardName
+) {
+
+    const ward =
+        wards.find(
+            item =>
+                item.name ===
+                wardName
+        );
+
+
+    return ward
+        ? ward.number
+        : "";
+
+}
+
+
+/* =========================================
+   MOBILE MENU
+========================================= */
+
+function toggleMenu() {
+
+    const nav =
+        document.getElementById(
+            "mainNav"
+        );
+
+
+    if (nav) {
+
+        nav.classList.toggle(
+            "show"
+        );
+
+    }
+
+}
+
+
+/* =========================================
+   HTML ESCAPING
+========================================= */
+
+function escapeHTML(
+    value
+) {
+
+    return String(value)
+
+        .replaceAll(
+            "&",
+            "&amp;"
+        )
+
+        .replaceAll(
+            "<",
+            "&lt;"
+        )
+
+        .replaceAll(
+            ">",
+            "&gt;"
+        )
+
+        .replaceAll(
+            '"',
+            "&quot;"
+        )
+
+        .replaceAll(
+            "'",
+            "&#039;"
+        );
+
+}
+
+
+/* =========================================
+   START WEBSITE
+========================================= */
+
+displayWards();
+
+displayAllExcos();
+
+updateStatistics();
